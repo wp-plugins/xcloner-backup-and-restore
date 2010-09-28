@@ -1,7 +1,7 @@
 === XCloner ===
 Contributors: xcloner
 Donate link: http://www.xcloner.com/
-Tags: backup, restore, database backup, wordpress backup, full backup, wordpress cloner
+Tags: backup, restore, database backup, wordpress backup, full backup, wordpress cloner, xcloner
 Requires at least: 2.0.2
 Tested up to: 2.1.1
 Stable tag: 2.1.1
