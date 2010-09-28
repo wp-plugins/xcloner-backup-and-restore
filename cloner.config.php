@@ -80,7 +80,7 @@ if(@file_exists("../../../wp-config.php")){
 
 }
 
-$script_dir = str_replace("wp-content/plugins/xcloner","", $script_dir);
+$script_dir = str_replace("wp-content/plugins/xcloner-backup-and-restore","", $script_dir);
 
 $_CONFIG['backup_path'] = $script_dir;
 $_CONFIG['clonerPath'] = $script_dir."/administrator/backups";
