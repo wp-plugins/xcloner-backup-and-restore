@@ -3,7 +3,7 @@ Contributors: xcloner
 Donate link: http://www.xcloner.com/
 Tags: backup, restore, database backup, wordpress backup, full backup, wordpress cloner, xcloner
 Requires at least: 2.0.2
-Tested up to: 3.1.1
+Tested up to: 3.0.1
 Stable tag: 2.1.1
 
 XCloner is a full backup and restore plugin for Wordpress, it will backup and restore both files and database. www.xcloner.com
