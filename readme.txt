@@ -63,11 +63,11 @@ If the inside Clone option fails for some reason, you need to:
 
 == Screenshots ==
 
-1.
-2.
-3.
-4.
-5.
+1. Login screen
+2. Config area
+3. Config options
+4. Generate Backup -> database options
+5. Generate Backup -> files options
 
 == Changelog ==
 
