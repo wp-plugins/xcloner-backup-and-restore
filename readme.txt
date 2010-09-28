@@ -63,10 +63,16 @@ If the inside Clone option fails for some reason, you need to:
 
 == Screenshots ==
 
+1.
+2.
+3.
+4.
+5.
 
 == Changelog ==
 
 = 2.1 =
 Initial release
 
+== Upgrade Notice ==
 
