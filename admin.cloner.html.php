@@ -1255,7 +1255,10 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      </td>
      <td>
         <b><?php 
-        $out = @exec("ls -al");
+	$out = "";
+	if(function_exists("exec")){
+	        $out = @exec("ls -al");
+	}
         $val = ($out != "")? "ENABLED":"<font color='red'>DISABLED</font>";
         echo HTML_cloner::get_color($val, 'DISABLED');
         ?> </b>
@@ -1313,7 +1316,9 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      </td>
      <td>
         <b><?php 
-        $info_tar_path = explode(" ", @exec("whereis tar"));
+	if(function_exists("exec")){
+        	$info_tar_path = explode(" ", @exec("whereis tar"));
+	}
         echo ($info_tar_path['1'] != "")? $info_tar_path['1']:"unable to determine";
         ?> </b>
         <br />
@@ -1321,27 +1326,16 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      </td>
     </tr>
     
-    <!--<tr>
-     <td width='200'>
-      <?php echo LM_CONFIG_INFO_T_ZIP?>
-     </td>
-     <td>
-        <b><?php 
-        $info_zip_path = explode(" ", @exec("whereis zip"));
-        echo ($info_zip_path['1'] != "")? $info_zip_path['1']:"unable to determine";
-        ?> </b>
-        <br />
-         <?php echo LM_CONFIG_INFO_ZIP?>
-     </td>
-    </tr>-->
-    
+   
     <tr>
      <td width='200'>
       <?php echo LM_CONFIG_INFO_T_MSQL?>
      </td>
      <td>
         <b><?php 
-        $info_msql_path = explode(" ", @exec("whereis mysqldump"));
+	if(function_exists("exec")){
+        	$info_msql_path = explode(" ", @exec("whereis mysqldump"));
+	}
         echo ($info_msql_path['1'] != "")? $info_msql_path['1']:"unable to determine";
         ?> </b>
         <br />
