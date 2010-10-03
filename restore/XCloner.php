@@ -235,7 +235,7 @@ $_CONFIG[owner]  =$ownerinfo[name];
 
   <small>XCloner Restore Version <b><?php echo $_CONFIG['my_version']?></b>
 
-  <br />For support and questions please visit us at <a href='http://www.joomlaplug.com'>www.joomlaplug.com</a>
+  <br />For support and questions please visit us at <a href='http://www.xcloner.com' title='XCloner.com - Website Backup Application'>XCloner.com - Website Backup Made Easy</a>
 
   </small>
 

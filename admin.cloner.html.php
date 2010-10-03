@@ -4,7 +4,7 @@
 * Oficial website: http://www.joomlaplug.com/
 * -------------------------------------------
 * Creator: Liuta Romulus Ovidiu
-* License: All Rights Reserved
+* License: GNU/GPL
 * Email: admin@joomlaplug.com
 * Revision: 1.0
 * Date: July 2007
@@ -161,7 +161,7 @@ function footer(){
 </td></tr></table>
 <hr><br /><br />
 <center>
-<p>Powered by <a href='http://www.xcloner.com' target='_blank'>XCloner.com</a>. All rights reserved!</p></center>
+<p>Powered by <a href='http://www.xcloner.com' target='_blank'>XCloner</a>. All rights reserved!</p></center>
 
 </td></tr></table>
 
@@ -285,15 +285,15 @@ function Cron(){
 <?php echo LM_CRON_SUB?>
 <br /><b>For Joomla:</b>
 <span style='background: #eeeeee'>
-/usr/bin/php  /path_to_backup_dir/cloner.cron.php
+/usr/bin/php  /path_to_xcloner_dir/cloner.cron.php
 <br />
 or 
 <br />
-links http://link_to_backup_dir/cloner.cron.php
+links http://link_to_xcloner_dir/cloner.cron.php
 <br />
 or
 <br />
-lynx -source http://link_to_backup_dir/cloner.cron.php
+lynx -source http://link_to_xcloner_dir/cloner.cron.php
 </span>
 
 For <b>Running Multiple Crons</b>, you need to first create a custom configuration file in the XCloner Configuration -> Cron tab
@@ -994,7 +994,9 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      <?php echo LM_CRON_MODE_INFO?>
      </td>
     </tr>
-    <tr>
+
+
+   <tr>
     <td>
       <?php echo LM_CRON_TYPE?>
      </td>
@@ -1079,6 +1081,65 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      </td>
     </tr>
     </table>
+
+<table class='adminform'>
+	
+	<tr><th colspan=2>
+		<?php echo LM_AMAZON_S3?>
+	</th></tr>	
+	<tr>
+	<td width='200'>
+     		<?php echo LM_AMAZON_S3_ACTIVATE?>
+	</td>
+     	<td>
+		<input type=checkbox name='cron_amazon_active' <?php if($_CONFIG[cron_amazon_active]==1) echo "checked";?> value='1'>
+	</td>
+	</tr>	
+
+	<tr>
+	<td width='200'>
+     		<?php echo LM_AMAZON_S3_AWSACCESSKEY;?>
+	</td>
+     	<td>
+		<input type=text size=50  name='cron_amazon_awsAccessKey' value="<?php echo $_CONFIG['cron_amazon_awsAccessKey'];?>">
+	</td>
+	</tr>
+
+	<tr>
+	<td width='200'>
+     		<?php echo LM_AMAZON_S3_AWSSECRETKEY;?>
+	</td>
+     	<td>
+		<input type=text size=50  name='cron_amazon_awsSecretKey' value="<?php echo $_CONFIG['cron_amazon_awsSecretKey'];?>">
+	</td>
+	</tr>
+
+	<tr>
+	<td width='200'>
+     		<?php echo LM_AMAZON_S3_BUCKET;?>
+	</td>
+     	<td>
+		<input type=text size=50  name='cron_amazon_bucket' value="<?php echo $_CONFIG['cron_amazon_bucket'];?>">
+	</td>
+	</tr>
+
+	<tr>
+	<td width='200'>
+     		<?php echo LM_AMAZON_S3_DIRNAME;?>
+	</td>
+     	<td>
+		<input type=text size=50  name='cron_amazon_dirname' value="<?php echo $_CONFIG['cron_amazon_dirname'];?>">
+	</td>
+	</tr>
+
+     <td>
+      
+     </td>
+    </tr>
+
+</table>	
+
+
     <table class='adminform'>
     <tr>
      <th colspan='2'>
@@ -1255,7 +1316,13 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      </td>
      <td>
         <b><?php 
-        $out = @exec("ls -al");
+
+	$out = "";
+	if(function_exists("exec")){
+
+	        $out = @exec("ls -al");
+	}
+
         $val = ($out != "")? "ENABLED":"<font color='red'>DISABLED</font>";
         echo HTML_cloner::get_color($val, 'DISABLED');
         ?> </b>
@@ -1313,7 +1380,9 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      </td>
      <td>
         <b><?php 
-        $info_tar_path = explode(" ", @exec("whereis tar"));
+	if(function_exists('exec')){
+	        $info_tar_path = explode(" ", @exec("whereis tar"));
+	}
         echo ($info_tar_path['1'] != "")? $info_tar_path['1']:"unable to determine";
         ?> </b>
         <br />
@@ -1321,19 +1390,6 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      </td>
     </tr>
     
-    <!--<tr>
-     <td width='200'>
-      <?php echo LM_CONFIG_INFO_T_ZIP?>
-     </td>
-     <td>
-        <b><?php 
-        $info_zip_path = explode(" ", @exec("whereis zip"));
-        echo ($info_zip_path['1'] != "")? $info_zip_path['1']:"unable to determine";
-        ?> </b>
-        <br />
-         <?php echo LM_CONFIG_INFO_ZIP?>
-     </td>
-    </tr>-->
     
     <tr>
      <td width='200'>
@@ -1341,7 +1397,9 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      </td>
      <td>
         <b><?php 
-        $info_msql_path = explode(" ", @exec("whereis mysqldump"));
+	if(function_exists('exec')){
+	        $info_msql_path = explode(" ", @exec("whereis mysqldump"));
+	}
         echo ($info_msql_path['1'] != "")? $info_msql_path['1']:"unable to determine";
         ?> </b>
         <br />
