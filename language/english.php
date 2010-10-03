@@ -23,6 +23,16 @@ define("LM_FRONT_MSG_OK","We have uploaded the Package Restore Utility on your f
 define("LM_NOPAKCAGE_ERROR","There is no package selected, aborting...!");
 
 // --- BACKEND AREA---//
+
+//Amazon S3
+define("LM_AMAZON_S3", "Amazon S3 Storage");
+define("LM_AMAZON_S3_ACTIVATE", "Active:");
+define("LM_AMAZON_S3_AWSACCESSKEY", "AWS Access Key:");
+define("LM_AMAZON_S3_AWSSECRETKEY", "AWS Secret Key:");
+define("LM_AMAZON_S3_BUCKET", "Bucket name:");
+define("LM_AMAZON_S3_DIRNAME", "Upload Directory:");
+
+
 define("LM_DATABASE_EXCLUDE_TABLES","Select tables to exclude from backup:");
 define("LM_CONFIG_SYSTEM_FOLDER","Folders display:");
 define("LM_CONFIG_SYSTEM_FOLDER_SUB","please select the mode you would like to select the exclude folders from 'Generate Backup' section");

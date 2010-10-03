@@ -158,7 +158,19 @@ function config($option){
           
           $cfg .= '$_CONFIG[\'system_mdatabases\']="'.$_REQUEST[system_mdatabases].'";'."\n";
 
-   	      $cfg .= '$_CONFIG[\'add_backups_dir\']="'.$_REQUEST[add_backups_dir].'";'."\n";
+	  $cfg .= '$_CONFIG[\'add_backups_dir\']="'.$_REQUEST[add_backups_dir].'";'."\n";
+
+	
+	  $cfg .= '$_CONFIG[\'cron_amazon_active\']="'.$_REQUEST[cron_amazon_active].'";'."\n";
+
+	  $cfg .= '$_CONFIG[\'cron_amazon_awsAccessKey\']="'.$_REQUEST[cron_amazon_awsAccessKey].'";'."\n";
+
+	  $cfg .= '$_CONFIG[\'cron_amazon_awsSecretKey\']="'.$_REQUEST[cron_amazon_awsSecretKey].'";'."\n";
+
+	  $cfg .= '$_CONFIG[\'cron_amazon_bucket\']="'.$_REQUEST[cron_amazon_bucket].'";'."\n";	
+
+	  $cfg .= '$_CONFIG[\'cron_amazon_dirname\']="'.$_REQUEST[cron_amazon_dirname].'";'."\n";		
+
 
           $cfg .= '?'.'>';
 

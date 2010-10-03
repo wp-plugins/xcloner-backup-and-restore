@@ -4,7 +4,7 @@
 * Oficial website: http://www.joomlaplug.com/
 * -------------------------------------------
 * Creator: Liuta Romulus Ovidiu
-* License: All Rights Reserved
+* License: GNU/GPL
 * Email: admin@joomlaplug.com
 * Revision: 1.0
 * Date: July 2007
@@ -17,6 +17,9 @@ define( '_VALID_MOS', 1 );
 
 include_once("admin.cloner.html.php");
 include_once("cloner.functions.php");
+include_once("classes/S3.php");
+
+
 $script_dir = str_replace("\\","/",dirname(__FILE__));
 if(is_dir($script_dir)){
  
@@ -24,6 +27,16 @@ if(is_dir($script_dir)){
 
  }
 
+if($_REQUEST['config'] == ""){
+	
+	if($argv[1] != ""){
+	
+		$_REQUEST['config'] = $argv[1];	
+	
+	}
+
+
+}
 
 if($_REQUEST['config'] != ""){
 	
@@ -53,16 +66,7 @@ logxx($smsg);
 
 logxx("Starting ".$script_dir."/cloner.cron.php");
 
-if($_REQUEST['config'] == ""){
-	
-	if($argv[1] != ""){
-	
-		$_REQUEST['config'] = $argv[1];	
-	
-	}
 
-
-}
 
 
 # load language
@@ -103,7 +107,7 @@ if($_CONFIG[cron_bname]!="")
  $_REQUEST['bname'] = $_CONFIG[cron_bname];
  
   
-function logxx($string){
+function logxx($string = ""){
  
     global $mail_log; 
 
@@ -276,6 +280,39 @@ elseif($_CONFIG['cron_send']==2){
 ##############################################################################
     }
 logxx("Total backup size:".$bsize);
+
+
+####### STARING AMAZON S3 MODE
+if($_CONFIG['cron_amazon_active']){
+
+logxx();
+
+$s3 = new S3($_CONFIG['cron_amazon_awsAccessKey'], $_CONFIG['cron_amazon_awsSecretKey']);
+
+logxx("AMAZON S3: Starting communication with the Amazon S3 server...");
+
+if ($s3->putBucket($_CONFIG['cron_amazon_bucket'], S3::ACL_PRIVATE)) {
+
+
+	if ($s3->putObjectFile($clonerPath."/".$file, $_CONFIG['cron_amazon_bucket'], $_CONFIG['cron_amazon_dirname']."/".baseName($file), S3::ACL_PRIVATE)){
+
+		logxx("AMAZON S3: File copied to {".$_CONFIG['cron_amazon_bucket']."}/".$_CONFIG['cron_amazon_dirname']."/".$file);
+
+	}else {
+		logxx("AMAZON S3: Failed to copy file to {".$_CONFIG['cron_amazon_bucket']."}/".$_CONFIG['cron_amazon_dirname']."/".$file);exit;
+
+		}
+
+
+}else{
+
+	logxx("AMAZON S3: Unable to create bucket ".$_CONFIG['cron_amazon_bucket']." (it may already exist and/or be owned by someone else)!");exit;
+}
+
+
+
+}
+###### END
 
 
 ######## DELETING OLDER BACKUPS ##############################################

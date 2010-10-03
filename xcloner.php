@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name:  XCloner
-Plugin URI: http://www.joomlaplug.com
+Plugin URI: http://www.xcloner.com
 Description: XCloner is a tool that will help you manage your website backups, generate/restore/move so your website will be always secured! With XCloner you will be able to clone your site to any other location with just a few clicks
 Version: 2.1
 Author: Liuta Ovidiu
-Author URI: http://www.joomlaplug.com
+Author URI: http://www.xcloner.com
 */
 
 
@@ -14,7 +14,7 @@ Author URI: http://www.joomlaplug.com
 
 function xcloner_show(){
 
-print "<iframe src='../wp-content/plugins/xcloner/index.php' width='100%' height='900' frameborder=0 marginWidth=0 frameSpacing=0 marginHeight=110 ></iframe>";
+print "<iframe src='../wp-content/plugins/xcloner-backup-and-restore/index.php' width='100%' height='900' frameborder=0 marginWidth=0 frameSpacing=0 marginHeight=110 ></iframe>";
 
 }
 function xcloner_install(){
