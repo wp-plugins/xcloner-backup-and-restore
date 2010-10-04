@@ -295,7 +295,7 @@ define("LM_COL_SIZE"    , "Size of Set");
 define("LM_COL_DATE"    , "Date of Backup");
 define("LM_COL_FOLDER"    , "<b>Excluded Folders and/or files</b>");
 
-define("LM_DELETE_FILE_SUCCESS", "File(s) Deleted");
+define("LM_DELETE_FILE_SUCCESS", "Files Deleted");
 define("LM_DOWNLOAD_TITLE", "Download this Backup Set");
 
 
