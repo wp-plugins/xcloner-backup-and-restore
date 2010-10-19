@@ -295,7 +295,8 @@ function step2($file=""){
      
      if($_REQUEST['charset_of_file']!="")
 	 mysql_query("SET NAMES ".$_REQUEST['charset_of_file']."");
-
+     else
+	 mysql_query("SET NAMES utf8;");
 
 
     }
