@@ -152,6 +152,7 @@ $_CONFIG[owner]  =$ownerinfo[name];
 <head>
 
        <title>XCloner - Your Clone Restore Utility</title>
+	<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 
 <style type="text/css" media="screen">
 
