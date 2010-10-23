@@ -60,6 +60,7 @@ function header(){
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>XCloner Backup and Restore</title>
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 
 <link rel="stylesheet" href="css/tabber.css" TYPE="text/css" MEDIA="screen">
 <link rel="styleSheet" href="css/dtree.css" type="text/css" />
