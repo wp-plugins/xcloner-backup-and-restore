@@ -1,4 +1,4 @@
-=== XCloner ===
+=== XCloner - Backup and Restore===
 Contributors: xcloner
 Donate link: http://www.xcloner.com/
 Tags: backup, restore, admin, plugin, database, full backup, cloner, xcloner, theme, files, upload
