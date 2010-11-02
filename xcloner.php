@@ -2,7 +2,7 @@
 /*
 Plugin Name:  XCloner
 Plugin URI: http://www.xcloner.com
-Description: XCloner is a tool that will help you manage your website backups, generate/restore/move so your website will be always secured! With XCloner you will be able to clone your site to any other location with just a few clicks
+Description: XCloner is a tool that will help you manage your website backups, generate/restore/move so your website will be always secured! With XCloner you will be able to clone your site to any other location with just a few clicks. Don't forget to create the 'administrator/backups' directory in your Wordpress root and make it fully writeable
 Version: 2.1
 Author: Liuta Ovidiu
 Author URI: http://www.xcloner.com
