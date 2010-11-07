@@ -4,10 +4,10 @@
 * Oficial website: http://www.xcloner.com/
 * -------------------------------------------
 * Creator: Liuta Romulus Ovidiu
-* License: All Rights Reserved
+* License: GNU/GPL
 * Email: admin@xcloner.com
 * Revision: 1.0
-* Date: July 2007
+* Date: November 2010
 **/
 
 header("Cache-Control: no-cache");
@@ -22,8 +22,7 @@ if($_COOKIE["auth_clone"] != 1){
 	exit;
 }
 
-       
-@ini_set("error_reporting", "2");
+      
 include("../cloner.config.php");
 include("../common.php");
 
@@ -172,14 +171,14 @@ sort($exclude);
       sort($d_arr);
 
 
-      echo "<directory location=\"$dir\">";
+      echo "<directory location=\"".htmlspecialchars($dir)."\">";
 
       foreach($d_arr as  $file){
        if(in_array($dir."/".$file, $_COOKIES))
         $check = 'checked';
        else
         $check = '';
-       echo "<folder check='$check'>$file</folder>";
+       echo "<folder check='$check'>".htmlspecialchars($file)."</folder>";
 
       }
 
@@ -189,12 +188,12 @@ sort($exclude);
        else
         $check = '';
         
-       echo "<file  check='$check' link=\"#\">$file</file>";
+       echo "<file  check='$check' link=\"#\">".htmlspecialchars($file)."</file>";
 
       }
 
       foreach($exclude as $file)
-      echo "<message>$file</message>";
+      	echo "<message>".str_replace($_CONFIG['backup_path'],"",htmlspecialchars($file))."</message>";
 
       echo "</directory>";
 
