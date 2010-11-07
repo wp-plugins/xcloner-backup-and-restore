@@ -193,7 +193,7 @@ sort($exclude);
       }
 
       foreach($exclude as $file)
-      	echo "<message>".str_replace($_CONFIG['backup_path'],"",htmlspecialchars($file))."</message>";
+      	echo "<message>".str_replace("","",htmlspecialchars($file))."</message>";
 
       echo "</directory>";
 
