@@ -1,11 +1,11 @@
 <?php
 /**
 * XCloner
-* Oficial website: http://www.joomlaplug.com/
+* Oficial website: http://www.xcloner.com/
 * -------------------------------------------
 * Creator: Liuta Romulus Ovidiu
 * License: All Rights Reserved
-* Email: admin@joomlaplug.com
+* Email: admin@xcloner.com
 * Revision: 1.0
 * Date: July 2007
 **/
@@ -14,6 +14,7 @@ header("Cache-Control: no-cache");
 header("Pragma: nocache");
 header("Content-Type: text/xml");
 
+error_reporting(2);
 
 ### testing the authenticity of access
 if($_COOKIE["auth_clone"] != 1){
@@ -40,7 +41,7 @@ $f_arr = array();
 $d_arr =array();
 $exclude = array();
 $_COOKIES = array();
-$exfile = $_CONFIG['backup_path']."/administrator/backups/.excl";
+$exfile = realpath($_CONFIG['backup_path']."/administrator/backups")."/.excl";
 $path = $_REQUEST['path'];
 $loc = $_REQUEST['dir'];
 
