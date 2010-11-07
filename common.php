@@ -21,7 +21,7 @@ $strlen = strlen($_CONFIG['backup_path']);
 if((substr($_CONFIG['backup_path'], $strlen-1, $strlen) != '/') && (substr($_CONFIG['backup_path'], $strlen-1, $strlen) != '\\'))
 	$_CONFIG['backup_path'] .= "/";
 	
-$_CONFIG['backups_dir'] = $_CONFIG['backup_path']."/administrator/backups";#$_CONFIG['clonerPath'];#$_CONFIG['backup_path']."/backups";
+$_CONFIG['backups_dir'] = $_CONFIG['backup_path']."/administrator/backups";
 $_CONFIG['exfile'] = $_CONFIG['backups_dir']."/.excl";
 $_CONFIG['exfile_tar'] = $_CONFIG['backups_dir']."/.excl_tar";
 $_CONFIG['script_path'] = str_replace("\\","/",dirname(__FILE__));

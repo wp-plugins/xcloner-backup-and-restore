@@ -1344,7 +1344,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
       <?php echo LM_CONFIG_INFO_ROOT_BPATH_TMP?>
      </td>
      <td>
-        <b><?php $tmp_dir = $_CONFIG['backup_path']."/administrator/backups"; 
+        <b><?php $tmp_dir = realpath($_CONFIG['backup_path']."/administrator/backups"); 
 		echo (@is_writeable( $tmp_dir ))? $tmp_dir . " is <font color=green>writeable</font>":$tmp_dir. " <font color=red>incorrect or unreadable</font>";?></b>
         <br />
         <?php echo LM_CONFIG_INFO_ROOT_PATH_TMP_SUB?>
