@@ -286,7 +286,7 @@ function Cron(){
 <?php echo LM_CRON_SUB?>
 <br /><b>For Joomla:</b>
 <span style='background: #eeeeee'>
-/usr/bin/php  /path_to_xcloner_dir/cloner.cron.php
+/usr/bin/php  <?php echo dirname(__FILE__);?>/cloner.cron.php
 <br />
 or 
 <br />
