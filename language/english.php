@@ -247,7 +247,7 @@ define("LM_CONFIG_INFO_T_BPATH","Backup Path:");
 define ("LM_CONFIG_INFO_ROOT_BPATH","Backup Start Path");
 define("LM_CONFIG_INFO_ROOT_PATH_SUB","the backup start path needs to exist and be readable in order for XCloner to start the backup process");
 define("LM_CONFIG_INFO_ROOT_BPATH_TMP", "Temporary Folder");
-define("LM_CONFIG_INFO_ROOT_PATH_TMP_SUB","this path needs to be created and be writeable in order for XCloner to work properly");
+define("LM_CONFIG_INFO_ROOT_PATH_TMP_SUB","the path <i>[Backup Start Path/administrator/backups]</i> needs to be created and be writeable in order for XCloner to work properly");
 
 
 define("LM_CONFIG_INFO","This tab will show general system info and paths");
