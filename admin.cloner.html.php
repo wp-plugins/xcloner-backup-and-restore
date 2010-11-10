@@ -816,7 +816,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     
 
     </table>
-    <?
+    <?php
 	$tabs->endTab();
 	$tabs->startTab(LM_TAB_SYSTEM,"config-system-tab");
     ?>
