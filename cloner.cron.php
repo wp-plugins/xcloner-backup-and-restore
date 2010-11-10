@@ -120,7 +120,7 @@ function logxx($string = ""){
     }
 
 $clonerPath = $_CONFIG['clonerPath'];
-logxx("Starting JoomlaCloner for site $mosConfig_live_site at ".date("Y-m-d H:i"));
+logxx("Starting XCloner for site $mosConfig_live_site at ".date("Y-m-d H:i"));
 
     $excludedFolders = array();
     $d_arr = array(); $d = 0;
