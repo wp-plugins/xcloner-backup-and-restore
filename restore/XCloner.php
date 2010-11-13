@@ -300,6 +300,7 @@ function step2($file=""){
 	 mysql_query("SET NAMES utf8;");
 
 
+
     }
 
 
