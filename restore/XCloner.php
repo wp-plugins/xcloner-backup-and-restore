@@ -484,7 +484,7 @@ if($_REQUEST['refresh'] < 1){
 
 		
 
-		echo "Unable to write to directory ".$_CONFIG[output_path]."! Please check that this directory is writeable!"; return;
+		echo "Unable to write to directory ".$_CONFIG[output_path]."! Please check that this directory is writeable!"; if(!$_REQUEST['files_skip']) return;
 
 	
 
