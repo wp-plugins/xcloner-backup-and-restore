@@ -39,7 +39,7 @@ Features:
 
 == Installation ==
 
-1. Upload the plugin directory to wp-content/plugins dirctory
+1. Upload the plugin directory to wp-content/plugins directory
 2. Activate the plugin
 3. Create directory administrator/backups and make it writeable under your Wordpress site root
 4. Access it from the Plugins->XCloner menu
