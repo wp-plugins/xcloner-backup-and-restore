@@ -83,7 +83,10 @@ if(@file_exists("../../../wp-config.php")){
 $script_dir = str_replace("wp-content/plugins/xcloner-backup-and-restore","", $script_dir);
 
 $_CONFIG['backup_path'] = $script_dir;
+
 $_CONFIG['clonerPath'] = realpath($script_dir."/administrator/backups");
+$_CONFIG['clonerPath'] = str_replace("\\","/", $_CONFIG['clonerPath']);
+
 $_CONFIG['mosConfig_live_site']=$_SERVER['HTTP_HOST'];
 
 
