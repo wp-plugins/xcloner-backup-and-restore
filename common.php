@@ -21,6 +21,9 @@ $_CONFIG['multiple_config_dir'] = "configs";
 $_CONFIG['backup_path'] = realpath($_CONFIG['backup_path'])."/";
 $_CONFIG['backups_dir'] = realpath($_CONFIG['backup_path'])."/administrator/backups";
 
+$_CONFIG['backup_path'] = str_replace("\\","/", $_CONFIG['backup_path']);
+$_CONFIG['backups_dir'] = str_replace("\\","/", $_CONFIG['backups_dir']);
+
 $_CONFIG['exfile'] = $_CONFIG['backups_dir']."/.excl";
 $_CONFIG['exfile_tar'] = $_CONFIG['backups_dir']."/.excl_tar";
 $_CONFIG['script_path'] = str_replace("\\","/",dirname(__FILE__));
