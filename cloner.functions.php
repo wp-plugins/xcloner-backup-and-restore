@@ -33,13 +33,13 @@ function E_print($message){
 function mosRedirect($url, $msg=""){
 	
 	
-	echo "<script type=\"text\javascript\">
+	echo "<script language=\"javascript\">
 	
 	window.location = \"$url&mosmsg=".urlencode($msg)."\";
 	
 	</script>";
 	
-	#exit;
+	exit;
 	
 }
 
@@ -202,7 +202,7 @@ function config($option){
           }
 
         
-          mosRedirect( 'index2.php?option='.$option."&task=config" , $msg);#exit;
+          mosRedirect( 'index2.php?option='.$option."&task=config" , $msg);
           }
           else
           {
