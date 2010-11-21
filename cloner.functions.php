@@ -39,7 +39,7 @@ function mosRedirect($url, $msg=""){
 	
 	</script>";
 	
-	exit;
+	#exit;
 	
 }
 
@@ -202,7 +202,7 @@ function config($option){
           }
 
         
-          mosRedirect( 'index2.php?option='.$option."&task=config" , $msg);
+          mosRedirect( 'index2.php?option='.$option."&task=config" , $msg);exit;
           }
           else
           {
