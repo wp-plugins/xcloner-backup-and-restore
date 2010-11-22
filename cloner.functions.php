@@ -33,7 +33,7 @@ function E_print($message){
 function mosRedirect($url, $msg=""){
 	
 	
-	echo "<script language=\"text/javascript\">
+	echo "<script language=\"javascript\">
 	
 	window.location = \"$url&mosmsg=".urlencode($msg)."\";
 	
