@@ -17,7 +17,6 @@ define( '_VALID_MOS', 1 );
 
 include_once("admin.cloner.html.php");
 include_once("cloner.functions.php");
-include_once("classes/S3.php");
 
 
 $script_dir = str_replace("\\","/",dirname(__FILE__));
@@ -285,16 +284,18 @@ logxx("Total backup size:".$bsize);
 ####### STARING AMAZON S3 MODE
 if($_CONFIG['cron_amazon_active']){
 
+include_once("classes/S3.php");
+
 logxx();
 
 $s3 = new S3($_CONFIG['cron_amazon_awsAccessKey'], $_CONFIG['cron_amazon_awsSecretKey']);
 
 logxx("AMAZON S3: Starting communication with the Amazon S3 server...");
 
-if ($s3->putBucket($_CONFIG['cron_amazon_bucket'], S3::ACL_PRIVATE)) {
+if ($s3->putBucket($_CONFIG['cron_amazon_bucket'], "private")) {
 
 
-	if ($s3->putObjectFile($clonerPath."/".$file, $_CONFIG['cron_amazon_bucket'], $_CONFIG['cron_amazon_dirname']."/".baseName($file), S3::ACL_PRIVATE)){
+	if ($s3->putObjectFile($clonerPath."/".$file, $_CONFIG['cron_amazon_bucket'], $_CONFIG['cron_amazon_dirname']."/".baseName($file), "private")){
 
 		logxx("AMAZON S3: File copied to {".$_CONFIG['cron_amazon_bucket']."}/".$_CONFIG['cron_amazon_dirname']."/".$file);
 
