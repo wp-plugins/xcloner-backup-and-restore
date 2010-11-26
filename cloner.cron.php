@@ -263,14 +263,14 @@ elseif($_CONFIG['cron_send']==2){
     Source Filename: $source_file
     Server: $mosConfig_live_site
     
-    Powered by http://www.joomlaplug.com - JoomlaCloner site backup solution for everybody!
+    Powered by http://www.xcloner.com - Xcloner - Backup and Restore made easy!
     </pre>
 
     ";
     
-	$ok = send_mail($mosConfig_mailfrom, "JoomlaCloner $msg", $message, $_CONFIG['cron_email_address'], $source_file);
+	$ok = send_mail($mosConfig_mailfrom, "XCloner $msg", $message, $_CONFIG['cron_email_address'], $source_file);
 	
-	#echo mosMail( $mosConfig_mailfrom, $mosConfig_fromname, $_CONFIG['cron_email_address'], "JoomlaCloner $msg", $message, $mode, '', '' );
+	#echo mosMail( $mosConfig_mailfrom, $mosConfig_fromname, $_CONFIG['cron_email_address'], "XCloner $msg", $message, $mode, '', '' );
     if($ok)
 	 logxx("Mail sent to ".$_CONFIG['cron_email_address']);
 	else
@@ -338,7 +338,7 @@ if(sizeof($logemail)>0){
 			
 			$email_subject = "cron log ".time();
 			
-			$headers ="From: \"Cronlog JoomlaCloner\" <nobody@noreply.com>\n";
+			$headers ="From: \"Cronlog XCloner\" <nobody@noreply.com>\n";
 
 			if(mail($email, $email_subject, strip_tags($mail_log), $headers)){
 			
@@ -400,7 +400,7 @@ $fileatt_type = "application/octet-stream"; // File Type
 $fileatt_name = basename($fileatt); // Filename that will be used for the file as the attachment 
 $data = "";
 
-$headers = "From: \"Cronbackup JoomlaCloner\" <".$email_from.">"; 
+$headers = "From: \"Cronbackup XCloner\" <".$email_from.">"; 
 
 if($fileatt != ""){
 	
