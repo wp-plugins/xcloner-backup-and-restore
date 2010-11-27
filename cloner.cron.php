@@ -1,11 +1,11 @@
 <?php
 /**
 * XCloner
-* Oficial website: http://www.joomlaplug.com/
+* Oficial website: http://www.xcloner.com/
 * -------------------------------------------
 * Creator: Liuta Romulus Ovidiu
 * License: GNU/GPL
-* Email: admin@joomlaplug.com
+* Email: admin@xcloner.com
 * Revision: 1.0
 * Date: July 2007
 **/
