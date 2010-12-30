@@ -1091,7 +1091,7 @@ function start() {
 
 $pdir = str_replace($_CONFIG['script_name'], "", $_SERVER["SCRIPT_FILENAME"]);
 
-$purl = $_SERVER['HTTP_HOST'].str_replace($_CONFIG['script_name'],"", $_SERVER['SCRIPT_NAME']);
+$purl = $_SERVER['HTTP_HOST'].str_replace("/".$_CONFIG['script_name'],"", $_SERVER['SCRIPT_NAME']);
 
 ?>
 
