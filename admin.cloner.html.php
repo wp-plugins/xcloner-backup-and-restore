@@ -150,7 +150,11 @@ document.write(d);
 <!--XCloner Ads -->
 
 <br />
-<center><a href="http://secure.hostgator.com/~affiliat/cgi-bin/affiliates/clickthru.cgi?id=xcloner-"><img src="http://tracking.hostgator.com/img/Shared/125x125.gif" border=0></a></center>
+<center><a href="http://secure.hostgator.com/~affiliat/cgi-bin/affiliates/clickthru.cgi?id=xcloner-"><img src="http://tracking.hostgator.com/img/Shared/125x125.gif" border=0></a>
+<br />
+Coupon ($9.94 OFF):
+<br/> <b>XCLONERHOSTING</b>
+</center>
 <br />
 
 <!-- END Ads -->
