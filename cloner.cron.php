@@ -292,7 +292,9 @@ $s3 = new S3($_CONFIG['cron_amazon_awsAccessKey'], $_CONFIG['cron_amazon_awsSecr
 
 logxx("AMAZON S3: Starting communication with the Amazon S3 server...");
 
-if ($s3->putBucket($_CONFIG['cron_amazon_bucket'], "private")) {
+$buckets = $s3->listBuckets();
+
+if (($s3->putBucket($_CONFIG['cron_amazon_bucket'], "private")) || (@in_array($_CONFIG['cron_amazon_bucket'], $buckets))) {
 
 
 	if ($s3->putObjectFile($clonerPath."/".$file, $_CONFIG['cron_amazon_bucket'], $_CONFIG['cron_amazon_dirname']."/".baseName($file), "private")){
