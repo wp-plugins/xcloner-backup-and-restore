@@ -29,6 +29,7 @@ $_CONFIG['cron_file_delete_act']="";
 $_CONFIG['mem']="";
 $_CONFIG['backup_refresh']="1";
 $_CONFIG['refresh_time']="1";
+$_CONFIG['refresh_mode']="1";
 $_CONFIG['backup_refresh_number']="100";
 $_CONFIG['sql_mem']="";
 $_CONFIG['enable_db_backup']="1";
@@ -83,7 +84,10 @@ if(@file_exists("../../../wp-config.php")){
 $script_dir = str_replace("wp-content/plugins/xcloner-backup-and-restore","", $script_dir);
 
 $_CONFIG['backup_path'] = $script_dir;
-$_CONFIG['clonerPath'] = $script_dir."/administrator/backups";
+
+$_CONFIG['clonerPath'] = realpath($script_dir."/administrator/backups");
+$_CONFIG['clonerPath'] = str_replace("\\","/", $_CONFIG['clonerPath']);
+
 $_CONFIG['mosConfig_live_site']=$_SERVER['HTTP_HOST'];
 
 

@@ -1,48 +1,58 @@
 <?php
-/**
-* XCloner
-* Oficial website: http://www.joomlaplug.com/
-* -------------------------------------------
-* Creator: Liuta Romulus Ovidiu
-* License: GNU/GPL
-* Email: admin@joomlaplug.com
-* Revision: 1.0
-* Date: July 2007
-**/
+/*
+ *      admin.cloner.html.php
+ *
+ *      Copyright 2011 Ovidiu Liuta <info@thinkovi.com>
+ *
+ *      This program is free software; you can redistribute it and/or modify
+ *      it under the terms of the GNU General Public License as published by
+ *      the Free Software Foundation; either version 2 of the License, or
+ *      (at your option) any later version.
+ *
+ *      This program is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU General Public License for more details.
+ *
+ *      You should have received a copy of the GNU General Public License
+ *      along with this program; if not, write to the Free Software
+ *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ *      MA 02110-1301, USA.
+ */
 
 
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' ); 
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 
 if($_COOKIE['auth_clone'] != 1)
  setcookie('auth_clone', '1');
 
 class mosTabs{
-	
+
 	function mosTabs($int){
-		
+
 		echo "<div class=\"tabber\">";
-		
+
 	}
-	
+
 	function startTab($name, $class){
-		
+
 		echo "<div class=\"tabbertab\" title=\"$name\">";
-		
-		
+
+
 	}
-	
+
 	function endTab(){
-		
+
 		echo "</div>";
-		
+
 	}
-	
+
 	function endPane(){
-		
+
 		echo "</div>";
 	}
-	
+
 }
 
 /**
@@ -60,13 +70,18 @@ function header(){
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>XCloner Backup and Restore</title>
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 
 <link rel="stylesheet" href="css/tabber.css" TYPE="text/css" MEDIA="screen">
 <link rel="styleSheet" href="css/dtree.css" type="text/css" />
 <link rel="styleSheet" href="css/main.css" type="text/css" />
+<link rel="styleSheet" href="css/jquery-ui.css" type="text/css" />
 
 <script type="text/javascript" src="javascript/tabber.js"></script>
 <script type="text/javascript" src="javascript/dtree.js"></script>
+<script type="text/javascript" src="javascript/main.js"></script>
+<script type="text/javascript" src="javascript/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="javascript/jquery-ui.min.js"></script>
 <script type="text/javascript">
 
 /* Optional: Temporarily hide the "tabber" class so it does not "flash"
@@ -145,12 +160,38 @@ document.write(d);
 
 //-->
 </script></div> </td></tr></table>
+
+<!--XCloner Ads -->
+<br />
+<table width='100%' cellpadding='5' height='100%' class='menu_table'><tr><td>
+<center>
+
+<script type='text/javascript'><!--//<![CDATA[
+   var m3_u = (location.protocol=='https:'?'https://www.xcloner.com/ads/www/delivery/ajs.php':'http://www.xcloner.com/ads/www/delivery/ajs.php');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = ',';
+   document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+   document.write ("?campaignid=3");
+   document.write ('&amp;cb=' + m3_r);
+   if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("'><\/scr"+"ipt>");
+//]]>--></script><noscript><a href='http://www.xcloner.com/ads/www/delivery/ck.php?n=a6255e1e&amp;cb=1675675575' target='_blank'><img src='http://www.xcloner.com/ads/www/delivery/avw.php?campaignid=3&amp;cb=1675675575&amp;n=a6255e1e' border='0' alt='' /></a></noscript>
+
+</center>
+</td></td></table>
+<!-- END Ads -->
+
 </td><td valign='top' align='left' style="padding-left: 20px;">
 
-    
+
 <?php
 if($_REQUEST['mosmsg']!="")
- 
+
  echo "<center><h2>".$_REQUEST['mosmsg']."</h2></center>";
 
 }
@@ -168,6 +209,108 @@ function footer(){
 <?php
 
 }
+
+function goRefreshHtml($filename, $perm_lines, $excl_manual){
+
+	global $_CONFIG;
+
+	$f = pathinfo($filename);
+	$backupFile = $f['basename'];
+
+	if (file_exists($filename)) {
+                  echo "Backup <strong>$filename</strong> created, we may continue!<br />";
+                  //echo "Database backup: ".$databaseResult ."<br />";
+                  $urlReturn = "index2.php?option=com_cloner&lines=" . $perm_lines . "&task=refresh&backup=$filename&excl_manual=$excl_manual";
+
+                  if(!$_CONFIG['refresh_mode']){
+
+                  echo "<a href=\"".$urlReturn."\" id='cLink'>Please click here to continue!</a>";
+                  echo " <strong id='countdown'>5</strong>";
+                  echo "<script type='text/javascript'>cLink_load();</script>";
+
+                  }else{
+
+					  ?>
+				<!--Start ProgressBar-->
+
+				<script type="text/javascript">
+
+				$(document).ready(function() {
+
+					$("#progressbar").progressbar({ value: 0 });
+
+					$.ajaxSetup({
+					"error":function() {
+					//reset state here;
+						$("#error").show();
+					}});
+
+					function xclonerGetJSON(url){
+
+					$.getJSON(url, function(json) {
+
+						if(!json)
+							$("#error").show();
+
+						var percent = parseInt(json.percent);
+						$("#progressbar").progressbar({ value: percent });
+						$("#backupSize").text(json.backupSize);
+						$("#nFiles").text(json.startf);
+						$("#percent").text(json.percent);
+						if(!json.finished){
+							var url = "index2.php?option="+json.option+"&task="+json.task+"&json="+json.json+"&startf="+json.startf+"&lines="+json.lines+"&backup="+json.backup+"&excl_manual="+json.excl_manual;
+							xclonerGetJSON(url);
+						}else{
+
+							$("#complete").show();
+							$("#nFiles").text(json.lines);
+
+							}
+
+					});
+
+					}
+
+					xclonerGetJSON("<?php echo $urlReturn;?>");
+
+
+				});
+				</script>
+				<div class="result">
+				<br /> <strong>Processing Files:</strong> <span id="percent">0</span>% (<span id="nFiles"></span> files)
+				<br /> <strong>Backup Size: </strong><span id="backupSize"></span>
+				</div>
+
+				<br /><br /> <div id="progressbar"></div>
+
+				<div id="complete">
+					<br /><h2>Backup completed!</h2>
+
+					<form action="index2.php" name="adminForm" method="post">
+					<input type=hidden name=files[1] value='<?php echo $backupFile?>'>
+					<input type=hidden name=cid[1] value='<?php echo $backupFile?>'>
+					<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+					<input type="hidden" name="task" value=""/>
+					</form>
+
+				</div>
+
+				<div id="error" style="display:none;">
+					<br /><h2 style="color:Red"><?php echo LM_REFRESH_ERROR;?></h2>
+
+				</div>
+				<!-- End ProgressBar -->
+
+					  <?php
+
+					  }
+                  return;
+              } else {
+                  E_print("Backup failed, please check your tar server utility support!");
+                  return;
+              }
+
+	}
 
 function  _FDefault(){
 ?>
@@ -216,7 +359,7 @@ function  _FDefault(){
 				</a>
 			</div>
 		</div>
-  
+
        <div style="float:left;">
 			<div class="icon">
 
@@ -243,7 +386,7 @@ function  _FDefault(){
 
 /*The basic authentification form*/
 function Login(){
-	
+
 	?>
 	<center><br />
 	<form action="index2.php" method="post" name="adminForm">
@@ -251,26 +394,26 @@ function Login(){
 	<table align='center' cellpadding='10' cellspacing='20'>
 	<tr ><td colspan='2' align='center'><b>Authentification Area:</b></td></tr>
 	<tr><td>Username:</td><td><input type='text' size='30' name='username'></td></tr>
-	<tr><td>Password:</td><td><input type='password' size='30' name='password'></td></tr>	
-	
+	<tr><td>Password:</td><td><input type='password' size='30' name='password'></td></tr>
+
 	<tr><td colspan='2'><?php echo LM_LOGIN_TEXT;?></td></tr>
-	
+
 	</table>
 	</td></tr>
-	
-	
-	
+
+
+
 	</table>
-	
+
 	<input type="hidden" name="option" value="com_cloner" />
     <input type="hidden" name="task" value="lang" />
     <input type="hidden" name="boxchecked" value="0" />
     <input type="hidden" name="hidemainmenu" value="0" />
-    
+
 	</form>
 	</center>
 <?php
-	
+
 }
 
 function Cron(){
@@ -285,9 +428,9 @@ function Cron(){
 <?php echo LM_CRON_SUB?>
 <br /><b>For Joomla:</b>
 <span style='background: #eeeeee'>
-/usr/bin/php  /path_to_xcloner_dir/cloner.cron.php
+/usr/bin/php  <?php echo dirname(__FILE__);?>/cloner.cron.php
 <br />
-or 
+or
 <br />
 links http://link_to_xcloner_dir/cloner.cron.php
 <br />
@@ -299,7 +442,7 @@ lynx -source http://link_to_xcloner_dir/cloner.cron.php
 For <b>Running Multiple Crons</b>, you need to first create a custom configuration file in the XCloner Configuration -> Cron tab
 and then replace "cloner.cron.php" with "cloner.cron.php?config=myconfig.php", only use 'links' or 'lynx' options to run the cronjob
 
-If you would like to use the <b>php SSH command</b> for running Multiple Crons, you will need to replace 
+If you would like to use the <b>php SSH command</b> for running Multiple Crons, you will need to replace
 the  "cloner.cron.php" with <b>"cloner.cron.php myconfig.php"</b> in the command line.
 
 <?php echo LM_CRON_HELP?>
@@ -313,7 +456,7 @@ the  "cloner.cron.php" with <b>"cloner.cron.php myconfig.php"</b> in the command
 
 function Translator_Edit_DEFAULT($option, $content, $file, $lang){
 	global $_CONFIG;
-?>	
+?>
 	<form action="index2.php" method="post" name="adminForm">
     <table class="adminlist">
     <tr>
@@ -321,17 +464,17 @@ function Translator_Edit_DEFAULT($option, $content, $file, $lang){
     </tr>
 
     <tr>
-	 
+
 	  <td><textarea name='def_content' cols='100' rows='30'><?php echo $content;?></textarea></td>
-	
-	</tr>  
+
+	</tr>
 
 	<input type="hidden" name="option" value="com_cloner" />
     <input type="hidden" name="language" value="<?php echo $lang?>" />
     <input type="hidden" name="task" value="lang" />
     <input type="hidden" name="boxchecked" value="0" />
     <input type="hidden" name="hidemainmenu" value="0" />
-    </form>	
+    </form>
 
 <?php
 
@@ -339,7 +482,7 @@ function Translator_Edit_DEFAULT($option, $content, $file, $lang){
 
 function Translator_Add($option){
 	global $_CONFIG;
-?>	
+?>
 	<form action="index2.php" method="post" name="adminForm">
     <table class="adminlist">
     <tr>
@@ -347,30 +490,30 @@ function Translator_Add($option){
     </tr>
 
     <tr>
-	 
+
 	  <td><input size='40' type=text name='lname' value=''></td>
-	
-	</tr>  
+
+	</tr>
 
 	<input type="hidden" name="option" value="com_cloner" />
     <input type="hidden" name="language" value="<?php echo $lang?>" />
     <input type="hidden" name="task" value="add_lang_new" />
     <input type="hidden" name="boxchecked" value="0" />
     <input type="hidden" name="hidemainmenu" value="0" />
-    </form>	
-<?php	
+    </form>
+<?php
 }
 
 function Translator_Edit($option, $data, $def_data, $file, $lang){
     global $_CONFIG;
-?>	
-	
+?>
+
 	<form action="index2.php" method="post" name="adminForm">
     <table class="adminlist">
     <tr>
       <th align="left"><?php echo LM_LANG_EDIT_FILE?> <input type=text name='lfile' size=100 value='<?php echo $file?>'><br />
 	  <font color='red'><?php echo LM_LANG_EDIT_FILE_SUB?></font>
-	  
+
 	  <script language="javascript" type="text/javascript">
 			function submitbutton(pressbutton) {
 				var form = document.adminForm;
@@ -403,7 +546,7 @@ function Translator_Edit($option, $data, $def_data, $file, $lang){
 	if($i++ %2 == 0)
 	 $bgcolor = '#eeeeee';
 	else
-	 $bgcolor = '#dddddd'; 
+	 $bgcolor = '#dddddd';
 	?>
 	<table class="adminlist">
     <tr>
@@ -412,34 +555,34 @@ function Translator_Edit($option, $data, $def_data, $file, $lang){
     </tr>
 	<tr bgcolor="<?php echo $bgcolor?>">
 	  <td><textarea cols=65 rows=3 ><?php echo stripslashes($def_data[$key])?></textarea></td>
-	 
-	  <td bgcolor='<?php if( trim(str_replace(array("\n","\r"," "),array("","",""),$def_data[$key])) != 
-	                      trim(str_replace(array("\n","\r"," "),array("","",""),$value))) 
-						  echo 'green'; 
-						 else 
+
+	  <td bgcolor='<?php if( trim(str_replace(array("\n","\r"," "),array("","",""),$def_data[$key])) !=
+	                      trim(str_replace(array("\n","\r"," "),array("","",""),$value)))
+						  echo 'green';
+						 else
 						  echo 'red';?>'>
 	  <textarea cols=65 rows=3 name=lang[<?php echo $key?>]><?php echo stripslashes($value)?></textarea></td>
 	</tr>
-	
-	<?php	
+
+	<?php
 	}
-	?> 
+	?>
 
 	<input type="hidden" name="option" value="com_cloner" />
     <input type="hidden" name="language" value="<?php echo $lang?>" />
     <input type="hidden" name="task" value="lang" />
     <input type="hidden" name="boxchecked" value="0" />
     <input type="hidden" name="hidemainmenu" value="0" />
-    </form>	
-	
-<?php	
+    </form>
+
+<?php
 }
 
 function Translator($option, $lang_arr){
-    global $_CONFIG;  
+    global $_CONFIG;
 
-?>	
-	
+?>
+
 	 <form action="index2.php" method="post" name="adminForm">
     <table class="adminlist">
     <tr>
@@ -452,11 +595,11 @@ function Translator($option, $lang_arr){
       </th>
     </tr>
     <?php
-	
+
      for($i=0; $i<sizeof($lang_arr); $i++){
-		
-		?> 
-		
+
+		?>
+
      		<tr>
 		      <td width="5" align="left"><?php echo ($i+1);?></td>
 			  <td width="5" align="left">
@@ -467,17 +610,17 @@ function Translator($option, $lang_arr){
 			  <a href="index2.php?option=<?php echo $option;?>&task=edit_lang&langx=<?php echo $lang_arr[$i];?>"><?php echo ucfirst($lang_arr[$i])?>
 			  </td>
 			</tr>
-	   <?php		  
-		
+	   <?php
+
 	}
-	?> 
+	?>
 
     <input type="hidden" name="option" value="com_cloner" />
     <input type="hidden" name="task" value="lang" />
     <input type="hidden" name="boxchecked" value="0" />
     <input type="hidden" name="hidemainmenu" value="0" />
-    </form>	
-<?php	
+    </form>
+<?php
 }
 
 function showBackups( &$files, &$sizes, $path, $option ) {
@@ -574,8 +717,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     $tabs->startTab(LM_TAB_GENERAL,"config-general-tab");
     ?>
     <table class='adminform'>
-    
-	
+
+
 	<tr>
      <th colspan='2'>
      <?php echo LM_CONFIG_BSETTINGS?>
@@ -642,7 +785,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
       <?php echo LM_CRON_DB_BACKUP_SUB?>
      </td>
     </tr>
-	
+
 	<tr>
      <td>
       <?php echo LM_CONFIG_SYSTEM_MBACKUP?>
@@ -653,15 +796,15 @@ function showBackups( &$files, &$sizes, $path, $option ) {
       <br />
       <?php echo LM_CONFIG_SYSTEM_MBACKUP_SUB?>
      </td>
-    </tr>	
-    
+    </tr>
+
     <tr>
      <th colspan='2'>
      <?php echo LM_CONFIG_BSETTINGS_SERVER?>
      </th>
     </tr>
-    
-    
+
+
     <tr >
      <td>
       <?php echo LM_CONFIG_MEM?>
@@ -677,7 +820,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      <?php echo LM_TAR_PATH;?>  <br /><input size='50' type=text name=tarpath value='<?php echo $_CONFIG[tarpath]?>'><br />
      <?php echo LM_TAR_PATH_SUB;?>
      </td></tr>
-     
+
      </table>
 
      </td></tr>
@@ -686,7 +829,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      <?php echo LM_ACTIVE?> <input type=checkbox value=1 name='sql_mem' <?php if($_CONFIG[sql_mem]==1) echo 'checked';?>>
      </td><td align='left'>
      <?php echo LM_MYSQLDUMP_PATH;?> <br /><input type=text size='50' name='sqldump' value='<?php echo $_CONFIG[sqldump]?>'>
-	 
+
 	 </td></tr>
      </table>
 
@@ -718,8 +861,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     $tabs->startTab(LM_TAB_MYSQL,"config-mysql-tab");
     ?>
     <table class='adminform'>
-    
-	
+
+
 	<tr>
      <th colspan='2'>
      <?php echo LM_CONFIG_MYSQL?>
@@ -735,7 +878,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
       <br /><?php echo LM_CONFIG_MYSQLH_SUB?>
      </td>
     </tr>
-    
+
     <tr>
      <td>
       <?php echo LM_CONFIG_MYSQLU?>
@@ -745,7 +888,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
       <br /><?php echo LM_CONFIG_MYSQLU_SUB?>
      </td>
     </tr>
-    
+
     <tr>
      <td>
       <?php echo LM_CONFIG_MYSQLP?>
@@ -755,7 +898,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
       <br /><?php echo LM_CONFIG_MYSQLP_SUB?>
      </td>
     </tr>
-    
+
     <tr>
      <td>
       <?php echo LM_CONFIG_MYSQLD?>
@@ -785,8 +928,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 	$tabs->startTab(LM_TAB_AUTH,"config-mysql-tab");
     ?>
     <table class='adminform'>
-    
-	
+
+
 	<tr>
      <th colspan='2'>
      <?php echo LM_CONFIG_AUTH?>
@@ -802,7 +945,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
       <br /><?php echo LM_CONFIG_AUTH_USER_SUB?>
      </td>
     </tr>
-    
+
     <tr>
      <td>
       <?php echo LM_CONFIG_AUTH_PASS?>
@@ -812,10 +955,10 @@ function showBackups( &$files, &$sizes, $path, $option ) {
       <br /><?php echo LM_CONFIG_AUTH_PASS_SUB?>
      </td>
     </tr>
-    
+
 
     </table>
-    <?
+    <?php
 	$tabs->endTab();
 	$tabs->startTab(LM_TAB_SYSTEM,"config-system-tab");
     ?>
@@ -825,7 +968,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      <?php echo LM_CONFIG_DISPLAY?>
      </th>
     </tr>
-    
+
 	<tr>
      <td  width='200'>
       <?php echo LM_CONFIG_SYSTEM_LANG?>
@@ -845,8 +988,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
       <br /><?php echo LM_CONFIG_SYSTEM_LANG_SUB?>
      </td>
     </tr>
-	
-	
+
+
     <!--<tr>
      <td  width='200'>
       <?php echo LM_CONFIG_SYSTEM_DOWNLOAD?>
@@ -859,8 +1002,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
       <br /><?php echo LM_CONFIG_SYSTEM_DOWNLOAD_SUB?>
      </td>
     </tr>-->
-    
-    
+
+
     <tr>
      <th colspan='2'>
      <?php echo LM_CONFIG_SYSTEM?>
@@ -887,32 +1030,52 @@ function showBackups( &$files, &$sizes, $path, $option ) {
       Secure <input type=radio size=50 value=1 name='secure_ftp' <?php if($_CONFIG[secure_ftp]==1) echo 'checked';?>>
      </td>
     </tr>
-    
+
      <th colspan='2'>
      <?php echo LM_CONFIG_MANUAL?>
      </th>
     </tr>
-    
+
      <tr>
      <td>
       <?php echo LM_CONFIG_MANUAL_FILES;?>
      </td>
      <td>
       <input type=text size=20 name='backup_refresh_number' value=<?php echo $_CONFIG[backup_refresh_number];?>>
-      
+
      </td>
     </tr>
-    
+
     <tr>
      <td>
       <?php echo LM_CONFIG_MANUAL_REFRESH;?>
      </td>
      <td>
       <input type=text size=20 name='refresh_time' value=<?php echo $_CONFIG[refresh_time];?>> seconds
-      
+
      </td>
     </tr>
-    
+
+    <tr>
+     <td>
+      <?php echo LM_REFRESH_MODE?>
+     </td>
+     <td>
+      Normal <input type=radio size=50 value=0 name='refresh_mode' <?php if($_CONFIG[refresh_mode]==0) echo 'checked';?>>
+      AJAX <input type=radio size=50 value=1 name='refresh_mode' <?php if($_CONFIG[refresh_mode]==1) echo 'checked';?>>
+     </td>
+    </tr>
+
+    <tr>
+     <td>
+      <?php echo LM_DEBUG_MODE?>
+     </td>
+     <td>
+      No <input type=radio size=50 value=0 name='debug' <?php if($_CONFIG[debug]==0) echo 'checked';?>>
+      Yes <input type=radio size=50 value=1 name='debug' <?php if($_CONFIG[debug]==1) echo 'checked';?>>
+     </td>
+    </tr>
+
     </table>
     <?php
     $tabs->endTab();
@@ -924,7 +1087,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      <?php echo LM_CRON_SETTINGS_M?> - all configs are saved in configs/
      </th>
     </tr>
-    
+
     <tr>
     <td>
       <?php echo LM_CRON_MCRON?>
@@ -934,26 +1097,26 @@ function showBackups( &$files, &$sizes, $path, $option ) {
        <?php echo LM_CRON_MCRON_SUB?>
      </td>
     </tr>
-    
+
     <tr>
     <td>
       <?php echo LM_CRON_MCRON_AVAIL?>
      </td>
      <td>
       <?php
-      
+
       if ($handle = @opendir($_CONFIG['multiple_config_dir'])) {
 
       while (false !== ($file = readdir($handle))) {
          if( ($file!=".") && ($file!="..") &&($file!="") && (strstr($file, '.php'))){
            $fcron = "cloner.cron.php?config=$file";
-           
+
            echo "<b>$fcron</b>";
-         
+
            echo " - <a href='$fcron' target='_blank'>execute cron</a>";
-           
-           echo " | <a href='index2.php?option=com_cloner&task=cron_delete&fconfig=$file'>delete config</a>"; 
-           
+
+           echo " | <a href='index2.php?option=com_cloner&task=cron_delete&fconfig=$file'>delete config</a>";
+
            echo "\n<br />";
          }
       }
@@ -963,13 +1126,13 @@ function showBackups( &$files, &$sizes, $path, $option ) {
       ?>
      </td>
     </tr>
-    
+
     <tr>
      <th  colspan='2'>
      <?php echo LM_CRON_SETTINGS?>
      </th>
     </tr>
-    
+
     <tr>
     <td>
       <?php echo LM_CRON_SEMAIL?>
@@ -979,7 +1142,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
        <?php echo LM_CRON_SEMAIL_SUB?>
      </td>
     </tr>
-    
+
     <tr>
      <td width='200'>
      <?php echo LM_CRON_MODE?>
@@ -1010,7 +1173,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
        <?php echo LM_CRON_TYPE_INFO?>
      </td>
     </tr>
-    
+
      <tr>
     <td>
       <?php echo LM_CRON_BNAME?>
@@ -1020,8 +1183,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
        <?php echo LM_CRON_BNAME_SUB?>
      </td>
     </tr>
-    
-    
+
+
      <tr>
     <td>
       <?php echo LM_CRON_IP?>
@@ -1031,7 +1194,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
        <?php echo LM_CRON_IP_SUB?>
      </td>
     </tr>
-    
+
     </table>
     <table class='adminform'>
     <tr>
@@ -1083,10 +1246,10 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     </table>
 
 <table class='adminform'>
-	
+
 	<tr><th colspan=2>
 		<?php echo LM_AMAZON_S3?>
-	</th></tr>	
+	</th></tr>
 	<tr>
 	<td width='200'>
      		<?php echo LM_AMAZON_S3_ACTIVATE?>
@@ -1094,7 +1257,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      	<td>
 		<input type=checkbox name='cron_amazon_active' <?php if($_CONFIG[cron_amazon_active]==1) echo "checked";?> value='1'>
 	</td>
-	</tr>	
+	</tr>
 
 	<tr>
 	<td width='200'>
@@ -1133,11 +1296,11 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 	</tr>
 
      <td>
-      
+
      </td>
     </tr>
 
-</table>	
+</table>
 
 
     <table class='adminform'>
@@ -1158,7 +1321,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 
 
     </table>
-    
+
     <table class='adminform'>
     <tr>
      <th colspan='2'>
@@ -1174,10 +1337,10 @@ function showBackups( &$files, &$sizes, $path, $option ) {
       <input type=checkbox  name='cron_sql_drop' value='1' <?php if($_CONFIG[cron_sql_drop]) echo "checked";?> >
      </td>
     </tr>
- 
-    <?php 
+
+    <?php
     if((abs($_CONFIG[system_mdatabases])==0) && ($_CONFIG[enable_db_backup]==1)){
-    ?>  
+    ?>
     <tr><td valign='top'>
     <?php echo LM_DATABASE_INCLUDE_DATABASES?>
     </td><td>
@@ -1188,19 +1351,19 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 
     $query = @mysql_query("SHOW databases");
     while($row = @mysql_fetch_array($query)){
-  
+
 	   $table = $row[0];
-        
+
        if($table != $_CONFIG['mysql_database'])
-	   
+
 	   if(in_array($table, $curent_dbs)){
-       
+
 	     	echo "<option value='".$table."' selected>$table</option>";
-       
+
 	   }else{
-         	
+
 		    echo "<option value='".$table."'>$table</option>";
-        
+
 		}
     }
 	?>
@@ -1210,7 +1373,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     <?php
     }
     ?>
-    
+
     <tr><th colspan=2>
     <?php echo LM_CRON_DELETE_FILES?>
     </th></tr>
@@ -1231,7 +1394,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      </td>
     </tr>
     </table>
-    
+
     <table class='adminform'>
     <tr>
      <th colspan='2'>
@@ -1259,7 +1422,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      <?php echo LM_CONFIG_INFO_PHP?>
      </th>
     </tr>
-    
+
     <tr>
      <td width='200'>
       <?php echo LM_CONFIG_INFO_T_SAFEMODE?>
@@ -1267,25 +1430,25 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      <td>
         <b><?php $val = (ini_get('safe_mode') != "")? ini_get('safe_mode'):"Off";
         echo HTML_cloner::get_color($val, 'On');
-        ?></b> 
+        ?></b>
         <br />
         <?php echo LM_CONFIG_INFO_SAFEMODE?>
    </td>
     </tr>
-     
+
     <tr>
      <td width='200'>
       <?php echo LM_CONFIG_INFO_T_MTIME?>
      </td>
      <td>
         <b><?php echo (ini_get('max_execution_time') != "")? ini_get('max_execution_time'):"no value";
-        
-        ?></b> 
+
+        ?></b>
         <br />
         <?php echo LM_CONFIG_INFO_TIME?>
    </td>
     </tr>
-    
+
     <tr>
      <td width='200'>
       <?php echo LM_CONFIG_INFO_T_MEML?>
@@ -1296,7 +1459,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
          <?php echo LM_CONFIG_INFO_MEMORY?>
      </td>
     </tr>
-       
+
     <tr>
      <td width='200'>
       <?php echo LM_CONFIG_INFO_T_BDIR?>
@@ -1309,13 +1472,13 @@ function showBackups( &$files, &$sizes, $path, $option ) {
          <?php echo LM_CONFIG_INFO_BASEDIR?>
      </td>
     </tr>
-    
+
      <tr>
      <td width='200'>
     <?php echo LM_CONFIG_INFO_T_EXEC?>
      </td>
      <td>
-        <b><?php 
+        <b><?php
 
 	$out = "";
 	if(function_exists("exec")){
@@ -1330,26 +1493,26 @@ function showBackups( &$files, &$sizes, $path, $option ) {
          <?php echo LM_CONFIG_INFO_EXEC?>
      </td>
     </tr>
-    
+
     <tr>
      <th colspan='2'>
       <?php echo LM_CONFIG_INFO_PATHS?>
      </td>
      <td>
     </tr>
- 
+
     <tr>
      <td width='200'>
       <?php echo LM_CONFIG_INFO_ROOT_BPATH_TMP?>
      </td>
      <td>
-        <b><?php $tmp_dir = $_CONFIG['backup_path']."/administrator/backups"; 
+        <b><?php $tmp_dir = realpath($_CONFIG['backup_path']."/administrator/backups");
 		echo (@is_writeable( $tmp_dir ))? $tmp_dir . " is <font color=green>writeable</font>":$tmp_dir. " <font color=red>incorrect or unreadable</font>";?></b>
         <br />
         <?php echo LM_CONFIG_INFO_ROOT_PATH_TMP_SUB?>
    </td>
     </tr>
-	
+
 	 <tr>
      <td width='200'>
       <?php echo LM_CONFIG_INFO_ROOT_BPATH?>
@@ -1360,26 +1523,26 @@ function showBackups( &$files, &$sizes, $path, $option ) {
         <?php echo LM_CONFIG_INFO_ROOT_PATH_SUB?>
    </td>
     </tr>
-    
-	 
+
+
 	 <tr>
      <td width='200'>
       <?php echo LM_CONFIG_INFO_T_BPATH?>
      </td>
      <td>
-        <b><?php echo (@is_writeable($_CONFIG['clonerPath']) )? $_CONFIG['clonerPath'] . " is <font color=green>writeable</font>":$_CONFIG['clonerPath']. " <font color=red>unwriteable</font>";?></b> 
+        <b><?php echo (@is_writeable($_CONFIG['clonerPath']) )? $_CONFIG['clonerPath'] . " is <font color=green>writeable</font>":$_CONFIG['clonerPath']. " <font color=red>unwriteable</font>";?></b>
         <br />
         <?php echo LM_CONFIG_INFO_BPATH?>
    </td>
     </tr>
-    
-   
+
+
     <tr>
      <td width='200'>
         <?php echo LM_CONFIG_INFO_T_TAR?>
      </td>
      <td>
-        <b><?php 
+        <b><?php
 	if(function_exists('exec')){
 	        $info_tar_path = explode(" ", @exec("whereis tar"));
 	}
@@ -1389,14 +1552,14 @@ function showBackups( &$files, &$sizes, $path, $option ) {
          <?php echo LM_CONFIG_INFO_TAR?>
      </td>
     </tr>
-    
-    
+
+
     <tr>
      <td width='200'>
       <?php echo LM_CONFIG_INFO_T_MSQL?>
      </td>
      <td>
-        <b><?php 
+        <b><?php
 	if(function_exists('exec')){
 	        $info_msql_path = explode(" ", @exec("whereis mysqldump"));
 	}
@@ -1406,8 +1569,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
          <?php echo LM_CONFIG_INFO_MSQL?>
      </td>
     </tr>
-       
-       
+
+
     </table>
     <?php
     $tabs->endTab();
@@ -1420,19 +1583,19 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 
   <?php
   }
-  
+
   function get_color($val, $comp){
-  
+
    if(!stristr($val, $comp))
     echo "<span style='color:green'>$val</span>";
    else
-    echo "<span style='color:red'>$val</span>"; 
-  
+    echo "<span style='color:red'>$val</span>";
+
   }
-  
+
   function TransferForm($option, $files){
       global $baDownloadPath, $mosConfig_absolute_path, $clonerPath, $task;
-      
+
      ?>
     <form action="index2.php" method="GET" name="adminForm">
     <script language="javascript" type="text/javascript">
@@ -1444,7 +1607,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 				submitform( pressbutton );
 				return;
 			}
-        
+
                 submitform( pressbutton );
 
 		}
@@ -1460,7 +1623,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     <b>Transfer <?php echo $file;?> details:</b>
     <br /><b>Attempting to
     <?php echo (($_REQUEST[task]=='move')||($_REQUEST[task2]=='move'))?'Move':'Clone';?> backup(s):</b><br /><?php echo implode("<br />",$files)?>
-    
+
     </td></tr>
     <tr><td colspan='2'><?php echo LM_CLONE_FORM_TOP?></td></tr>
     <?php
@@ -1541,7 +1704,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     if($_CONFIG['enable_db_backup']){
 	$tabs->startTab(LM_TAB_G_DATABASE,"users-databse-options-tab");
     ?>
-    
+
 
     <table class="adminform">
     <tr>
@@ -1556,7 +1719,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
         <td><input type="checkbox" id="dbbackup_drop" name="dbbackup_drop"  value="1" />&nbsp;<?php echo "Add DROP SYNTAX"; ?></td>
     </tr>
     <tr>
-        <td><?php echo "Mysql Compatibility"; ?> &nbsp; 
+        <td><?php echo "Mysql Compatibility"; ?> &nbsp;
            <select name='dbbackup_comp'>
            <option value=''>Default</option>
            <option value='MYSQL40'>MYSQL40</option>
@@ -1574,18 +1737,18 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 
     $query = mysql_query("SHOW tables");
     while($row = mysql_fetch_array($query)){
-         
+
 		 echo "<option value='".$row[0]."'>$row[0]</option>";
-        
+
 		}
     ?>
     </select>
     </td></tr>
-    
-    <?php 
+
+    <?php
     if(abs($_CONFIG[system_mdatabases])==0){
-    ?> 
-    
+    ?>
+
 	<tr><th colspan=2>
     <?php echo LM_DATABASE_INCLUDE_DATABASES?>
     </th></tr>
@@ -1594,22 +1757,22 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     <?php
 
     $query = mysql_query("SHOW databases");
-    
+
 	while($row = mysql_fetch_array($query)){
-    
+
 	     echo "<option value='".$row[0]."'>$row[0]</option>";
-    
+
 	    }
-    
+
 	?>
     </select><br />
     <?php echo LM_DATABASE_INCLUDE_DATABASES_SUB?>
     </td></tr>
-	
+
 	<?php
     }
 	?>
-	
+
 	</table>
     <?php
     $tabs->endTab();
@@ -1645,18 +1808,18 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     <link href="browser/filebrowser.css" rel="stylesheet" type="text/css">
 
 	<script type="text/javascript" src="browser/xmlhttp.js"></script>
-	
+
 
     <div id="browser">
     <?php require_once("browser/files_inpage.php"); ?>
     </div>
     <script>do_browser()</script>
-	
+
     </td></tr>
     <?php
     }
     ?>
-    
+
     </table>
     <?php
     $tabs->endTab();
@@ -1715,7 +1878,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     </form>
     <?php
   }
- 
+
   function generateBackup_text( $archiveName, $archiveSize, $originalSize, $d, $f, $databaseResult, $option ) {
     // ----------------------------------------------------------
     // Presentation of the final report screen in text mode
@@ -1732,7 +1895,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     <?php
     $content = ob_get_contents();
     ob_end_clean();
-    
+
     return $content;
   }
 
@@ -1804,8 +1967,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     </form>
     <?php
   }
-  
-  
+
+
   function Rename($files, $option){
        global $_CONFIG;
 
@@ -1816,7 +1979,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     <?php echo LM_RENAME_TOP?>
     </th></tr>
     <?php
-    
+
     foreach($files as $key=>$file){
         echo "<tr>
       <td >

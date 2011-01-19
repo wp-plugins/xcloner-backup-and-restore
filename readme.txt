@@ -1,10 +1,10 @@
-=== XCloner ===
+=== XCloner - Backup and Restore===
 Contributors: xcloner
 Donate link: http://www.xcloner.com/
-Tags: backup, restore, admin, plugin, database, full backup, cloner, xcloner, theme, files, upload
+Tags: backup, restore, admin, plugin, database, full backup, cloner, xcloner, theme, files, upload, wordpress backup, backup plugin, database backup, database restore, site move, transfer, blog transfer
 Requires at least: 2.0.2
 Tested up to: 3.0.1
-Stable tag: 2.2
+Stable tag: 2.1.2
 
 XCloner is a full backup and restore plugin for Wordpress, it will backup and restore both files and database. www.xcloner.com
 
@@ -39,7 +39,7 @@ Features:
 
 == Installation ==
 
-1. Upload the plugin directory to wp-content/plugins dirctory
+1. Upload the plugin directory to wp-content/plugins directory
 2. Activate the plugin
 3. Create directory administrator/backups and make it writeable under your Wordpress site root
 4. Access it from the Plugins->XCloner menu
@@ -76,7 +76,7 @@ If the inside Clone option fails for some reason, you need to:
 
 = 2.1 =
 Initial release
-= 2.3 =
+= 2.1.2 =
 Added Amazon S3 cron storage support
 
 == Upgrade Notice ==

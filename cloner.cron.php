@@ -1,11 +1,11 @@
 <?php
 /**
 * XCloner
-* Oficial website: http://www.joomlaplug.com/
+* Oficial website: http://www.xcloner.com/
 * -------------------------------------------
 * Creator: Liuta Romulus Ovidiu
 * License: GNU/GPL
-* Email: admin@joomlaplug.com
+* Email: admin@xcloner.com
 * Revision: 1.0
 * Date: July 2007
 **/
@@ -17,7 +17,6 @@ define( '_VALID_MOS', 1 );
 
 include_once("admin.cloner.html.php");
 include_once("cloner.functions.php");
-include_once("classes/S3.php");
 
 
 $script_dir = str_replace("\\","/",dirname(__FILE__));
@@ -120,7 +119,7 @@ function logxx($string = ""){
     }
 
 $clonerPath = $_CONFIG['clonerPath'];
-logxx("Starting JoomlaCloner for site $mosConfig_live_site at ".date("Y-m-d H:i"));
+logxx("Starting XCloner for site $mosConfig_live_site at ".date("Y-m-d H:i"));
 
     $excludedFolders = array();
     $d_arr = array(); $d = 0;
@@ -264,14 +263,14 @@ elseif($_CONFIG['cron_send']==2){
     Source Filename: $source_file
     Server: $mosConfig_live_site
     
-    Powered by http://www.joomlaplug.com - JoomlaCloner site backup solution for everybody!
+    Powered by http://www.xcloner.com - Xcloner - Backup and Restore made easy!
     </pre>
 
     ";
     
-	$ok = send_mail($mosConfig_mailfrom, "JoomlaCloner $msg", $message, $_CONFIG['cron_email_address'], $source_file);
+	$ok = send_mail($mosConfig_mailfrom, "XCloner $msg", $message, $_CONFIG['cron_email_address'], $source_file);
 	
-	#echo mosMail( $mosConfig_mailfrom, $mosConfig_fromname, $_CONFIG['cron_email_address'], "JoomlaCloner $msg", $message, $mode, '', '' );
+	#echo mosMail( $mosConfig_mailfrom, $mosConfig_fromname, $_CONFIG['cron_email_address'], "XCloner $msg", $message, $mode, '', '' );
     if($ok)
 	 logxx("Mail sent to ".$_CONFIG['cron_email_address']);
 	else
@@ -285,16 +284,20 @@ logxx("Total backup size:".$bsize);
 ####### STARING AMAZON S3 MODE
 if($_CONFIG['cron_amazon_active']){
 
+include_once("classes/S3.php");
+
 logxx();
 
 $s3 = new S3($_CONFIG['cron_amazon_awsAccessKey'], $_CONFIG['cron_amazon_awsSecretKey']);
 
 logxx("AMAZON S3: Starting communication with the Amazon S3 server...");
 
-if ($s3->putBucket($_CONFIG['cron_amazon_bucket'], S3::ACL_PRIVATE)) {
+$buckets = $s3->listBuckets();
+
+if (($s3->putBucket($_CONFIG['cron_amazon_bucket'], "private")) || (@in_array($_CONFIG['cron_amazon_bucket'], $buckets))) {
 
 
-	if ($s3->putObjectFile($clonerPath."/".$file, $_CONFIG['cron_amazon_bucket'], $_CONFIG['cron_amazon_dirname']."/".baseName($file), S3::ACL_PRIVATE)){
+	if ($s3->putObjectFile($clonerPath."/".$file, $_CONFIG['cron_amazon_bucket'], $_CONFIG['cron_amazon_dirname']."/".baseName($file), "private")){
 
 		logxx("AMAZON S3: File copied to {".$_CONFIG['cron_amazon_bucket']."}/".$_CONFIG['cron_amazon_dirname']."/".$file);
 
@@ -337,7 +340,7 @@ if(sizeof($logemail)>0){
 			
 			$email_subject = "cron log ".time();
 			
-			$headers ="From: \"Cronlog JoomlaCloner\" <nobody@noreply.com>\n";
+			$headers ="From: \"Cronlog XCloner\" <nobody@noreply.com>\n";
 
 			if(mail($email, $email_subject, strip_tags($mail_log), $headers)){
 			
@@ -399,7 +402,7 @@ $fileatt_type = "application/octet-stream"; // File Type
 $fileatt_name = basename($fileatt); // Filename that will be used for the file as the attachment 
 $data = "";
 
-$headers = "From: \"Cronbackup JoomlaCloner\" <".$email_from.">"; 
+$headers = "From: \"Cronbackup XCloner\" <".$email_from.">"; 
 
 if($fileatt != ""){
 	
