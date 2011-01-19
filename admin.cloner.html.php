@@ -1,14 +1,24 @@
 <?php
-/**
-* XCloner
-* Oficial website: http://www.joomlaplug.com/
-* -------------------------------------------
-* Creator: Liuta Romulus Ovidiu
-* License: GNU/GPL
-* Email: admin@joomlaplug.com
-* Revision: 1.0
-* Date: July 2007
-**/
+/*
+ *      admin.cloner.html.php
+ *
+ *      Copyright 2011 Ovidiu Liuta <info@thinkovi.com>
+ *
+ *      This program is free software; you can redistribute it and/or modify
+ *      it under the terms of the GNU General Public License as published by
+ *      the Free Software Foundation; either version 2 of the License, or
+ *      (at your option) any later version.
+ *
+ *      This program is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU General Public License for more details.
+ *
+ *      You should have received a copy of the GNU General Public License
+ *      along with this program; if not, write to the Free Software
+ *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ *      MA 02110-1301, USA.
+ */
 
 
 /** ensure this file is being included by a parent file */
@@ -65,9 +75,13 @@ function header(){
 <link rel="stylesheet" href="css/tabber.css" TYPE="text/css" MEDIA="screen">
 <link rel="styleSheet" href="css/dtree.css" type="text/css" />
 <link rel="styleSheet" href="css/main.css" type="text/css" />
+<link rel="styleSheet" href="css/jquery-ui.css" type="text/css" />
 
 <script type="text/javascript" src="javascript/tabber.js"></script>
 <script type="text/javascript" src="javascript/dtree.js"></script>
+<script type="text/javascript" src="javascript/main.js"></script>
+<script type="text/javascript" src="javascript/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="javascript/jquery-ui.min.js"></script>
 <script type="text/javascript">
 
 /* Optional: Temporarily hide the "tabber" class so it does not "flash"
@@ -172,7 +186,6 @@ document.write(d);
 </td></td></table>
 <!-- END Ads -->
 
-
 </td><td valign='top' align='left' style="padding-left: 20px;">
 
 
@@ -196,6 +209,108 @@ function footer(){
 <?php
 
 }
+
+function goRefreshHtml($filename, $perm_lines, $excl_manual){
+
+	global $_CONFIG;
+
+	$f = pathinfo($filename);
+	$backupFile = $f['basename'];
+
+	if (file_exists($filename)) {
+                  echo "Backup <strong>$filename</strong> created, we may continue!<br />";
+                  //echo "Database backup: ".$databaseResult ."<br />";
+                  $urlReturn = "index2.php?option=com_cloner&lines=" . $perm_lines . "&task=refresh&backup=$filename&excl_manual=$excl_manual";
+
+                  if(!$_CONFIG['refresh_mode']){
+
+                  echo "<a href=\"".$urlReturn."\" id='cLink'>Please click here to continue!</a>";
+                  echo " <strong id='countdown'>5</strong>";
+                  echo "<script type='text/javascript'>cLink_load();</script>";
+
+                  }else{
+
+					  ?>
+				<!--Start ProgressBar-->
+
+				<script type="text/javascript">
+
+				$(document).ready(function() {
+
+					$("#progressbar").progressbar({ value: 0 });
+
+					$.ajaxSetup({
+					"error":function() {
+					//reset state here;
+						$("#error").show();
+					}});
+
+					function xclonerGetJSON(url){
+
+					$.getJSON(url, function(json) {
+
+						if(!json)
+							$("#error").show();
+
+						var percent = parseInt(json.percent);
+						$("#progressbar").progressbar({ value: percent });
+						$("#backupSize").text(json.backupSize);
+						$("#nFiles").text(json.startf);
+						$("#percent").text(json.percent);
+						if(!json.finished){
+							var url = "index2.php?option="+json.option+"&task="+json.task+"&json="+json.json+"&startf="+json.startf+"&lines="+json.lines+"&backup="+json.backup+"&excl_manual="+json.excl_manual;
+							xclonerGetJSON(url);
+						}else{
+
+							$("#complete").show();
+							$("#nFiles").text(json.lines);
+
+							}
+
+					});
+
+					}
+
+					xclonerGetJSON("<?php echo $urlReturn;?>");
+
+
+				});
+				</script>
+				<div class="result">
+				<br /> <strong>Processing Files:</strong> <span id="percent">0</span>% (<span id="nFiles"></span> files)
+				<br /> <strong>Backup Size: </strong><span id="backupSize"></span>
+				</div>
+
+				<br /><br /> <div id="progressbar"></div>
+
+				<div id="complete">
+					<br /><h2>Backup completed!</h2>
+
+					<form action="index2.php" name="adminForm" method="post">
+					<input type=hidden name=files[1] value='<?php echo $backupFile?>'>
+					<input type=hidden name=cid[1] value='<?php echo $backupFile?>'>
+					<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+					<input type="hidden" name="task" value=""/>
+					</form>
+
+				</div>
+
+				<div id="error" style="display:none;">
+					<br /><h2 style="color:Red"><?php echo LM_REFRESH_ERROR;?></h2>
+
+				</div>
+				<!-- End ProgressBar -->
+
+					  <?php
+
+					  }
+                  return;
+              } else {
+                  E_print("Backup failed, please check your tar server utility support!");
+                  return;
+              }
+
+	}
 
 function  _FDefault(){
 ?>
@@ -938,6 +1053,26 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      <td>
       <input type=text size=20 name='refresh_time' value=<?php echo $_CONFIG[refresh_time];?>> seconds
 
+     </td>
+    </tr>
+
+    <tr>
+     <td>
+      <?php echo LM_REFRESH_MODE?>
+     </td>
+     <td>
+      Normal <input type=radio size=50 value=0 name='refresh_mode' <?php if($_CONFIG[refresh_mode]==0) echo 'checked';?>>
+      AJAX <input type=radio size=50 value=1 name='refresh_mode' <?php if($_CONFIG[refresh_mode]==1) echo 'checked';?>>
+     </td>
+    </tr>
+
+    <tr>
+     <td>
+      <?php echo LM_DEBUG_MODE?>
+     </td>
+     <td>
+      No <input type=radio size=50 value=0 name='debug' <?php if($_CONFIG[debug]==0) echo 'checked';?>>
+      Yes <input type=radio size=50 value=1 name='debug' <?php if($_CONFIG[debug]==1) echo 'checked';?>>
      </td>
     </tr>
 

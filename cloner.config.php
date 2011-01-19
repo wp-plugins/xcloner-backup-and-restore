@@ -29,6 +29,7 @@ $_CONFIG['cron_file_delete_act']="";
 $_CONFIG['mem']="";
 $_CONFIG['backup_refresh']="1";
 $_CONFIG['refresh_time']="1";
+$_CONFIG['refresh_mode']="1";
 $_CONFIG['backup_refresh_number']="100";
 $_CONFIG['sql_mem']="";
 $_CONFIG['enable_db_backup']="1";

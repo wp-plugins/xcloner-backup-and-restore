@@ -255,7 +255,7 @@ define("LM_CLONER_RESTORE","<h2>Hoe herstel ik een backup op verschillende locat
    
    <b>Let op:</b>Als dit proces om welke reden dan ook onderbroken wordt of mislukt dien je de volgende stappen te nemen   	
 1. Download de backup naar je computer
-   	2. Download het herstel script, alle 3 de bestanden uit de volgende directory: administrator/components/com_cloner/restore
+   	2. Download het herstel script, alle de bestanden uit de volgende directory: administrator/components/com_cloner-backupandrestore/restore/
    	3. Upload beiden backup en herstel script naar de herstel locatie
    	4. Start XCloner.php in je browser en volg het herstelscherm zoals hieronder aangegeven
    

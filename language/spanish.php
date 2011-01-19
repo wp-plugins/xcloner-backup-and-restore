@@ -93,6 +93,7 @@ define("LM_CRON_MCRON","Nombre de la configuración:");
 define("LM_CRON_MCRON_AVAIL","Configuraciones disponibles:");
 define("LM_CRON_MCRON_R","Por favor introduce un nombre para tu configuración Cron.");
 define("LM_CRON_MCRON_SUB","<small>Con esta opción podras salvar la configuración actual en un archivo separado y usarlo para correr procesos Cron múltiples.</small>");
+
 define("LM_CRON_SETTINGS_M","Configuración de procesos Cron múltiples");
 define("LM_MENU_OPEN_ALL","Abrir todos");
 define("LM_MENU_CLOSE_ALL","Cerrar todos");
@@ -253,7 +254,7 @@ Esto es lo que debes hacer:
 
 <b>Atención:</b>Si este proceso falla por alguna razón. Debes hacer esto: 
      1. Descárgate la copia de seguridad en tu PC.
-     2. Descárgate el script de restauración, los 3 archivos, desde el directorio administrator/components/com_xcloner/restore
+     2. Descárgate el script de restauración, los archivos, desde el directorio administrator/components/com_xcloner-backupandrestore/restore/
      3. Sube la copia de seguridad y el script a tu directorio de restauración.
      4. Lanza XCloner.php en tu navegador y sigue la pantalla de restauración tal y como especifica abajo
      Beispiel URL: <b>http://neue-seite.de/XCloner.php</b>

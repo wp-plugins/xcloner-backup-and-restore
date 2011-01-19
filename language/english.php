@@ -119,7 +119,7 @@ define("LM_CRON_MCRON","Configuration Name:");
 define("LM_CRON_MCRON_AVAIL","Available Configurations:");
 define("LM_CRON_MCRON_R","please provide a simple name for your new cron configuration");
 define("LM_CRON_MCRON_SUB","with this option you will be able to save the current configuration in a separate file and use it for running multiple cronjobs");
-define("LM_CRON_SETTINGS_M","Multiple CronJobs Configuration");		
+define("LM_CRON_SETTINGS_M","Multiple CronJobs Configuration");
 // --- MENU ---//
 define("LM_MENU_OPEN_ALL", "open all");
 define("LM_MENU_CLOSE_ALL", "close all");
@@ -145,6 +145,9 @@ define("LM_MAIN_View_Backups","View Backups");
 define("LM_MAIN_Generate_Backup","Generate Backup");
 define("LM_MAIN_Help","Help");
 define("LM_FTP_TRANSFER_MORE","FTP Connection Mode");
+define("LM_REFRESH_MODE","Backup Refresh Mode");
+define("LM_DEBUG_MODE","Enable log:");
+define("LM_REFRESH_ERROR","There was an error retreiving the JSON data from the server, try again or contact the developers!");
 
 
 // --- LANGUAGE --//
@@ -330,45 +333,45 @@ define("LM_CLONER_RESTORE","<h2>How to restore a backup on different locations I
    Restoring your backups has never been more easier!
    With the help of our cloning function from the <a href='index2.php?option=com_cloner&task=view'>View Backups</a> screen
    you will be able to move your Joomla backup anywhere on the Internet.
-   
+
    Here is  what you have to do:
-   
+
    <b>Step1 - move your backup to the restore host</b>
-   	
-    - go into the XCloner 'View Backups' area 	
+
+    - go into the XCloner 'View Backups' area
     - after you have selected your backup click on the 'Clone it' button
     - enter the ftp details of where you would like to Clone the backup
     - after hitting submit the backup and the restore script will be transfered on the new host and you
     will be given a url to access the next step based on the url you provided for the remote location
     - after you click the provided link you will be taken to the new location, sample url <b>http://my_restore_site.com/XCloner.php</b>
-   
+
    <b>Note:</b> if this process fails for any reason, you need to do this:
    	1. Download the backup on your computer
-   	2. Download the restore script, all 3 files from directory administrator/components/com_xcloner/restore
+   	2. Download the restore script, all files from directory administrator/components/com_xcloner-backupandrestore/restore/
    	3. Upload both backup and restore script to your restore location
-   	4. Launch XCloner.php in your browser and follow the restore screen as specified below 
-   
+   	4. Launch XCloner.php in your browser and follow the restore screen as specified below
+
    <b>Step 2 - the XCloner.php restore screen:</b>
-    
+
    <b>XCloner.php - the restore script</b>
     - on this step you have in place the clone you made based on your Joomla site and the Restore script
     - enter you new mysql details, this includes your new mysql hostname, user and pass, and a new database
     different from the original one
     - enter you new location Url and pass
     - to restore the files you have <b>2 options:</b>
-       
-       	- 1. restore the files through ftp, the script will simulate a ftp upload process on your server, this will 
+
+       	- 1. restore the files through ftp, the script will simulate a ftp upload process on your server, this will
        	fix the permissions problem from step 2.
-       	- 2. restore the files directly, this will unarchive the files on your server, will work fast but it might 
-       	result in some permission problems if you use your ftp a lot to make changes to the site 
-       			
-    - after you hit submit the script will attempt to move the files to the new path, directly or using ftp and 
+       	- 2. restore the files directly, this will unarchive the files on your server, will work fast but it might
+       	result in some permission problems if you use your ftp a lot to make changes to the site
+
+    - after you hit submit the script will attempt to move the files to the new path, directly or using ftp and
     will install the database
     - if everything goes ok your new site clone is up and running on the new location
-    
+
     For support please consult our forums <a href='http://www.xcloner.com/support/forums/' target='_blank'>http://www.xcloner.com/support/forums/</a>
     or email us at <a href='mailto:info@xcloner.com'>info@xcloner.com</a>
-   
+
 
 </pre>");
 
@@ -395,15 +398,15 @@ define("LM_CLONER_ABOUT","<h2>XCloner Backup</h2>
 define("LM_LOGIN_TEXT","
 <pre>
 <b>Notes:</b>
- 1. If you are on this screen for the first time, your default 
-    username is '<i>admin</i>' and password '<i>admin</i>', you will need 
+ 1. If you are on this screen for the first time, your default
+    username is '<i>admin</i>' and password '<i>admin</i>', you will need
     to change them after login
- 
- 2. if you forgot your password, to reset it you need to add 
+
+ 2. if you forgot your password, to reset it you need to add
     this code:
-    
+
 	<b>$"."_CONFIG[\"jcpass\"] = md5(\"my_new_pass\");</b>
-    
+
     at the end of the config file cloner.config.php just
     before line ?>
     Don't forget to replace my_new_pass with the actual password

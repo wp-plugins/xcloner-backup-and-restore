@@ -5,7 +5,7 @@ td.test a{
 }
 
 td.test a.hover{
-  
+
   color: orange;
 
 }
@@ -18,7 +18,7 @@ td.test {
   background: #a0a0a0;
 
   padding: 20px 30px 20px 20px;
- 
+
   text-align:center;
 
   color: red;
@@ -32,10 +32,10 @@ td.test2 {
   background: #dcdcdc;
 
   padding: 20px 30px 20px 20px;
- 
+
   text-align:center;
 
-}  
+}
 
 
 
@@ -87,7 +87,7 @@ body {
 	color : #333;
 	background-color: #FFF;
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
+	font-size: 14px;
 }
 a {
 	color: #C64934;
@@ -187,7 +187,7 @@ input, textarea, select {
 }
 table.menubar {
 	width: 100%;
-	
+
 }
 td {
 	font-size: 11px;
@@ -308,7 +308,6 @@ table.adminlist th {
 	margin: 0px;
 	padding: 6px 4px 2px 4px;
 	height: 25px;
-	//background: url(../images/background.jpg);
 	background-repeat: repeat;
 	font-size: 11px;
 	color: #000;
@@ -373,13 +372,12 @@ table.adminform th {
 	padding-right: 4px;
 	text-align: left;
 	height: 25px;
-	//background: url(../images/background.jpg);
 	color: #000;
 	background-repeat: repeat;
 }
 table.adminform td {
 	padding: 3px;
-      border: solid 1px #d5d5d5; 
+      border: solid 1px #d5d5d5;
 	text-align: left;
 }
 table.adminform td.editor {
@@ -477,24 +475,24 @@ div.main {
 #cpanel {  text-align: center;  vertical-align: middle; }
 
 #cpanel div.icon   { margin: 3px; }
-#cpanel div.icon a { 
+#cpanel div.icon a {
 	display: block; float: left;
 	height: 97px !important;
-	height: 100px; 
+	height: 100px;
 	width: 108px !important;
-	width: 110px; 
-	vertical-align: middle; 
+	width: 110px;
+	vertical-align: middle;
 	text-decoration : none;
 	border: 1px solid #DDD;
 	padding: 2px 5px 1px 5px;
 }
 
 #cpanel div.icon a:link    {  color : #808080;  }
-#cpanel div.icon a:hover   { 
-	color : #333; 
-	background-color: #f1e8e6;  
+#cpanel div.icon a:hover   {
+	color : #333;
+	background-color: #f1e8e6;
 	border: 1px solid #c24733;
-	padding: 3px 4px 0px 6px; 
+	padding: 3px 4px 0px 6px;
 }
 #cpanel div.icon a:active  {  color : #808080;  }
 #cpanel div.icon a:visited {  color : #808080;  }
@@ -510,8 +508,8 @@ a.tooltip, a.tooltip:hover  {
 }
 
 a.tooltiplink {
-	display: block; 
-	width: 100%; 
+	display: block;
+	width: 100%;
 }
 a.tooltiplink:hover {
 	text-decoration:  none;
@@ -525,51 +523,51 @@ fieldset {
 	text-align: left;
 }
 
-fieldset p { 
-	margin: 10px 0px; 
+fieldset p {
+	margin: 10px 0px;
 }
 
-legend { 
-	color: #c24733; 
-	font-size: 1.1em; 
-	font-weight: bold; 
+legend {
+	color: #c24733;
+	font-size: 1.1em;
+	font-weight: bold;
 }
 
 /* Two Pane Formatting */
 #treecell {
-	width: 20%; 
-	display: block; 
-	position: relative; 
+	width: 20%;
+	display: block;
+	position: relative;
 	float: left;
-	margin: 0; 
+	margin: 0;
 	padding: 2px;
 	overflow: hidden;
 }
 
-.expander { 
-	float: right;  
+.expander {
+	float: right;
 }
 
 #datacell {
-	width: 78%; 
-	display: block; 
+	width: 78%;
+	display: block;
 	float: left;
-	margin: 0; 
-	padding: 2px 0px 0px 0px;	
+	margin: 0;
+	padding: 2px 0px 0px 0px;
 }
 
 #datacellfull {
-	width: 98%; 
-	display: block; 
+	width: 98%;
+	display: block;
 	float: left;
-	margin: 0; 
+	margin: 0;
 	padding: 2px;
 }
 
-#treecell fieldset { 
+#treecell fieldset {
 }
-#datacell fieldset { 
-	border: 1px #ccc solid; 
+#datacell fieldset {
+	border: 1px #ccc solid;
 }
 
 span.editlinktip {
@@ -631,7 +629,7 @@ display:block;
 /* Hides from IE-mac \*/
 * html .clearfix {height: 1%;}
 /* End hide from IE-mac */
-/*  
+/*
 Theme Name: Flavor
 Theme URI: http://www.cssflavour.com
 Description: CSS Flavour Themes from DIT India
@@ -684,3 +682,14 @@ display:block;
 /* Hides from IE-mac \*/
 * html .clearfix {height: 1%;}
 /* End hide from IE-mac */
+
+/*Progress bar*/
+#progressbar {
+	/*background-image: url(../images/progress.gif);
+	line-height:20px;*/
+	width: 400px;
+}
+
+#complete {
+	display: none;
+}

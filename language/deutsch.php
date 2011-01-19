@@ -338,9 +338,9 @@ Und folgende Arbeitsschritte sind dafür notwendig:
    
    <b>Anmerkung: </b>Wenn dieser Prozess fehlschlagen sollte, dann befolge diese Schritte:
    	1. Downloade das Backup auf deinen Computer
-   	2. Downloade das Wiederherstellungsskript, welches aus 3 Dateien besteht. Zu finden im 
-	    Verzeichnis administrator/components/com_xcloner/restore
-   	3. Uploade das Backup und alle 3 Dateien des Wiederherstellungskripts auf den neuen Server
+   	2. Downloade das Wiederherstellungsskript, welches aus 2 Dateien besteht. Zu finden im 
+	    Verzeichnis administrator/components/com_xcloner-backupandrestore/restore/
+   	3. Uploade das Backup und alle Dateien des Wiederherstellungskripts auf den neuen Server
    	4. Rufe nun XCloner.php auf dem neuen Server mit deinem Browser auf und befolge abschließend 
 	    die Anweisungen des Wiederherstellungsskripts
    
