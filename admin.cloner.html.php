@@ -232,25 +232,31 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 
 					  ?>
 				<!--Start ProgressBar-->
-
 				<script type="text/javascript">
-
+					
 				$(document).ready(function() {
-
+				
+					var globalUrl;
+					
 					$("#progressbar").progressbar({ value: 0 });
 
 					$.ajaxSetup({
-					"error":function() {
+					"error":function(request, status, error) {
 					//reset state here;
 						$("#error").show();
-					}});
-
+						$("#errorText").append(status+" -- "+error);	
+					}});	
+					
 					function xclonerGetJSON(url){
+					
+					globalUrl = url;
 
 					$.getJSON(url, function(json) {
 
-						if(!json)
+						if(!json){
 							$("#error").show();
+							$("#errorText").append(url);
+						}
 
 						var percent = parseInt(json.percent);
 						$("#progressbar").progressbar({ value: percent });
@@ -258,7 +264,7 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 						$("#nFiles").text(json.startf);
 						$("#percent").text(json.percent);
 						if(!json.finished){
-							var url = "index2.php?option="+json.option+"&task="+json.task+"&json="+json.json+"&startf="+json.startf+"&lines="+json.lines+"&backup="+json.backup+"&excl_manual="+json.excl_manual;
+							var url = "index2.php?option="+json.option+"&task="+json.task+"&json="+json.json+"&startf="+json.startf+"&lines="+json.lines+"&backup="+json.backup+"&excl_manual="+json.excl_manual;	
 							xclonerGetJSON(url);
 						}else{
 
@@ -270,12 +276,19 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 					});
 
 					}
+					
+					$("#retry").click(function(){
+						$("#error").hide();
+						$("#errorText").empty();
+						xclonerGetJSON(globalUrl);
+					});
 
 					xclonerGetJSON("<?php echo $urlReturn;?>");
 
 
 				});
 				</script>
+				
 				<div class="result">
 				<br /> <strong>Processing Files:</strong> <span id="percent">0</span>% (<span id="nFiles"></span> files)
 				<br /> <strong>Backup Size: </strong><span id="backupSize"></span>
@@ -297,8 +310,12 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 
 				<div id="error" style="display:none;">
 					<br /><h2 style="color:Red"><?php echo LM_REFRESH_ERROR;?></h2>
+					<br /><b>Details:</b> <span id="errorText"></span>
+					<br /><br />
+					<a href="#" id="retry"><h3>Click to Retry >></h3></a>
 
 				</div>
+			
 				<!-- End ProgressBar -->
 
 					  <?php
