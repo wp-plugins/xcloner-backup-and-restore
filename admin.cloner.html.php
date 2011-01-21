@@ -412,6 +412,7 @@ function Login(){
 	<tr ><td colspan='2' align='center'><b>Authentification Area:</b></td></tr>
 	<tr><td>Username:</td><td><input type='text' size='30' name='username'></td></tr>
 	<tr><td>Password:</td><td><input type='password' size='30' name='password'></td></tr>
+	<tr><td></td><td><input type="submit" value='Login' name="submit"> <input type="reset" value='Cancel'></td></tr>
 
 	<tr><td colspan='2'><?php echo LM_LOGIN_TEXT;?></td></tr>
 
@@ -423,9 +424,9 @@ function Login(){
 	</table>
 
 	<input type="hidden" name="option" value="com_cloner" />
-    <input type="hidden" name="task" value="lang" />
-    <input type="hidden" name="boxchecked" value="0" />
-    <input type="hidden" name="hidemainmenu" value="0" />
+    	<input type="hidden" name="task" value="dologin" />
+    	<input type="hidden" name="boxchecked" value="0" />
+    	<input type="hidden" name="hidemainmenu" value="0" />
 
 	</form>
 	</center>
