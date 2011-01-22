@@ -239,6 +239,7 @@ define("LM_CLONE_FORM_TOP","<h2>Provide your ftp details below:</h2>");
 // --- Info Tab ---//
 
 define("LM_CONFIG_INFO_T_SAFEMODE","Php Safe_mode:");
+define("LM_CONFIG_INFO_T_VERSION","PHP Version Check:");
 define("LM_CONFIG_INFO_T_MTIME","Php max_execution_time:");
 define("LM_CONFIG_INFO_T_MEML","Php memory_limit:");
 define("LM_CONFIG_INFO_T_BDIR","Php open_basedir:");
@@ -260,6 +261,7 @@ define("LM_CONFIG_INFO_TIME","<small>This controls the maximum time your script 
 define("LM_CONFIG_INFO_MEMORY","<small>This controls the maximum memory the script may allocate for  it's processes</small>");
 define("LM_CONFIG_INFO_BASEDIR","<small>This controls the paths your script is allowed to access, no value means it can access any path </small>");
 define("LM_CONFIG_INFO_SAFEMODE","<small>safe mode will need to be set to Off in order for XCloner to work properly </small>");
+define("LM_CONFIG_INFO_VERSION","<small>PHP >=5.2.0 is required to enjoy all features</small>");
 define("LM_CONFIG_INFO_TAR","<small>If the script is unable to determine the tar path automatically, you might need to uncheck the 'Active' checkbox near TAR  line in General Tab</small>");
 define("LM_CONFIG_INFO_ZIP","<small>If the script is unable to determine the zip path automatically, you might need to uncheck the 'Active' checkbox near ZIP  line in General Tab</small>");
 define("LM_CONFIG_INFO_MSQL","<small>If the script is unable to determine the mysqldump path automatically, you might need to uncheck the 'Active' checkbox near MYSQLDUMP  line in General Tabn</small>");

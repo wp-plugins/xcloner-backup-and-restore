@@ -233,23 +233,59 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 					  ?>
 				<!--Start ProgressBar-->
 				<script type="text/javascript">
-					
+
 				$(document).ready(function() {
-				
+
 					var globalUrl;
-					
+					var step = "r1";
+
 					$("#progressbar").progressbar({ value: 0 });
 
 					$.ajaxSetup({
 					"error":function(request, status, error) {
 					//reset state here;
 						$("#error").show();
-						$("#errorText").append(status+" -- "+error);	
-					}});	
-					
+						$("#errorText").append(status+" -- "+error);
+					}});
+
+					function xclonerRecurseJSON(url){
+
+						$("#result").hide();
+
+						globalUrl = url;
+						step = "r1";
+
+						$.getJSON(url, function(json) {
+
+						if(!json){
+							$("#error").show();
+							$("#errorText").text(url);
+						}
+
+						if(!parseInt(json.finished)){
+
+							$("#recurseStatus").text(json.tfiles);
+
+							var recurseUrl = "index2.php?task=recurse_files&mode="+json.mode+"&nohtml=1";
+							xclonerRecurseJSON(recurseUrl);
+
+							}
+						else{
+							var size = parseInt(parseFloat(json.size)/(1024*1024));
+							$("#recurseStatus").text(" done! (Estimated size:"+size+"MB)");
+							$("#result").show();
+							xclonerGetJSON("<?php echo $urlReturn;?>");
+
+							}
+
+
+						});
+					}
+
 					function xclonerGetJSON(url){
-					
+
 					globalUrl = url;
+					step = "r2";
 
 					$.getJSON(url, function(json) {
 
@@ -264,7 +300,7 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 						$("#nFiles").text(json.startf);
 						$("#percent").text(json.percent);
 						if(!json.finished){
-							var url = "index2.php?option="+json.option+"&task="+json.task+"&json="+json.json+"&startf="+json.startf+"&lines="+json.lines+"&backup="+json.backup+"&excl_manual="+json.excl_manual;	
+							var url = "index2.php?option="+json.option+"&task="+json.task+"&json="+json.json+"&startf="+json.startf+"&lines="+json.lines+"&backup="+json.backup+"&excl_manual="+json.excl_manual;
 							xclonerGetJSON(url);
 						}else{
 
@@ -276,25 +312,35 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 					});
 
 					}
-					
+
 					$("#retry").click(function(){
 						$("#error").hide();
 						$("#errorText").empty();
-						xclonerGetJSON(globalUrl);
+						if(step == "r1"){
+							xclonerRecurseJSON(globalUrl);
+						}
+						else if(step == "r2"){
+							xclonerGetJSON(globalUrl);
+						}
 					});
 
-					xclonerGetJSON("<?php echo $urlReturn;?>");
+					var recurseUrl="index2.php?task=recurse_files&mode=start&nohtml=1";
+					xclonerRecurseJSON(recurseUrl);
+					//xclonerGetJSON("<?php echo $urlReturn;?>");
 
 
 				});
 				</script>
-				
-				<div class="result">
-				<br /> <strong>Processing Files:</strong> <span id="percent">0</span>% (<span id="nFiles"></span> files)
-				<br /> <strong>Backup Size: </strong><span id="backupSize"></span>
+
+				<div id="recurseFiles">
+					<br /><strong>Scanning files system...</strong> <span id="recurseStatus"></span>
 				</div>
 
+				<div id="result">
+				<br /> <strong>Processing Files:</strong> <span id="percent">0</span>% (<span id="nFiles"></span> files)
+				<br /><br /> <strong>Backup Size: </strong><span id="backupSize"></span>
 				<br /><br /> <div id="progressbar"></div>
+				</div>
 
 				<div id="complete">
 					<br /><h2>Backup completed!</h2>
@@ -315,7 +361,7 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 					<a href="#" id="retry"><h3>Click to Retry >></h3></a>
 
 				</div>
-			
+
 				<!-- End ProgressBar -->
 
 					  <?php
@@ -412,7 +458,7 @@ function Login(){
 	<tr ><td colspan='2' align='center'><b>Authentification Area:</b></td></tr>
 	<tr><td>Username:</td><td><input type='text' size='30' name='username'></td></tr>
 	<tr><td>Password:</td><td><input type='password' size='30' name='password'></td></tr>
-	<tr><td></td><td><input type="submit" value='Login' name="submit"> <input type="reset" value='Cancel'></td></tr>
+	<tr><td></td><td><input type="submit" value='Login' name="login"> <input type="reset" value='Cancel'></td></tr>
 
 	<tr><td colspan='2'><?php echo LM_LOGIN_TEXT;?></td></tr>
 
@@ -425,8 +471,8 @@ function Login(){
 
 	<input type="hidden" name="option" value="com_cloner" />
     	<input type="hidden" name="task" value="dologin" />
-    	<input type="hidden" name="boxchecked" value="0" />
-    	<input type="hidden" name="hidemainmenu" value="0" />
+   	<input type="hidden" name="boxchecked" value="0" />
+   	<input type="hidden" name="hidemainmenu" value="0" />
 
 	</form>
 	</center>
@@ -1442,6 +1488,22 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     </tr>
 
     <tr>
+     <td width='200'>
+      <?php echo LM_CONFIG_INFO_T_VERSION?>
+     </td>
+     <td>
+        <b><?php
+		$version = phpversion();
+        $ver = str_replace(".", "", $version);
+        $val = ($ver < 520)? $version: "Off";
+        echo HTML_cloner::get_color($version, $val);
+        ?></b>
+        <br />
+        <?php echo LM_CONFIG_INFO_VERSION?>
+   </td>
+    </tr>
+
+	<tr>
      <td width='200'>
       <?php echo LM_CONFIG_INFO_T_SAFEMODE?>
      </td>

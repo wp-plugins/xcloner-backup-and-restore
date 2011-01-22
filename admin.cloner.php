@@ -76,8 +76,8 @@
       $cid = array(0);
   }
 
-
-  if (($task != 'download') and (($_REQUEST['task']!="refresh") or (!$_CONFIG['refresh_mode'])))
+	if(!$_REQUEST['nohtml'])
+	if (($task != 'download') and (($_REQUEST['task']!="refresh") or (!$_CONFIG['refresh_mode'])))
       HTML_cloner::header();
 
 
@@ -126,6 +126,10 @@
       case 'lang':
           translator($option);
           break;
+
+	  case	'recurse_files':
+		  goRecurseFiles();
+		  break;
 
       case 'refresh':
 		  generateBackuprefresh($cid, $option, $_REQUEST['backup'], $_CONFIG['refresh_mode']);
