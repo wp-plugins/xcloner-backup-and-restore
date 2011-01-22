@@ -378,6 +378,7 @@ table.adminform th {
 table.adminform td {
 	padding: 3px;
       border: solid 1px #d5d5d5;
+
 	text-align: left;
 }
 table.adminform td.editor {
@@ -692,4 +693,31 @@ display:block;
 
 #complete {
 	display: none;
+}
+
+.status {
+	display:block;
+	padding: 5px 0 5px 10px;
+	font-size: 15px;
+	border-style:dotted;
+	border-width:1px;
+	margin-top: 10px;
+}
+.statusCheck {
+	padding-left: 10px;
+	padding-bottom: 10px;
+	width: auto;
+	display: inline;
+}
+.error {
+	color: red;
+	font-size: 14px;
+}
+.success {
+	color: green;
+	font-size: 14px;
+}
+.mtext {
+	font-weight: bold;
+	font-size: 16px;
 }

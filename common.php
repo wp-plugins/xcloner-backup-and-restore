@@ -66,4 +66,8 @@ if($version < 520){
 	$_CONFIG['refresh_mode']="0";
 }
 
+$_CONFIG['backup_start_path'] 	= $_CONFIG['backup_path'];
+$_CONFIG['backup_store_path'] 	= $_CONFIG['clonerPath'];
+$_CONFIG['temp_dir'] 		= $_CONFIG['backups_dir'];
+
 ?>

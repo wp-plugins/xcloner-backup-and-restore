@@ -375,7 +375,32 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 
 	}
 
+function path_check($path){
+
+	if(!is_dir($path)){
+		$stat['code'] = 1;
+		$stat['message'] = "Invalid directory";
+		return $stat;
+		}
+
+	if(!is_readable($path)){
+		$stat['code'] = 2;
+		$stat['message'] = "Directory is not readable";
+		return $stat;
+		}
+
+	if(!is_writeable($path)){
+		$stat['code'] = 3;
+		$stat['message'] = "Directory not writeable";
+		return $stat;
+		}
+
+		return 0;
+
+	}
+	
 function  _FDefault(){
+	global $_CONFIG;
 ?>
 
 <form action="index2.php" method="post" name="adminForm">
@@ -436,6 +461,75 @@ function  _FDefault(){
 
 
 
+
+</div>
+</td></tr>
+<tr><td>
+
+<?php
+$error	= 0;
+?>
+
+<div class="statusCheck">
+
+	<div class="status">
+	<span class="mtext">Backup Start Path Check: </span>
+	<?php
+
+		$stat = self::path_check($_CONFIG[backup_start_path]);
+
+		if( $stat['code'] > 0 and $stat['code'] < 3){
+				echo "<span class='error'>".$stat['message']; $error = 1;
+			}
+			else{
+				echo "<span class='success'>OK";
+				}
+		echo " ($_CONFIG[backup_start_path])";
+	?>
+	</span></div>
+	<div class="status">
+	<span class="mtext">Backup Store Path Check: </span>
+	<?php
+
+		$stat = self::path_check($_CONFIG[backup_store_path]);
+
+		if( $stat['code'] > 0){
+				echo "<span class='error'>".$stat['message']; $error = 1;
+			}
+			else{
+				echo "<span class='success'>OK";
+				}
+		echo " ($_CONFIG[backup_store_path])";
+	?>
+	</span></div>
+	<div class="status">
+	<span class="mtext">Temporary Path Check: </span>
+	<?php
+
+		$stat = self::path_check($_CONFIG[temp_dir]);
+
+		if( $stat['code'] > 0){
+				echo "<span class='error'>".$stat['message']; $error = 1;
+			}
+			else{
+				echo "<span class='success'>OK";
+				}
+		echo " ($_CONFIG[temp_dir])";
+	?>
+	</span></div>
+
+	<div class="status">
+	<span class="mtext">Backup Ready: </span>
+	<?php
+		if($error ){
+				echo "<span class='error'>NO"; $error = 1;
+			}
+			else{
+				echo "<span class='success'>YES";
+				}
+
+	?>
+	</span></div>
 
 </div>
 </td></tr>
