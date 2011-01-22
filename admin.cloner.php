@@ -21,7 +21,7 @@
    */
 
 
-  @session_start();
+  session_start();
   @set_time_limit("3600");
   @error_reporting(E_ALL ^ E_NOTICE);
 
