@@ -6,6 +6,7 @@ Description: XCloner is a tool that will help you manage your website backups, g
 Version: 2.2.1
 Author: Liuta Ovidiu
 Author URI: http://www.xcloner.com
+Plugin URI: http://www.xcloner.com
 */
 
 
