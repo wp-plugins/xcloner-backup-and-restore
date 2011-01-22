@@ -476,7 +476,7 @@ $error	= 0;
 	<span class="mtext">Backup Start Path Check: </span>
 	<?php
 
-		$stat = self::path_check($_CONFIG[backup_start_path]);
+		$stat = HTML_cloner::path_check($_CONFIG[backup_start_path]);
 
 		if( $stat['code'] > 0 and $stat['code'] < 3){
 				echo "<span class='error'>".$stat['message']; $error = 1;
@@ -491,7 +491,7 @@ $error	= 0;
 	<span class="mtext">Backup Store Path Check: </span>
 	<?php
 
-		$stat = self::path_check($_CONFIG[backup_store_path]);
+		$stat = HTML_cloner::path_check($_CONFIG[backup_store_path]);
 
 		if( $stat['code'] > 0){
 				echo "<span class='error'>".$stat['message']; $error = 1;
@@ -506,7 +506,7 @@ $error	= 0;
 	<span class="mtext">Temporary Path Check: </span>
 	<?php
 
-		$stat = self::path_check($_CONFIG[temp_dir]);
+		$stat = HTML_cloner::path_check($_CONFIG[temp_dir]);
 
 		if( $stat['code'] > 0){
 				echo "<span class='error'>".$stat['message']; $error = 1;
