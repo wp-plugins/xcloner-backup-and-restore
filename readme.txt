@@ -74,6 +74,11 @@ If the inside Clone option fails for some reason, you need to:
 
 == Changelog ==
 
+= 2.2.1 =
+* Added JSON AJAX interface to the Generate Backup process
+* Added incremental filesystem scan
+* several bug fixes
+* php >=5.2.0 version check
 = 2.1 =
 Initial release
 = 2.1.2 =
@@ -81,5 +86,7 @@ Added Amazon S3 cron storage support
 
 == Upgrade Notice ==
 
+= 2.2.1 =
+Improved filesystem scan to deal with large systems, improved Backup interface
 = 2.1 =
 Initial release
