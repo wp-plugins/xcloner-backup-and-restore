@@ -469,6 +469,49 @@
       return $lang_arr;
   }
 
+
+  function goRecurseFiles(){
+
+	global $_CONFIG;
+
+	$status['finished'] = "1";
+	$status['task'] = $_REQUEST['task'];
+
+	include "classes/fileRecursion.php";
+
+	$handle = new fileRecursion();
+
+	$TEMP_PERM 		= $_CONFIG['backups_dir']."/perm.txt";
+	$TEMP_EXCL 		= $_CONFIG['exfile'];
+	$TEMP_D_ARR 	= $_CONFIG['backups_dir']."/.dir";
+	$TEMP_DIR 		= $_CONFIG['backups_dir'];
+
+	$handle->setData($TEMP_PERM,$TEMP_EXCL,$TEMP_D_ARR,$TEMP_DIR);
+
+	if($_REQUEST['mode'] == 'start')
+		$handle->init($_CONFIG['backup_path']);
+	else
+		$handle->init();
+
+	$handle->start();
+	$handle->end();
+
+	$data = $handle->countPermFiles();
+
+	$status['size'] = $data['size'];
+	$status['tfiles'] = $data['count'];
+	$status['mode'] = "";
+
+	if(!$handle->isQueueFinished())
+		$status['finished'] = "0";
+
+
+
+	echo json_encode($status);
+	exit;
+
+  }
+
   function showBackups($option)
   {
       // ----------------------------------------------------------

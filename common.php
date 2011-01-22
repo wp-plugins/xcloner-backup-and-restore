@@ -58,9 +58,12 @@ if (file_exists( "language/".$mosConfig_lang.".php" )) {
 } 
 
 else{
-
 	include_once( "language/english.php" );
+}
 
+$version = str_replace(".", "", phpversion());
+if($version < 520){
+	$_CONFIG['refresh_mode']="0";
 }
 
 ?>
