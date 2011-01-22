@@ -483,8 +483,8 @@
 
 	$TEMP_PERM 		= $_CONFIG['backups_dir']."/perm.txt";
 	$TEMP_EXCL 		= $_CONFIG['exfile'];
-	$TEMP_D_ARR 	= $_CONFIG['backups_dir']."/.dir";
-	$TEMP_DIR 		= $_CONFIG['backups_dir'];
+	$TEMP_D_ARR 		= $_CONFIG['backups_dir']."/.dir";
+	$TEMP_DIR 		= $_CONFIG['clonerPath'];
 
 	$handle->setData($TEMP_PERM,$TEMP_EXCL,$TEMP_D_ARR,$TEMP_DIR);
 
@@ -957,12 +957,14 @@
       mosRedirect('index2.php?option=' . $option . "&task=view", $msg);
   }
 
-  function generateBackuprefresh($cid, $option, $backup_file, $json = 0)
+  function generateBackuprefresh($cid, $option, $backup_filename, $json = 0)
   {
       global $_CONFIG;
       global $databases_incl, $back_path, $sql_file, $perm_file, $htaccess;
 
       $log = "";
+	
+      $backup_file = $_CONFIG['clonerPath']."/".$backup_filename ;		
 
       $perm_file = $_CONFIG['backups_dir'] . "/perm.txt";
 
@@ -986,7 +988,7 @@
       }
 
 
-      $url = "index2.php?option=com_cloner&task=refresh&json=$json&startf=$endf&lines=$lines&backup=$backup_file&excl_manual=" . $_REQUEST['excl_manual'];
+      $url = "index2.php?option=com_cloner&task=refresh&json=$json&startf=$endf&lines=$lines&backup=$backup_filename&excl_manual=" . $_REQUEST['excl_manual'];
 
 
       if ($endf >= $lines)
@@ -1106,7 +1108,7 @@
 		$status['json'] = $json;
 		$status['startf'] = $endf;
 		$status['lines'] = $lines;
-		$status['backup'] = $backup_file;
+		$status['backup'] = $backup_filename;
 		$status['excl_manual'] = $_REQUEST['excl_manual'];
 
 		echo json_encode($status);

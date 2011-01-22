@@ -220,7 +220,7 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 	if (file_exists($filename)) {
                   echo "Backup <strong>$filename</strong> created, we may continue!<br />";
                   //echo "Database backup: ".$databaseResult ."<br />";
-                  $urlReturn = "index2.php?option=com_cloner&lines=" . $perm_lines . "&task=refresh&backup=$filename&excl_manual=$excl_manual";
+                  $urlReturn = "index2.php?option=com_cloner&lines=" . $perm_lines . "&task=refresh&backup=$backupFile&excl_manual=$excl_manual";
 
                   if(!$_CONFIG['refresh_mode']){
 
