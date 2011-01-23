@@ -1905,7 +1905,7 @@
               } else {
                   $OutBuffer .= "#\n# Table structure for table `$tblval`\n#\n";
                   if ($_REQUEST['dbbackup_drop'])
-                      $OutBuffer .= "#\nDROP table IF EXISTS $tblval;\n";
+                      $OutBuffer .= "#\nDROP table IF EXISTS `$tblval`;\n";
 
                   $OutBuffer .= $CreateTable[$tblval] . ";\r\n";
               }
@@ -1916,10 +1916,10 @@
 
           if ($toBackUp != "structure") {
               $OutBuffer .= "#\n# Dumping data for table `$tblval`\n#\n";
-              $query = @mysql_query("SELECT *  FROM $tblval");
+              $query = @mysql_query("SELECT *  FROM `$tblval`");
 
               while ($row = @mysql_fetch_array($query, MYSQL_ASSOC)) {
-                  $InsertDump = "INSERT INTO $tblval VALUES (";
+                  $InsertDump = "INSERT INTO `$tblval` VALUES (";
                   $arr = $row;
                   foreach ($arr as $key => $value) {
                       $value = addslashes($value);
