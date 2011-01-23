@@ -271,8 +271,8 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 
 							}
 						else{
-							var size = parseInt(parseFloat(json.size)/(1024*1024));
-							$("#recurseStatus").text(" done! (Estimated size:"+size+"MB)");
+							var size = parseFloat(json.size)/(1024*1024);
+							$("#recurseStatus").text(" done! (Estimated size:"+size.toFixed(2)+"MB)");
 							$("#result").show();
 							xclonerGetJSON("<?php echo $urlReturn;?>");
 

@@ -473,11 +473,11 @@
   function goRecurseFiles(){
 
 	global $_CONFIG;
+	
+	include_once("classes/fileRecursion.php");
 
 	$status['finished'] = "1";
 	$status['task'] = $_REQUEST['task'];
-
-	include "classes/fileRecursion.php";
 
 	$handle = new fileRecursion();
 
@@ -631,7 +631,7 @@
           }
 
           if ($_REQUEST['ftp_inct']) {
-              $size = filesize($source_file[$i]);
+              $size = get_filesize($source_file[$i]);
               $dsize = ftp_size($conn_id, $destination_file[$i]);
               $perc = sprintf("%.2f", ($dsize * 100) / $size);
 
@@ -800,7 +800,7 @@
       }
 
       //File Info
-      $len = filesize($file);
+      $len = get_filesize($file);
       $filename = basename($file);
       $file_extension = strtolower(substr(strrchr($filename, "."), 1));
 
@@ -963,8 +963,8 @@
       global $databases_incl, $back_path, $sql_file, $perm_file, $htaccess;
 
       $log = "";
-	
-      $backup_file = $_CONFIG['clonerPath']."/".$backup_filename ;		
+
+      $backup_file = $_CONFIG['clonerPath']."/".$backup_filename ;
 
       $perm_file = $_CONFIG['backups_dir'] . "/perm.txt";
 
@@ -1002,7 +1002,7 @@
 
       $log .= "Total process: $percent% out of $lines files<br />\n";
       $log .= "Processing files $startf to $endf for backup file $backup_file!<br />\n";
-      $log .= "Current backup size: " . getFileSizeText(filesize($backup_file)) . "<br /><br />\n";
+      $log .= "Current backup size: " . getFileSizeText(get_filesize($backup_file)) . "<br /><br />\n";
 
       chdir($_CONFIG['backup_path']);
 
@@ -1054,7 +1054,7 @@
           }
 
           //exit;
-		  $newFileSize = getFileSizeText(filesize($backup_file));
+		  $newFileSize = getFileSizeText(get_filesize($backup_file));
           $log .= "\n<br />New backup size: " . $newFileSize . "<br />\n";
 
           addXLog($log);
@@ -1545,7 +1545,7 @@
           return;
       }
       // format the compressed size of the fileset
-      $archiveSize = getFileSizeText(filesize($filename));
+      $archiveSize = getFileSizeText(get_filesize($filename));
 
 
 
@@ -1676,7 +1676,7 @@
                                   }
 
 
-                                  $s += @filesize($cfile);
+                                  $s += get_filesize($cfile);
                               }
                           }
                       }
@@ -1689,15 +1689,18 @@
       }
   }
 
+  //legacy function, use instead the fileRecursion::getFileSize()
   function get_filesize($path)
   {
-      $sizeInBytes = filesize($path);
-      if (!$sizeInBytes) {
-          $command = "ls -l \"$path\" | cut -d \" \" -f 6";
+      //$sizeInBytes = filesize($path);
+      $sizeInBytes = sprintf("%u", filesize($path));
+      if ((!$sizeInBytes) and (function_exists("exec"))){
+          $command = "ls -l \"$path\" | cut -d \" \" -f 5";
           $sizeInBytes = @exec($command);
       }
 
       return $sizeInBytes;
+
   }
 
   function getBackupFiles(&$d_arr, &$f_arr, &$s_arr, &$d, &$f)
@@ -1828,8 +1831,8 @@
       if ($_CONFIG['sql_mem']) {
           exec($_CONFIG[sqldump] . " -h " . $_CONFIG['mysql_host'] . " -u " . $_CONFIG['mysql_user'] . " -p" . $_CONFIG['mysql_pass'] . " " . $dbname . " > " . $sqlfile . " $drop --allow-keywords " . $ex_dump);
 
-          if (filesize($sqlfile))
-              $databaseResult = LM_DATABASE_BACKUP_COMPLETED . ' ( ' . getFileSizeText(filesize($sqlfile)) . ' )';
+          if (get_filesize($sqlfile) > 0)
+              $databaseResult = LM_DATABASE_BACKUP_COMPLETED . ' ( ' . getFileSizeText(get_filesize($sqlfile)) . ' )';
           else
               $databaseResult = LM_MSG_BACK_14;
 
@@ -1884,7 +1887,7 @@
       } else {
           $OutBuffer .= "#\n";
           $OutBuffer .= "# Powered by XCloner Site Backup\n";
-          $OutBuffer .= "# http://www.joomlaplug.com\n";
+          $OutBuffer .= "# http://www.xcloner.com\n";
           $OutBuffer .= "#\n";
           $OutBuffer .= "# Host: " . $_SERVER['HTTP_HOST'] . "\n";
           $OutBuffer .= "# Generation Time: " . date("M j, Y \a\\t H:i") . "\n";
@@ -1945,7 +1948,7 @@
 
           @chmod($sqlfile, 0777);
 
-          $databaseResult = LM_DATABASE_BACKUP_COMPLETED . ' ( ' . getFileSizeText(filesize($sqlfile)) . ' )';
+          $databaseResult = LM_DATABASE_BACKUP_COMPLETED . ' ( ' . getFileSizeText(get_filesize($sqlfile)) . ' )';
           return $sqlfile;
       }
   }
