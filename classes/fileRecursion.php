@@ -34,10 +34,10 @@ class fileRecursion{
 
 	public static 	$excludeList = array();
 	public static 	$count;
-	public static $TEMP_PERM = ".excl";
-	public static $TEMP_D_ARR = "tmp/.dir";
-	public static $TEMP_EXCL = "tmp/.excl";
-	public static $TEMP_DIR = "/opt/lampp/htdocs/joomla/administrator/backups"; //exclude other backups
+	public static 	$TEMP_PERM = ".excl";
+	public static 	$TEMP_D_ARR = "tmp/.dir";
+	public static 	$TEMP_EXCL = "tmp/.excl";
+	public static 	$TEMP_DIR = "/opt/lampp/htdocs/joomla/administrator/backups"; //exclude other backups
 
 
 
@@ -305,6 +305,26 @@ class fileRecursion{
 
 	}
 
+
+	/*
+	 * Return the size of a file, tries to overcome the 4GB php filesize limitation
+	 *
+	 * name: getFileSize
+	 * @param string $file file path
+	 * @return	string $sizeInBytes return the size in bytes of the file, PHP only returns values up to 4GB
+	 */
+	public static function getFileSize($file){
+
+      $sizeInBytes = sprintf("%u", filesize($file));
+      if ((!$sizeInBytes) and (function_exists("exec"))){
+          $command = "ls -l \"$file\" | cut -d \" \" -f 5";
+          $sizeInBytes = @exec($command);
+      }
+
+      return $sizeInBytes;
+
+	}
+
 	/*
 	 * Writing file details(path, permissions, size) to file
 	 *
@@ -318,7 +338,7 @@ class fileRecursion{
 		$file = realpath($file);
 		if((self::isNotExcluded($file)) or  ($force)){
 			$fperm = substr(sprintf('%o', @fileperms($file)), -4);
-			$fsize = @filesize($file);
+			$fsize = self::getFileSize($file);
 			fwrite(self::$fp, $file."|".$fperm."|".$fsize."|".$append."\n");
 			self::debug($file ." added to list");
 		}
