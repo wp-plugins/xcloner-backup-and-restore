@@ -1862,7 +1862,7 @@
       /* Store all the FIELD TYPES being backed-up (text fields need to be delimited) in variable $FieldType*/
       if ($toBackUp != "structure") {
           foreach ($tables as $tblval) {
-              $query = mysql_query("SHOW FIELDS FROM $tblval");
+              $query = mysql_query("SHOW FIELDS FROM `$tblval`");
               while ($row = mysql_fetch_row($query)) {
                   $fields[] = $row[0];
               }
