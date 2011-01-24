@@ -485,8 +485,9 @@
 	$TEMP_EXCL 		= $_CONFIG['exfile'];
 	$TEMP_D_ARR 		= $_CONFIG['backups_dir']."/.dir";
 	$TEMP_DIR 		= $_CONFIG['clonerPath'];
+	$START_DIR		= $_CONFIG['backup_path'];
 
-	$handle->setData($TEMP_PERM,$TEMP_EXCL,$TEMP_D_ARR,$TEMP_DIR);
+	$handle->setData($TEMP_PERM,$TEMP_EXCL,$TEMP_D_ARR,$TEMP_DIR, $START_DIR);
 
 	if($_REQUEST['mode'] == 'start')
 		$handle->init($_CONFIG['backup_path']);

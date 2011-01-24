@@ -38,15 +38,17 @@ class fileRecursion{
 	public static 	$TEMP_D_ARR = "tmp/.dir";
 	public static 	$TEMP_EXCL = "tmp/.excl";
 	public static 	$TEMP_DIR = "/opt/lampp/htdocs/joomla/administrator/backups"; //exclude other backups
+	public static 	$START_DIR = "/"; # Backups Start Dir
 
 
 
-	public static function setData($TEMP_PERM,$TEMP_EXCL,$TEMP_D_ARR,$TEMP_DIR) {
+	public static function setData($TEMP_PERM,$TEMP_EXCL,$TEMP_D_ARR,$TEMP_DIR, $START_DIR) {
 
         self::$TEMP_PERM 	= $TEMP_PERM;
         self::$TEMP_EXCL 	= $TEMP_EXCL;
         self::$TEMP_D_ARR 	= $TEMP_D_ARR;
         self::$TEMP_DIR 	= $TEMP_DIR;
+        self::$START_DIR	= $START_DIR;
     }
 	/*
 	 * Init the recursion system
@@ -339,6 +341,9 @@ class fileRecursion{
 		if((self::isNotExcluded($file)) or  ($force)){
 			$fperm = substr(sprintf('%o', @fileperms($file)), -4);
 			$fsize = self::getFileSize($file);
+			
+			$file  = str_replace(self::$START_DIR, "", str_replace("\\","/", $file));
+			
 			fwrite(self::$fp, $file."|".$fperm."|".$fsize."|".$append."\n");
 			self::debug($file ." added to list");
 		}
