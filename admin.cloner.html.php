@@ -274,7 +274,9 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 							var size = parseFloat(json.size)/(1024*1024);
 							$("#recurseStatus").text(" done! (Estimated size:"+size.toFixed(2)+"MB)");
 							$("#result").show();
-							xclonerGetJSON("<?php echo $urlReturn;?>");
+							//xclonerGetJSON("<?php echo $urlReturn;?>");
+							returnUrl = "index2.php?option=com_cloner&lines="+json.tfiles+"&task=refresh&backup=<?php echo $backupFile; ?>&excl_manual=";
+							xclonerGetJSON(returnUrl);
 
 							}
 
@@ -398,9 +400,9 @@ function path_check($path){
 		return 0;
 
 	}
-	
+
 function  _FDefault(){
-	global $_CONFIG;
+		global $_CONFIG;
 ?>
 
 <form action="index2.php" method="post" name="adminForm">
@@ -521,6 +523,7 @@ $error	= 0;
 	<div class="status">
 	<span class="mtext">Backup Ready: </span>
 	<?php
+
 		if($error ){
 				echo "<span class='error'>NO"; $error = 1;
 			}

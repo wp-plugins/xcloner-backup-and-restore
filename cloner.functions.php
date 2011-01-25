@@ -1322,22 +1322,24 @@
       $s = 0;
       $mdir = 0;
 
-      $perm_file = $_CONFIG['backups_dir'] . "/perm.txt";
-      @unlink($perm_file);
-      $fperm = fopen($perm_file, "w");
+      if(($_REQUEST['cron_access']) or (!$_CONFIG['refresh_mode'])){
 
-      for ($i = 0; $i < sizeof($excluded); $i++) {
-          $excluded[$i] = str_replace("//", "/", $excluded[$i]);
-      }
-      //print_r($excluded);exit;
-      // obtain the list of files by recursing the mambo file store
-      addXLog("Starting the file scanning process");
-      recurseFiles($d_arr, $ds_arr, $f_arr, $s_arr, $d, $f, $s, $includeFolder, '', $excluded, $fperm);
+	$perm_file = $_CONFIG['backups_dir'] . "/perm.txt";
+	@unlink($perm_file);
+	$fperm = fopen($perm_file, "w");
 
+	for ($i = 0; $i < sizeof($excluded); $i++) {
+		  $excluded[$i] = str_replace("//", "/", $excluded[$i]);
+	}
 
-      @fclose($fperm);
+	// obtain the list of files by recursing the mambo file store
+	addXLog("Starting the file scanning process");
 
-      @chmod($perm_file, 0777);
+	recurseFiles($d_arr, $ds_arr, $f_arr, $s_arr, $d, $f, $s, $includeFolder, '', $excluded, $fperm);
+	@fclose($fperm);
+	@chmod($perm_file, 0777);
+
+	}
 
 
       // format total archive size
