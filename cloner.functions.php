@@ -274,7 +274,7 @@
               //exit;
               mosRedirect('index2.php?option=' . $option . "&task=config", $msg);
           } else {
-              $msg = "<font color='red'>ERROR... Unable to write to $config_file, please change the permissions!</font>";
+              $msg = "<font color='red'>ERROR... Unable to write to ".realpath($config_file).", please make it writeable!</font>";
               E_print($msg);
           }
       }
