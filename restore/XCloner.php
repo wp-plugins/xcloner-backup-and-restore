@@ -1,15 +1,25 @@
 <?php
+/*
+ *      XCloner.php
+ *
+ *      Copyright 2011 Ovidiu Liuta <info@thinkovi.com>
+ *
+ *      This program is free software; you can redistribute it and/or modify
+ *      it under the terms of the GNU General Public License as published by
+ *      the Free Software Foundation; either version 2 of the License, or
+ *      (at your option) any later version.
+ *
+ *      This program is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU General Public License for more details.
+ *
+ *      You should have received a copy of the GNU General Public License
+ *      along with this program; if not, write to the Free Software
+ *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ *      MA 02110-1301, USA.
+ */
 
-/**
-* XCloner
-* Oficial website: http://www.joomlaplug.com/
-* -------------------------------------------
-* Creator: Liuta Romulus Ovidiu
-* License: All Rights Reserved
-* Email: admin@joomlaplug.com
-* Revision: 1.0
-* Date: July 2007
-**/
 
 @set_time_limit(3600);
 
@@ -48,7 +58,7 @@ if(isset($_REQUEST['strrep'])){
 
 else{
 
-  $_REQUEST['strrep'] = str_replace("*-*", "\r\n", $_COOKIE['strrep_c']);	
+  $_REQUEST['strrep'] = str_replace("*-*", "\r\n", $_COOKIE['strrep_c']);
 
 }
 
@@ -293,7 +303,7 @@ function step2($file=""){
        die("<br /><span class='error'>Could not connect to $DBname database! Please make sure the database exists and that you assigned the mysql user to it...</span>");
 
      }
-     
+
      if($_REQUEST['charset_of_file']!="")
 	 mysql_query("SET NAMES ".$_REQUEST['charset_of_file']."");
      else
@@ -349,24 +359,24 @@ if($_REQUEST['do_database'] != 1){
                }
 
         $ftp_dir_original = ftp_pwd($conn_id);
-		
+
 		@ftp_mkdir($conn_id,$_REQUEST[ftp_path]);
-		
+
         // try to change the directory to somedir
 		if (@ftp_chdir($conn_id, $_REQUEST[ftp_path])) {
-		
-		    echo "Current directory is now: <b>" . ftp_pwd($conn_id) . "</b>\n";
-		
-		} else {
-		
-		    echo "<b  style='color:red'>Couldn't change directory to <b>$_REQUEST[ftp_path]</b>, please verify that the ftp location exists or use the \"Install files directly\" option!</b><br />\n";
-		    
-		    return;
-		
-		}     
-         @ftp_chdir($conn_id, $ftp_dir_original);         
 
-         
+		    echo "Current directory is now: <b>" . ftp_pwd($conn_id) . "</b>\n";
+
+		} else {
+
+		    echo "<b  style='color:red'>Couldn't change directory to <b>$_REQUEST[ftp_path]</b>, please verify that the ftp location exists or use the \"Install files directly\" option!</b><br />\n";
+
+		    return;
+
+		}
+         @ftp_chdir($conn_id, $ftp_dir_original);
+
+
 
 
 
@@ -382,19 +392,19 @@ if($_REQUEST['refresh'] < 1){
     $ext = substr($file, strlen($file)-4, strlen($file));
 
     if($_REQUEST['file_utilities'] != '1'){
-     
+
 		$tar_object = new Archive_Tar($file);
-    
+
     	$tar_object->extract($_CONFIG['output_path']);
         #$tar_object->extractList("backups/perm.txt", $_CONFIG['output_path']);
-    
+
 	}else{
-		
+
 		if($ext == '.tgz') $compress = 'z';
 		else $compress = '';
 
-		shell_exec("tar -x".$compress."pf $file -C $_CONFIG[output_path]");	
-		
+		shell_exec("tar -x".$compress."pf $file -C $_CONFIG[output_path]");
+
 	}
 
 }
@@ -403,11 +413,11 @@ if($_REQUEST['refresh'] < 1){
 
     $new_arr = array();
 
-    
+
 
     #@chmod($_CONFIG[output_path], 0777);
 
-    
+
 
     $tran_file = $_CONFIG[output_path]."/transfer.txt";
 
@@ -433,7 +443,7 @@ if($_REQUEST['refresh'] < 1){
 
     $d_arr[$d] = $_CONFIG[output_path];
 
-    
+
 
     if($_REQUEST['refresh'] < 1){
 
@@ -453,85 +463,85 @@ if($_REQUEST['refresh'] < 1){
 
     $new_arr = array_merge($d_arr, $f_arr);
 
-    
 
-    
 
-    
+
+
+
 
 	if($_REQUEST[transfer_mode]==2)
 
 	  if($fp = fopen($tran_file, "w")){
 
-		
+
 
 	  foreach($new_arr as $file){
 
-		
+
 
 		fwrite($fp, $file."\n");
 
-	
+
 
 	  }
 
-	
+
 
 	  fclose($fp);
 
-	
+
 
 	  }else{
 
-		
+
 
 		echo "Unable to write to directory ".$_CONFIG[output_path]."! Please check that this directory is writeable!"; return;
 
-	
+
 
 	  }
 
-	
+
 
 	else{};
 
-	 
 
-	
+
+
 
 	}else{
 
-		
+
 
 		$content = "";
 
-		
+
 
 		$new_arr = file($tran_file);
 
-		
+
 
 	}
 
 
 
-	
+
 
 	if(sizeof($new_arr) != 0 )
 
 	$percn = sprintf("%.2f",($_REQUEST[next] * 100)/sizeof($new_arr));
 
-    
+
 
 	if($percn > sizeof($new_arr))
 
 	 $percn = sizeof($new_arr);
 
-	
+
 
 	}
 
-    
+
 
 
 
@@ -541,17 +551,17 @@ if($_REQUEST['refresh'] < 1){
 
 	 echo "<h3>Transfering $percn% of ".sizeof($new_arr)." files through ftp</h3>";
 
- 	 
+
 
 	  echo "<textarea cols=70 rows=30 name='ftp_list'></textarea>";
 
- 	
 
-	 } 
+
+	 }
 
     elseif($_REQUEST['refresh'] == 2)
 
-     
+
 
 	 echo "Files transfer finished!";
 
@@ -561,55 +571,55 @@ if($_REQUEST['refresh'] < 1){
 
 	$j = 0;
 
-	
 
-### MOVING THE FILES THROUGH FTP 
 
-   
+### MOVING THE FILES THROUGH FTP
+
+
 
    #foreach($new_arr as $key=>$file)
 
-   
+
 
    for($key=$i;$key<=sizeof($new_arr);$key++){
 
-	 
+
 
         $file = str_replace(array("\r","\n"), array("",""), $new_arr[$key]) ;
 
-    
+
 
 	if($_REQUEST['manual_ftp'] == 1)
 
 	 if($j == 100){
 
-	
+
 
         #echo "Transfering files from line: ". (int)$_REQUEST[next];
 
 
 
-	
+
 
 	$qstr = explode("&refresh=1&next=",$_SERVER['QUERY_STRING']);
 
-	
+
 
 	$rurl = "XCloner.php?".$qstr[0]."&refresh=1&next=".($_REQUEST[next]+100);
 
 	ftp_close($conn_id);
 
-	
+
 
 	echo "<script> document.location='".$rurl."'</script>";
 
-    
+
 
 	exit;
 
     }
 
-    
+
 
     $j++;
 
@@ -631,7 +641,7 @@ if($_REQUEST['refresh'] < 1){
 
 
 
-     
+
 
 	 $ftarget = $_REQUEST[ftp_path]."/".$sfile;
 
@@ -685,31 +695,31 @@ if($_REQUEST['refresh'] < 1){
 
     }
 
-    
+
 
 	if($_REQUEST['refresh'] == 1){
 
-	 
+
 
 	$qstr = explode("&refresh=1&next=",$_SERVER['QUERY_STRING']);
 
-	
+
 
 	$rurl = "XCloner.php?".$qstr[0]."&refresh=2&next=".($_REQUEST[next]+102);
 
-	
+
 
 	echo "<script> document.location='".$rurl."'</script>";
 
-	
+
 
 	exit;
 
-	
+
 
 	}
 
-	
+
 
      ############### RESTORING HTACCESS AND CONFIGURATION PERM#####################################
 
@@ -728,9 +738,9 @@ if($_REQUEST['refresh'] < 1){
 
          }
 
-     
 
-     
+
+
 #### CUSTOM PERMISSIONS #####
     if($_REQUEST['preserve_perm']){
 
@@ -779,14 +789,14 @@ if($_REQUEST['refresh'] < 1){
         if(strstr($dir[0],"wp-config.php"))
 
          $dir[1] = '0777';
-		          
 
-        
+
+
 		if($_REQUEST[transfer_mode]==2){
 
          $cmd = "CHMOD ".$dir[1]." ".$_REQUEST[ftp_path]."/".$dir[0];
 
-          
+
 
          @ftp_site($conn_id, $cmd);
 
@@ -845,7 +855,7 @@ if($_REQUEST['refresh'] < 1){
 
     if(($_REQUEST['do_database'] != 1) || ($_REQUEST['files_skip'] == 1)){
 
-	$config_file = $_CONFIG[output_path]."/wp-config.php"; 
+	$config_file = $_CONFIG[output_path]."/wp-config.php";
 
     @chmod($config_file,0777);
 
@@ -857,7 +867,7 @@ if($_REQUEST['refresh'] < 1){
 
          echo "<H2>Configuration updated!";
 	 echo "<iframe src='".$_REQUEST[output_url_pref]."://".$_REQUEST[output_url]."/wp-login.php' width=1 height=1></iframe>";
-	 echo "</H2>";		
+	 echo "</H2>";
 
          }
 
@@ -868,7 +878,7 @@ if($_REQUEST['refresh'] < 1){
 
     }
 
-    
+
 
     ############ ATTEMPT DATABASE INSERT #####################################
 
@@ -880,7 +890,7 @@ if($_REQUEST['refresh'] < 1){
 
 	  echo "<a href='".$_CONFIG[output_url]."'><b>All should be done! Click here to continue...</b></a><br />";
 
-	  return ;	
+	  return ;
 
 	}
 
@@ -893,7 +903,7 @@ if($_REQUEST['refresh'] < 1){
 
      echo "<span class='error'>Unable to read the database backup file $sqlfile , database was not imported!</span>";
 
-    } 
+    }
 
     else{
 
@@ -912,11 +922,11 @@ if($_REQUEST['refresh'] < 1){
      echo "There were some errors while importing the database:<br />";
 
      echo "<textarea cols=60 rows=30>".implode("\n",$errors)."</textarea>";
-     
+
      exit;
 
      }else{
-	
+
      	@unlink($_CONFIG[output_path]."/administrator/backups/".$_CONFIG['sql_usefile']);
 
  	 }
@@ -925,7 +935,7 @@ if($_REQUEST['refresh'] < 1){
 
 
 	 }
-   
+
 	}
 
     ###################################################################################
@@ -934,37 +944,37 @@ if($_REQUEST['refresh'] < 1){
 
      $vars = "";
 
-     
+
 
 		foreach($_REQUEST as $key=>$value)
 
            $vars .= $key.'='.@urlencode($value).'&';
 
-  	 
+
 
 	 $href = "XCloner.php?".$vars."do_database=1";
 
-	 
+
 
 	 echo "<br /><a href='$href'>Please click here to continue with database import...</a>";
 
 
 
-	 return ;	
+	 return ;
 
 	}
 
 	else{
 
-		
+
 
 	echo "<br /><a href='".$_CONFIG[output_url]."'><b>All should be done! Click here to continue...<br /></a><br />";
 
-    
+
 
 	return ;
 
-		
+
 
 	}
 
@@ -990,7 +1000,7 @@ function write_config($file){
 
 	if ($_REQUEST[DBcreated] == 'on'){
 
-		
+
 		$config_data = str_replace("define('DB_HOST', '", "define('DB_HOST', '".$_REQUEST[mysql_server]."');#", $config_data);
 		$config_data = str_replace("define('DB_USER', '", "define('DB_USER', '".$_REQUEST[mysql_username]."');#", $config_data);
 		$config_data = str_replace("define('DB_PASSWORD', '", "define('DB_PASSWORD', '".$_REQUEST[mysql_pass]."');#", $config_data);
@@ -1018,14 +1028,14 @@ function write_config($file){
 	}else{
 
 		$config_data = str_replace('$'.'ftp_enable =',"$"."ftp_enable ='0';#", $config_data);
-	
+
 	}
 
 	$_REQUEST[output_url] = str_replace("/###","",$_REQUEST[output_url]."###");
 
     $_REQUEST[output_url] = str_replace("###","",$_REQUEST[output_url]);
 
-    
+
 
 	$config_data = str_replace('$'.'live_site =',"$"."live_site ='".$_REQUEST[output_url_pref]."://".$_REQUEST[output_url]."';#", $config_data);
 
@@ -1103,7 +1113,7 @@ $purl = $_SERVER['HTTP_HOST'].str_replace("/".$_CONFIG['script_name'],"", $_SERV
 
   <table width='100%'>
 
- 
+
 
   <tr bgcolor='#dddddd'><td>
 
@@ -1178,8 +1188,8 @@ $purl = $_SERVER['HTTP_HOST'].str_replace("/".$_CONFIG['script_name'],"", $_SERV
 
 	 <br />
 
-	 <input type='checkbox' value='1' name='manual_sql' > incremental sql import (<small> recommended for large databases</small>)  
-	 
+	 <input type='checkbox' value='1' name='manual_sql' > incremental sql import (<small> recommended for large databases</small>)
+
 	 <br />
 	 Character set of the file:
 <select name="charset_of_file">
@@ -1207,7 +1217,7 @@ $purl = $_SERVER['HTTP_HOST'].str_replace("/".$_CONFIG['script_name'],"", $_SERV
 
    <!--<tr  bgcolor='#dddddd'>
 
-    <td> 
+    <td>
 
      <input type=checkbox name='use_mysqldump' value='1'> import with mysql server utility, path:
 
@@ -1221,11 +1231,11 @@ $purl = $_SERVER['HTTP_HOST'].str_replace("/".$_CONFIG['script_name'],"", $_SERV
 
     <tr><td>
 
-    
+
 
     <table width='100%'>
 
-    
+
 
     <tr>
 
@@ -1255,9 +1265,9 @@ $purl = $_SERVER['HTTP_HOST'].str_replace("/".$_CONFIG['script_name'],"", $_SERV
 
      <td><input type=text size=40 name='mysql_db' value=''></td>
 
-   </tr>  
+   </tr>
 
-    
+
 
     <?php
 
@@ -1265,11 +1275,11 @@ $purl = $_SERVER['HTTP_HOST'].str_replace("/".$_CONFIG['script_name'],"", $_SERV
 
     $sql_files =array();
 
-    
+
 
     if(@is_dir($dir)){
 
-    	
+
 
     	if ($handle = @opendir($dir)) {
 
@@ -1279,15 +1289,15 @@ $purl = $_SERVER['HTTP_HOST'].str_replace("/".$_CONFIG['script_name'],"", $_SERV
 
         while (false !== ($file = @readdir($handle))) {
 
-        
+
 
         if(strstr($file, ".sql"))
 
-         
 
-          $sql_files[] = $file; 
 
-               
+          $sql_files[] = $file;
+
+
 
         }
 
@@ -1297,25 +1307,25 @@ $purl = $_SERVER['HTTP_HOST'].str_replace("/".$_CONFIG['script_name'],"", $_SERV
 
        }
 
-    	
+
 
 
 
      if(sizeof($sql_files) > 0) {
 
-    	
+
 
      $list = "";
 
      for($i=0;$i<sizeof($sql_files);$i++){
 
-      
 
-      $list .= "<option value='$sql_files[$i]'>$sql_files[$i]</option>";	
 
-    	
+      $list .= "<option value='$sql_files[$i]'>$sql_files[$i]</option>";
 
-     }	
+
+
+     }
 
      echo "<tr>
 
@@ -1325,27 +1335,27 @@ $purl = $_SERVER['HTTP_HOST'].str_replace("/".$_CONFIG['script_name'],"", $_SERV
 
     </tr>";
 
-    	
+
 
      }
 
-    
+
 
     }
 
     ?>
 
-    
+
 
     </table>
 
-    
+
 
     </td>
 
-    </tr>	 
+    </tr>
 
-  
+
 
 
 
@@ -1471,9 +1481,9 @@ $purl = $_SERVER['HTTP_HOST'].str_replace("/".$_CONFIG['script_name'],"", $_SERV
 
   </tr>
 
-  
 
-  
+
+
 
   </table>
 
@@ -1481,7 +1491,7 @@ $purl = $_SERVER['HTTP_HOST'].str_replace("/".$_CONFIG['script_name'],"", $_SERV
 
   <tr><td>
 
-  
+
 
   </td></tr>
 
@@ -1489,13 +1499,13 @@ $purl = $_SERVER['HTTP_HOST'].str_replace("/".$_CONFIG['script_name'],"", $_SERV
 
   <tr><td colspan='2'>
 
-  
+
 
   <input type=submit name=submit value='Start install' >
 
   <br /><small>*after hitting submit please wait for the package to get unarchived and transfered through ftp if it is the case!</small>
 
-  
+
 
   <br /><b>NOTE:*** IMPORTANT - if you plan to apply this script to a live site - upgrade or fresh install over existing files please
 
@@ -1503,11 +1513,11 @@ $purl = $_SERVER['HTTP_HOST'].str_replace("/".$_CONFIG['script_name'],"", $_SERV
 
   </td></tr>
 
-  
+
 
   </table>
 
-  
+
 
 <?php
 
@@ -1519,11 +1529,11 @@ $purl = $_SERVER['HTTP_HOST'].str_replace("/".$_CONFIG['script_name'],"", $_SERV
 
 function getPHPINFO(){
 
-	
+
 
 	?>
 
-  <table width='100%'>	
+  <table width='100%'>
 
   <tr bgcolor='#dddddd'><td>
 
@@ -1531,13 +1541,13 @@ function getPHPINFO(){
 
   </td></tr>
 
-  
+
 
   <tr><td>
 
   <table bgcolor='#dddddd' width='65%' style='font-size:10px; text-align:center;' border='1'>
 
-  
+
 
   <tr>
 
@@ -1549,7 +1559,7 @@ function getPHPINFO(){
 
   </tr>
 
-  
+
 
   <tr>
 
@@ -1565,7 +1575,7 @@ function getPHPINFO(){
 
   </tr>
 
-  
+
 
   <tr>
 
@@ -1581,7 +1591,7 @@ function getPHPINFO(){
 
   </tr>
 
-  
+
 
   <tr>
 
@@ -1597,13 +1607,13 @@ function getPHPINFO(){
 
   </tr>
 
- 
+
 
    </table>
 
   </td></tr>
 
-  
+
 
   </table>
 
@@ -1652,7 +1662,7 @@ function populate_db_manual( $db, $sqlfile='administrator/backups/database-sql.s
 
 	 $lines[0] =  stripslashes($_REQUEST['error_msg']);
 
-	 $fpos = $_REQUEST['start_posf'] ;  
+	 $fpos = $_REQUEST['start_posf'] ;
 
 	}
 
@@ -1696,7 +1706,7 @@ if(trim($line) != ''){
 
        if($_REQUEST['correct_query'] != 1)
 
-         $fpos = $start_pos ;  
+         $fpos = $start_pos ;
 
 	   $form_url = rurl($fpos, $chunk);
 
@@ -1765,7 +1775,7 @@ if(trim($line) != ''){
 
 	 }
 
-return;	
+return;
 
 }
 
@@ -1783,17 +1793,17 @@ function populate_db( $db, $sqlfile='administrator/backups/database-sql.sql') {
 
 	if($_REQUEST['use_mysqldump'] == 1){
 
-	
+
 
 	echo shell_exec($_REQUEST['mysqldump_path']." -u ".$_REQUEST[mysql_username]." -p".$_REQUEST[mysql_pass]." -h ".$_REQUEST[mysql_server]." ".$_REQUEST[mysql_db]." < ".$sqlfile);
 
     return;
 
-    
+
 
     }
 
-	
+
 
 	$mqr = @get_magic_quotes_runtime();
 
@@ -1821,7 +1831,7 @@ function populate_db( $db, $sqlfile='administrator/backups/database-sql.sql') {
 
 			if (!mysql_query($pieces[$i], $db)) {
 
-                 $errors[] = "\n\n##Mysql Query: \n########\n". 
+                 $errors[] = "\n\n##Mysql Query: \n########\n".
 
 				             $pieces[$i].
 
@@ -1859,9 +1869,9 @@ function rurl($fpos, $chunk){
 
        }
 
-	   $url = $_SERVER['PHP_SELF']."?fpos=".$fpos."&chunk=".$chunk.$get_query;	
+	   $url = $_SERVER['PHP_SELF']."?fpos=".$fpos."&chunk=".$chunk.$get_query;
 
-return $url;	
+return $url;
 
 }
 
@@ -1887,7 +1897,7 @@ function read_file($file, $lines, $start_pos, &$chunk, &$text)
 
 	   $fpos = ftell($fp);
 
-	   }  
+	   }
 
        $buffer = str_replace(";\r", ";\n", $buffer);
 
@@ -1901,7 +1911,7 @@ function read_file($file, $lines, $start_pos, &$chunk, &$text)
 
        else
 
-	    $chunk = DATA_CHUNK_LENGTH; 
+	    $chunk = DATA_CHUNK_LENGTH;
 
        if(feof($fp))
 
@@ -1950,13 +1960,13 @@ function split_sql($sql) {
 
 		  {
 
-             
+
 
              if(substr($sql_line, 0, 2) == "--")
 
                $sql_line = "#".substr($sql_line, 2, strlen($sql_line));
 
-             
+
 
              if(trim($sql_line) != "" )
 
@@ -2056,11 +2066,11 @@ function version_list($fname) {
 
  global $_CONFIG;
 
- 
+
 
  $return = "<select name='$fname'><option value=''>Choose local clone archive</option>";
 
- 
+
 
  if(is_array($_CONFIG[versions])){
 
