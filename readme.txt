@@ -67,10 +67,12 @@ If the inside Clone option fails for some reason, you need to:
 == Screenshots ==
 
 1. Login screen
-2. Config area
-3. Config options
-4. Generate Backup -> database options
-5. Generate Backup -> files options
+2. Welcome screen
+3. Config options General tab
+4. COnfig options System tab
+5. View Backups
+6. Generate Backup -> database options
+7. Generate Backup -> files options
 
 == Changelog ==
 
