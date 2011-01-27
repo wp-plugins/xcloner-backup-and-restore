@@ -1168,7 +1168,7 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
           }
 
           //exit;
-		  $newFileSize = getFileSizeText(get_filesize($backup_file));
+		  $newFileSize = get_filesize($backup_file);
           $log .= "\n<br />New backup size: " . $newFileSize . "<br />\n";
 
           addXLog($log);

@@ -260,6 +260,10 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 					var count = 0;
 					var counter = 0;
 					var counter_old = 0;
+					var completeSize = 0;
+					var oldBackupName = "";
+					var parts = 0;
+					var oldSize = 0;
 
 					$("#progressbar").progressbar({ value: 0 });
 
@@ -273,7 +277,7 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 
 					function getSize(bytes, conv){
 
-						return (bytes/conv).toFixed(2);
+						return (parseInt(bytes)/parseInt(conv)).toFixed(2);
 
 						}
 					function appendIcon(icon){
@@ -390,11 +394,20 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 
 						var percent = parseInt(json.percent);
 						$("#progressbar").progressbar({ value: percent });
-						$("#backupSize").text(json.backupSize);
+						$("#backupSize").text(getSize(json.backupSize, 1024*1024));
 						$("#nFiles").text(json.startf);
 						$("#percent").text(json.percent);
 						$("#backupName").text(json.backup);
 						if(!json.finished){
+
+							if(oldBackupName != json.backup){
+								oldBackupName = json.backup;
+								completeSize  = completeSize + oldSize;
+								parts++;
+							}else{
+								oldSize = parseInt(json.backupSize);
+								}
+
 							var url = "index2.php?option="+json.option+"&task="+json.task+"&json="+json.json+"&startf="+json.startf+"&lines="+json.lines+"&backup="+json.backup+"&excl_manual="+json.excl_manual;
 							xclonerGetJSON(url);
 						}else{
@@ -406,8 +419,12 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 
 							$("#complete").show();
 							$("#nFiles").text(json.lines);
+							if(parts > 0){
+								$("#backupParts").show();
+								$("#backupPartsNr").text(parts);
+							}
 							$("#backupFiles").text(json.lines);
-							$("#backupSizeComplete").text(json.backupSize);
+							$("#backupSizeComplete").append(getSize(completeSize+parseInt(json.backupSize), 1024*1024));
 							$("#backupNameC").text(json.backup);
 							$( "#dialog:ui-dialog" ).dialog( "destroy" );
 							$( "#dialog-message" ).dialog({
@@ -485,7 +502,7 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 					<div id="result">
 					<br /> <strong>Processing Files:</strong> <span id="percent">0</span>% (<span id="nFiles"></span> files)
 					<br /><br /> <strong>Backup Name: </strong><span id="backupName"></span>
-					<br /><br /> <strong>Backup Size: </strong><span id="backupSize"></span>
+					<br /><br /> <strong>Backup Size: </strong><span id="backupSize"></span>MB
 					<br /><br /> <div id="progressbar"></div>
 					</div>
 
@@ -505,10 +522,13 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 								<strong>Backup name:</strong> <span id="backupNameC"></span>
 							</p>
 							<p>
-								<span class="ui-icon ui-icon-arrowthick-1-e" style="float:left;"></span><strong>Backup size:</strong> <span id="backupSizeComplete"></span>
+								<span class="ui-icon ui-icon-arrowthick-1-e" style="float:left;"></span><strong>Backup size:</strong> <span id="backupSizeComplete"></span>MB
 							</p>
 							<p>
 								<span class="ui-icon ui-icon-arrowthick-1-e" style="float:left;"></span><strong>Number of files:</strong> <span id="backupFiles"></span>
+							</p>
+							<p class="backupParts">
+								<span class="ui-icon ui-icon-arrowthick-1-e" style="float:left;"></span><strong>Backups Parts:</strong> <span id="backupPartsNr"></span>
 							</p>
 						</div>
 
