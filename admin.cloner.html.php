@@ -64,8 +64,9 @@ class HTML_cloner {
 function header(){
 
 	global $mosConfig_live_site, $task;
-	if($_REQUEST['task'] != "config"){
+	$excl_tasks = array("view", "config");
 
+	if(!in_array($_REQUEST['task'], $excl_tasks)){
 		$seconds_to_cache = 3600;
 		$ts = gmdate("D, d M Y H:i:s", time() + $seconds_to_cache) . " GMT";
 		@header("Expires: $ts");
@@ -392,6 +393,7 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 						$("#backupSize").text(json.backupSize);
 						$("#nFiles").text(json.startf);
 						$("#percent").text(json.percent);
+						$("#backupName").text(json.backup);
 						if(!json.finished){
 							var url = "index2.php?option="+json.option+"&task="+json.task+"&json="+json.json+"&startf="+json.startf+"&lines="+json.lines+"&backup="+json.backup+"&excl_manual="+json.excl_manual;
 							xclonerGetJSON(url);
@@ -406,7 +408,7 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 							$("#nFiles").text(json.lines);
 							$("#backupFiles").text(json.lines);
 							$("#backupSizeComplete").text(json.backupSize);
-							$("#backupName").text(json.backup);
+							$("#backupNameC").text(json.backup);
 							$( "#dialog:ui-dialog" ).dialog( "destroy" );
 							$( "#dialog-message" ).dialog({
 								modal: true,
@@ -482,6 +484,7 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 
 					<div id="result">
 					<br /> <strong>Processing Files:</strong> <span id="percent">0</span>% (<span id="nFiles"></span> files)
+					<br /><br /> <strong>Backup Name: </strong><span id="backupName"></span>
 					<br /><br /> <strong>Backup Size: </strong><span id="backupSize"></span>
 					<br /><br /> <div id="progressbar"></div>
 					</div>
@@ -499,7 +502,7 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 						<div id="dialog-message" title="Backup completed">
 							<p>
 								<span class="ui-icon ui-icon-arrowthick-1-e" style="float:left;"></span>
-								<strong>Backup name:</strong> <span id="backupName"></span>
+								<strong>Backup name:</strong> <span id="backupNameC"></span>
 							</p>
 							<p>
 								<span class="ui-icon ui-icon-arrowthick-1-e" style="float:left;"></span><strong>Backup size:</strong> <span id="backupSizeComplete"></span>
@@ -1265,17 +1268,18 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 	</div>
 
 	<div>
-		<h3><a href="#"> <?php echo "License Management"?></a></h3>
+		<h3><a href="#">Public Key Management</a></h3>
 		<div><p>
-			<table class='adminform'>
+			<table class='adminForm'>
 
 		    <tr><td width="250">
-		      <?php echo "License Code - optional*
-		                  <br />*only for support purposes"?>
+		      Public Key
 		     </td>
 		     <td>
-		      <textarea cols=40 rows='7' name='license_code' ><?php echo $_CONFIG[license_code]?></textarea>
-		      <br />Copy/Paste the license code from <a target='_blank' href='http://www.xcloner.com/'>XCloner.com Members area</a>
+		      <input type-text size=50  name='license_code'  value="<?php echo $_CONFIG[license_code]?>"/>
+		      <br />Use this code in the MultiSite XCloner Manager <a  target='_blank' href='http://www.xcloner.com/'>XCloner.com Members area</a>
+		      <br />Leave it empty to disable it
+
 		     </td>
 		    </tr>
 
@@ -1454,7 +1458,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 				$( "#slider" ).slider({
 					value:parseInt(<?php echo $_CONFIG[backup_refresh_number];?>),
 					min: 10,
-					max: 10000,
+					max: 1000,
 					step: 10,
 					slide: function( event, ui ) {
 						$( "#backup_refresh_number" ).val( ui.value );
@@ -1466,7 +1470,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 				$( "#sliderRPS" ).slider({
 					value:parseInt(<?php echo $_CONFIG[recordsPerSession];?>),
 					min: 100,
-					max: 1000000,
+					max: 100000,
 					step: 100,
 					slide: function( event, ui ) {
 						$( "#recordsPerSession" ).val( ui.value );
@@ -1486,6 +1490,19 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 				});
 				$( "#excludeFilesSize" ).val( $( "#sliderEFZ" ).slider( "value" ) );
 			});
+
+			$(function() {
+				$( "#sliderSBS" ).slider({
+					value:parseInt(<?php echo $_CONFIG[splitBackupSize];?>),
+					min: -1,
+					max: 10000,
+					step: 1,
+					slide: function( event, ui ) {
+						$( "#splitBackupSize" ).val( ui.value );
+					}
+				});
+				$( "#splitBackupSize" ).val( $( "#sliderSBS" ).slider( "value" ) );
+			});
 			</script>
 
 			<table class='adminform'>
@@ -1493,30 +1510,41 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		     <tr><td width="250">
 		      <?php echo LM_CONFIG_MANUAL_FILES;?>
 		     </td><td>
-			  <div id="slider" style="width:500px;padding:5px 0 0 0;"></div>
-			  <br />
-		      <label for="backup_refresh_number"></label>
-		      <input id="backup_refresh_number" type=text size=20 name='backup_refresh_number' value=<?php echo $_CONFIG[backup_refresh_number];?>>
-
+			  <div class="sliderContainer">
+				<div id="slider" style="width:500px;padding:5px 0 0 0;float:left"></div>
+				<label for="backup_refresh_number"></label>
+				<input id="backup_refresh_number" type=text size=10 name='backup_refresh_number' value=<?php echo $_CONFIG[backup_refresh_number];?>>
+			  </div>
 			  </td></tr>
 
 			  <tr><td width="250">
 		      <?php echo LM_CONFIG_DB_RECORDS;?>
 		     </td><td>
-			  <div id="sliderRPS" style="width:500px;padding:5px 0 0 0;"></div>
-			  <br />
-		      <label for="recordsPerSession"></label>
-		      <input id="recordsPerSession" type=text size=20 name='recordsPerSession' value=<?php echo $_CONFIG[recordsPerSession];?>>
-
+			  <div class="sliderContainer">
+ 				 <div id="sliderRPS" style="width:500px;padding:5px 0 0 0;float:left;"></div>
+				 <label for="recordsPerSession"></label>
+				 <input id="recordsPerSession" type=text size=10 name='recordsPerSession' value=<?php echo $_CONFIG[recordsPerSession];?>>
+				</div>
 			  </td></tr>
 
 			  <tr><td width="250">
 		      <?php echo LM_CONFIG_EXCLUDE_FILES_SIZE;?>
 		     </td><td>
-			  <div id="sliderEFZ" style="width:500px;padding:5px 0 0 0;"></div>
-			  <br />
-		      <label for="excludeFilesSize"></label>
-		      <input id="excludeFilesSize" type=text size=20 name='excludeFilesSize' value=<?php echo $_CONFIG[excludeFilesSize];?>> MB
+			  <div class="sliderContainer">
+			  	  <div id="sliderEFZ" style="width:500px;padding:5px 0 0 0;float:left"></div>
+				  <label for="excludeFilesSize"></label>
+			      <input id="excludeFilesSize" type=text size=10 name='excludeFilesSize' value=<?php echo $_CONFIG[excludeFilesSize];?>> MB
+			  </div>
+			  </td></tr>
+
+			  <tr><td width="250">
+		      <?php echo LM_CONFIG_SPLIT_BACKUP_SIZE;?>
+		     </td><td>
+		      <div class="sliderContainer">
+				  <div id="sliderSBS" style="width:500px;padding:5px 0 0 0;float:left;"></div>
+			      <label for="splitBackupSize"></label>
+			      <input id="splitBackupSize" type=text size=10 name='splitBackupSize' value=<?php echo $_CONFIG[splitBackupSize];?>> MB
+		      </div>
 
 			  </td></tr>
 
@@ -2243,6 +2271,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		<li><a href="#tabs-users-databse-options-tab"><?php echo LM_TAB_G_DATABASE;?></a></li>
 		<?php }?>
 		<li><a href="#tabs-users-files-options-tab"><?php echo LM_TAB_G_FILES;?></a></li>
+		<li><a href="#tabs-users-comments-options-tab"><?php echo LM_TAB_G_COMMENTS;?></a></li>
 	</ul>
 
 	<?php
@@ -2371,6 +2400,15 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     ?>
 
     </table>
+     <?php
+    $tabs->endTab();
+    $tabs->startTab(LM_TAB_G_COMMENTS,"users-comments-options-tab");
+    ?>
+		<div class="mainText">
+		<h2><?php echo LM_TAB_G_COMMENTS_H2?></h2>
+		<textarea name="backupComments" rows=20 cols=80></textarea>
+		<br /><small> <?php echo LM_TAB_G_COMMENTS_NOTE?></small>
+		</div>
     <?php
     $tabs->endTab();
     $tabs->endPane();
@@ -2457,14 +2495,16 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 	});
 	</script>
 
-	<div id="tabs">
+	<div id="tabs" >
 	<ul>
 		<li><a href="#tabs-1"><?php echo LM_CREDIT_TOP?></a></li>
 	</ul>
-		<div id="tabs-1" class="mainText"><p>
+		<div id="tabs-1" >
+			<div class="mainText">
 
 		        <?php echo LM_CLONER_ABOUT?>
-		</p></div>
+			</div>
+		</div>
 	</div>
     <form action="index2.php" name="adminForm" method="post">
     <input type="hidden" name="option" value="<?php echo $option; ?>"/>

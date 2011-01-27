@@ -219,6 +219,8 @@
 
               $cfg .= '$_CONFIG[\'excludeFilesSize\']="' . $_REQUEST[excludeFilesSize] . '";' . "\n";
 
+              $cfg .= '$_CONFIG[\'splitBackupSize\']="' . $_REQUEST[splitBackupSize] . '";' . "\n";
+
               $cfg .= '$_CONFIG[\'backup_refresh_number\']="' . $_REQUEST[backup_refresh_number] . '";' . "\n";
 
               $cfg .= '$_CONFIG[\'sql_mem\']="' . $_REQUEST[sql_mem] . '";' . "\n";
@@ -1061,7 +1063,7 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
       $log = "";
 
-      $backup_file = $_CONFIG['backup_store_path']."/".$backup_filename ;
+      $backup_file = $_CONFIG['backup_store_path']."/".$backup_filename;
 
       $perm_file = $_CONFIG['temp_dir'] . "/perm.txt";
 
@@ -1115,6 +1117,23 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
                       //## appending files
                       $log .= "file - $file";
+
+                      if(intval($_CONFIG['splitBackupSize']) > 0){
+
+						  $fileSize = intval($buffer[2]);
+						  $backupSize = get_filesize($backup_file);
+						  $limit = $_CONFIG['splitBackupSize']*1024*1024; //MB limit
+
+						  //check if the size is bigger than $_CONFIF['splitBackupSize'] and split backup
+						  if(($fileSize+$backupSize) > $limit){
+
+								$backup_filename = getNewBackupName($backup_filename);
+								//exit;
+								$backup_file = $_CONFIG['backup_store_path']."/".$backup_filename;
+
+							  }
+
+						}
 
 
                       if (!$_CONFIG['mem']) {
@@ -1295,6 +1314,10 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
           $filename1 = $_REQUEST['bname'] . $f_ext;
       }
+
+	  //check if comments are set
+	  if($_REQUEST['backupComments'] != "")
+		writeComments($_REQUEST['backupComments']);
 
 	 //we created the backup name, but skip sql at this step, we will do it incrementally
 	 if(($_CONFIG['refresh_mode']) and (!$_REQUEST[cron_access]))
@@ -2059,11 +2082,46 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
       }
   }
 
+	function getNewBackupName($backupFilename){
 
-  function getVersion()
-  {
-      $query = mysql_query("SELECT version()");
-      $row = mysql_fetch_array($query);
-      return $row[0];
-  }
+		$newFilename = $backupFilename;
+
+		$tmp = explode(".",$backupFilename);
+		$extension = $tmp[sizeof($tmp)-1];
+		$inc = $tmp[sizeof($tmp)-2];
+
+		if(strlen($inc)<3){
+			$newinc = $inc+1;
+			$newFilename = str_replace(".$inc.$extension", "", $backupFilename); //ex, replace .1.tar
+			$newFilename = $newFilename .".$newinc.$extension";
+		}else{
+			//it is a first backup, no .0.tar
+			$newFilename = str_replace(".".$extension, "", $backupFilename); //ex, replace .1.tar
+			$newFilename = $newFilename .".1.". $extension;
+			}
+
+		return $newFilename;
+	}
+
+	function writeComments($comments){
+	  global $_CONFIG;
+
+	  $fp = @fopen($_CONFIG['commentsfile'], "w");
+	  if($fp){
+		fwrite($fp, stripcslashes($comments));
+		fclose($fp);
+	  }
+	  else{
+		addXLog("Unable to write comments to file ".$_CONFIG['commentsfile']);
+	  }
+
+
+	}
+
+	function getVersion()
+	{
+	  $query = mysql_query("SELECT version()");
+	  $row = mysql_fetch_array($query);
+	  return $row[0];
+	}
 ?>
