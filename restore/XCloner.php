@@ -466,7 +466,7 @@ if($_REQUEST['refresh'] < 1){
 		$config_file = $_CONFIG[output_path]."/wp-config.php";
 		@chmod($config_file,0777);
 		@unlink($_CONFIG[output_path]."/administrator/backups/perm.txt");
-		if(($_CONFIG['sql_usefile'] == "database-sql.sql") && (!isset($_REQUEST['fpos'])))
+		if(($_CONFIG['sql_usefile'] == "database-sql.sql") )
 			if(write_config($config_file)){
 				echo "<H2>Configuration updated!</H2>";
 			}else{
