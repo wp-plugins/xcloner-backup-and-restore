@@ -92,7 +92,6 @@ fclose($fp);
 $_COOKIES = explode("\r\n", $data);
 
 
-
 $exc = 0;
 
 if($fp = @fopen($exfile,"w")){

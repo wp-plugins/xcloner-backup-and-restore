@@ -64,7 +64,7 @@ class HTML_cloner {
 function header(){
 
 	global $mosConfig_live_site, $task;
-	$excl_tasks = array("view", "config");
+	$excl_tasks = array("view", "config","");
 
 	if(!in_array($_REQUEST['task'], $excl_tasks)){
 		$seconds_to_cache = 3600;
@@ -216,7 +216,7 @@ function footer(){
 </td></tr></table>
 <hr><br /><br />
 <center>
-<p>Powered by <a href='http://www.xcloner.com' target='_blank'>XCloner</a>. All rights reserved!</p></center>
+<p>Powered by <a href='http://www.xcloner.com' target='_blank'>XCloner</a>. Backup and Restore Made Easy!</p></center>
 
 </td></tr></table>
 <script> $( "#toolbar" ).show(); </script>
@@ -528,7 +528,7 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 								<span class="ui-icon ui-icon-arrowthick-1-e" style="float:left;"></span><strong>Number of files:</strong> <span id="backupFiles"></span>
 							</p>
 							<p class="backupParts">
-								<span class="ui-icon ui-icon-arrowthick-1-e" style="float:left;"></span><strong>Backups Parts:</strong> <span id="backupPartsNr"></span>
+								<span class="ui-icon ui-icon-arrowthick-1-e" style="float:left;"></span><strong>Backup Parts:</strong> <span id="backupPartsNr"></span>
 							</p>
 						</div>
 

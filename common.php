@@ -46,6 +46,7 @@ $_CONFIG['exfile'] = $_CONFIG['backups_dir']."/.excl";
 $_CONFIG['exfile_tar'] = $_CONFIG['backups_dir']."/.excl_tar";
 
 $_CONFIG['logfile'] = $_CONFIG['backups_dir']."/xcloner.log";
+$_CONFIG['commentsfile'] = $_CONFIG['backups_dir']."/.comments"; #$_REQUEST['backupComments']
 
 $_CONFIG['script_path'] = str_replace("\\","/",dirname(__FILE__));
 
@@ -85,7 +86,7 @@ else{
 }
 
 $version = str_replace(".", "", phpversion());
-if($version < 520){
+if(($version < 520) or ($_CONFIG['backup_refresh'] == 0)){
 	$_CONFIG['refresh_mode']="0";
 }
 

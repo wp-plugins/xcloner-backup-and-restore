@@ -1284,8 +1284,6 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
           $f_ext = '.tgz';
           $_CONFIG['tarcompress'] = 'z';
       } else {
-
-
           $f_ext = '.tar';
           $_CONFIG['tarcompress'] = '';
       }
@@ -1320,9 +1318,9 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 		writeComments($_REQUEST['backupComments']);
 
 	 //we created the backup name, but skip sql at this step, we will do it incrementally
-	 if(($_CONFIG['refresh_mode']) and (!$_REQUEST[cron_access]))
-	 //we skip the backup at this process,we will do it incrementally
-		$backupDatabase = 0;
+		if(($_CONFIG['refresh_mode']) and (!$_REQUEST[cron_access]))
+		//we skip the backup at this process,we will do it incrementally
+			$backupDatabase = 0;
 
       $sql_file = array();
 

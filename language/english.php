@@ -122,6 +122,8 @@ define("LM_CRON_MCRON_AVAIL","Available Configurations:");
 define("LM_CRON_MCRON_R","please provide a simple name for your new cron configuration");
 define("LM_CRON_MCRON_SUB","with this option you will be able to save the current configuration in a separate file and use it for running multiple cronjobs");
 define("LM_CRON_SETTINGS_M","Multiple CronJobs Configuration");
+define("LM_CONFIG_SPLIT_BACKUP_SIZE", "Split Backup Archive if size larger than:");
+
 // --- MENU ---//
 define("LM_MENU_OPEN_ALL", "open all");
 define("LM_MENU_CLOSE_ALL", "close all");
@@ -168,9 +170,11 @@ define("LM_TAB_CRON","Cron");
 define("LM_TAB_INFO","Info");
 define("LM_TAB_G_DATABASE","Database Options");
 define("LM_TAB_G_FILES","Files Options");
+define("LM_TAB_G_COMMENTS","Backup Comments");
 define("LM_G_EXCLUDE_COMMENT","<br>Please enter here the excluded folders, each one per line!
     <br><b>you may want to disable the cache feature when doing a backup, or if not exlude the cache folder from the backup</b>");
-
+define("LM_TAB_G_COMMENTS_H2", "Enter below any additional comments to archive:");
+define("LM_TAB_G_COMMENTS_NOTE","Please note, the comments are store inside the archive, file <b>administrator/backups/.comments</b>");
 
 // --- MESSAGES --//
 // front end

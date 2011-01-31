@@ -757,8 +757,13 @@ display:block;
 }
 
 .mainText{
-	padding-left:10px;
-	width: 90%;
+	padding: 5px 10px 10px 10px;
+	width: auto;
+	border: 1px solid #2e90bd;
+}
+
+.mainText h2{
+	padding-bottom: 5px;
 }
 
 .header a{
@@ -771,6 +776,11 @@ display:block;
 	border: 1px outset #2e90bd;
 	margin-left: 1px;
 	font-family: Tahoma, Arial;
+}
+
+.adminForm a, .adminform a {
+	font-family: Tahoma, Arial;
+	font-weight: bold;
 }
 
 .loginForm table {
@@ -789,4 +799,9 @@ display:block;
 	padding-left: 25px;
 }
 
+.sliderContainer{
 
+	display: inline;
+	margin-bottom: 15px;
+
+}
