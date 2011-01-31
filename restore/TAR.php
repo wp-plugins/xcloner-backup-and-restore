@@ -383,14 +383,14 @@ class archive_tar
     function addString($p_filename, $p_string)
     {
         $v_result = true;
-        
+
         if (!$this->_isArchive()) {
             if (!$this->_openWrite()) {
                 return false;
             }
             $this->_close();
         }
-        
+
         if (!$this->_openAppend())
             return false;
 
@@ -530,12 +530,12 @@ class archive_tar
     function setAttribute()
     {
         $v_result = true;
-        
+
         // ----- Get the number of variable list of arguments
         if (($v_size = func_num_args()) == 0) {
             return true;
         }
-        
+
         // ----- Get the arguments
         $v_att_list = &func_get_args();
 
@@ -1393,8 +1393,8 @@ class archive_tar
     // }}}
 
     // {{{ _extractList()
-    function _extractList($p_path, &$p_list_detail, $p_mode,
-	                      $p_file_list, $p_remove_path)
+    function _extractList_vbdata($p_path, &$p_list_detail, $p_mode,
+	                      $p_file_list, $p_remove_path, $v_binary_data)
     {
     $v_result=true;
     $v_nb = 0;
@@ -1433,7 +1433,7 @@ class archive_tar
 
     clearstatcache();
 
-    while (strlen($v_binary_data = $this->_readBlock()) != 0)
+    //while (strlen($v_binary_data = $this->_readBlock()) != 0)
     {
       $v_extract_file = FALSE;
       $v_extraction_stopped = 0;
@@ -1444,6 +1444,235 @@ class archive_tar
       if ($v_header['filename'] == '') {
         continue;
       }
+
+      // ----- Look for long filename
+      if ($v_header['typeflag'] == 'L') {
+        if (!$this->_readLongHeader($v_header))
+          return false;
+      }
+
+      #if ((!$v_extract_all) && (is_array($p_file_list)))
+      #{
+        // ----- By default no unzip if the file is not found
+        $v_extract_file = true;
+
+        /*for ($i=0; $i<sizeof($p_file_list); $i++) {
+          // ----- Look if it is a directory
+          if (substr($p_file_list[$i], -1) == '/') {
+            // ----- Look if the directory is in the filename path
+            if ((strlen($v_header['filename']) > strlen($p_file_list[$i]))
+			    && (substr($v_header['filename'], 0, strlen($p_file_list[$i]))
+				    == $p_file_list[$i])) {
+              $v_extract_file = TRUE;
+              break;
+            }
+          }
+
+          // ----- It is a file, so compare the file names
+          elseif ($p_file_list[$i] == $v_header['filename']) {
+            $v_extract_file = TRUE;
+            break;
+          }
+        }
+      } else {
+        $v_extract_file = TRUE;
+      }*/
+
+      // ----- Look if this file need to be extracted
+      if (($v_extract_file) && (!$v_listing))
+      {
+        if (($p_remove_path != '')
+            && (substr($v_header['filename'], 0, $p_remove_path_size)
+			    == $p_remove_path))
+          $v_header['filename'] = substr($v_header['filename'],
+		                                 $p_remove_path_size);
+        if (($p_path != './') && ($p_path != '/')) {
+          while (substr($p_path, -1) == '/')
+            $p_path = substr($p_path, 0, strlen($p_path)-1);
+
+          if (substr($v_header['filename'], 0, 1) == '/')
+              $v_header['filename'] = $p_path.$v_header['filename'];
+          else
+            $v_header['filename'] = $p_path.'/'.$v_header['filename'];
+        }
+        if (file_exists($v_header['filename'])) {
+          if (   (@is_dir($v_header['filename']))
+		      && ($v_header['typeflag'] == '')) {
+            $this->_error('File '.$v_header['filename']
+			              .' already exists as a directory');
+            return false;
+          }
+          if (   ($this->_isArchive($v_header['filename']))
+		      && ($v_header['typeflag'] == "5")) {
+            $this->_error('Directory '.$v_header['filename']
+			              .' already exists as a file');
+            return false;
+          }
+          if (!is_writeable($v_header['filename'])) {
+            $this->_error('File '.$v_header['filename']
+			              .' already exists and is write protected');
+            return false;
+          }
+          if (filemtime($v_header['filename']) > $v_header['mtime']) {
+            // To be completed : An error or silent no replace ?
+          }
+        }
+
+        // ----- Check the directory availability and create it if necessary
+        elseif (($v_result
+		         = $this->_dirCheck(($v_header['typeflag'] == "5"
+				                    ?$v_header['filename']
+									:dirname($v_header['filename'])))) != 1) {
+            $this->_error('Unable to create path for '.$v_header['filename']);
+            return false;
+        }
+
+        if ($v_extract_file) {
+          if ($v_header['typeflag'] == "5") {
+            if (!@file_exists($v_header['filename'])) {
+                if (!@mkdir($v_header['filename'], 0777)) {
+                    $this->_error('Unable to create directory {'
+					              .$v_header['filename'].'}');
+                    return false;
+                }
+            }
+          } elseif ($v_header['typeflag'] == "2") {
+              if (!@symlink($v_header['link'], $v_header['filename'])) {
+                  $this->_error('Unable to extract symbolic link {'
+                                .$v_header['filename'].'}');
+                  return false;
+              }
+          } else {
+              if (($v_dest_file = @fopen($v_header['filename'], "wb")) == 0) {
+                  $this->_error('Error while opening {'.$v_header['filename']
+				                .'} in write binary mode');
+                  return false;
+              } else {
+                  $n = floor($v_header['size']/512);
+                  for ($i=0; $i<$n; $i++) {
+                      $v_content = $this->_readBlock();
+                      fwrite($v_dest_file, $v_content, 512);
+                  }
+            if (($v_header['size'] % 512) != 0) {
+              $v_content = $this->_readBlock();
+              fwrite($v_dest_file, $v_content, ($v_header['size'] % 512));
+            }
+
+            @fclose($v_dest_file);
+
+            // ----- Change the file mode, mtime
+            @touch($v_header['filename'], $v_header['mtime']);
+            if ($v_header['mode'] & 0111) {
+                // make file executable, obey umask
+                $mode = fileperms($v_header['filename']) | (~umask() & 0111);
+                @chmod($v_header['filename'], $mode);
+            }
+          }
+
+          // ----- Check the file size
+          clearstatcache();
+          if (filesize($v_header['filename']) != $v_header['size']) {
+              $this->_error('Extracted file '.$v_header['filename']
+			                .' does not have the correct file size \''
+							.filesize($v_header['filename'])
+							.'\' ('.$v_header['size']
+							.' expected). Archive may be corrupted.');
+              return false;
+          }
+          }
+        } else {
+          $this->_jumpBlock(ceil(($v_header['size']/512)));
+        }
+      } else {
+          $this->_jumpBlock(ceil(($v_header['size']/512)));
+      }
+
+      /* TBC : Seems to be unused ...
+      if ($this->_compress)
+        $v_end_of_file = @gzeof($this->_file);
+      else
+        $v_end_of_file = @feof($this->_file);
+        */
+
+      if ($v_listing || $v_extract_file || $v_extraction_stopped) {
+        // ----- Log extracted files
+        if (($v_file_dir = dirname($v_header['filename']))
+		    == $v_header['filename'])
+          $v_file_dir = '';
+        if ((substr($v_header['filename'], 0, 1) == '/') && ($v_file_dir == ''))
+          $v_file_dir = '/';
+
+        $p_list_detail[$v_nb++] = $v_header;
+        if (is_array($p_file_list) && (count($p_list_detail) == count($p_file_list))) {
+            return true;
+        }
+      }
+    }
+
+        return true;
+    }
+    // }}}
+
+
+     // {{{ _extractList()
+    function _extractList($p_path, &$p_list_detail, $p_mode,
+	                      $p_file_list, $p_remove_path, $limit=0)
+    {
+    $v_result=true;
+    $v_nb = 0;
+    $v_extract_all = true;
+    $v_listing = false;
+    $inc = 0;
+
+    $p_path = $this->_translateWinPath($p_path, false);
+    if ($p_path == '' || (substr($p_path, 0, 1) != '/'
+	    && substr($p_path, 0, 3) != "../" && !strpos($p_path, ':'))) {
+      $p_path = "./".$p_path;
+    }
+    $p_remove_path = $this->_translateWinPath($p_remove_path);
+
+    // ----- Look for path to remove format (should end by /)
+    if (($p_remove_path != '') && (substr($p_remove_path, -1) != '/'))
+      $p_remove_path .= '/';
+    $p_remove_path_size = strlen($p_remove_path);
+
+    switch ($p_mode) {
+      case "complete" :
+        $v_extract_all = TRUE;
+        $v_listing = FALSE;
+      break;
+      case "partial" :
+          $v_extract_all = FALSE;
+          $v_listing = FALSE;
+      break;
+      case "list" :
+          $v_extract_all = FALSE;
+          $v_listing = TRUE;
+      break;
+      default :
+        $this->_error('Invalid extract mode ('.$p_mode.')');
+        return false;
+    }
+
+    clearstatcache();
+
+    while (strlen($v_binary_data = $this->_readBlock()) != 0)
+    {
+
+      $v_extract_file = FALSE;
+      $v_extraction_stopped = 0;
+
+      if (!$this->_readHeader($v_binary_data, $v_header))
+        return false;
+
+      if ($v_header['filename'] == '') {
+        continue;
+      }
+
+	  //Ovi's code
+	  	if(($inc >= $limit) and ($limit !=0))
+			return ftell($this->_file);
+		$inc++;
 
       // ----- Look for long filename
       if ($v_header['typeflag'] == 'L') {
@@ -1612,12 +1841,46 @@ class archive_tar
     }
     // }}}
 
+    //extract file by sending v_header and setting seek position
+    function extractFile($tar, &$v_header)
+    {
+        $v_result_str = "";
+        $p_filename = $v_header['filename'];
+
+          // ----- Look for long filename
+          if ($v_header['typeflag'] == 'L') {
+            if (!$tar->_readLongHeader($v_header))
+              return NULL;
+          }
+
+		  if ($v_header['typeflag'] == "5") {
+			  $tar->_error('Unable to extract in string a directory '
+			                .'entry {'.$v_header['filename'].'}');
+			  return NULL;
+		  } else {
+			  $n = floor($v_header['size']/512);
+			  for ($i=0; $i<$n; $i++) {
+				  $v_result_str .= $tar->_readBlock();
+			  }
+			  if (($v_header['size'] % 512) != 0) {
+				  $v_content = $tar->_readBlock();
+				  $v_result_str .= substr($v_content, 0,
+				                          ($v_header['size'] % 512));
+			  }
+			  return $v_result_str;
+		  }
+
+
+        return NULL;
+    }
+
+
     // {{{ _openAppend()
     function _openAppend()
     {
         if (filesize($this->_tarname) == 0)
           return $this->_openWrite();
-          
+
         if ($this->_compress) {
             $this->_close();
 
@@ -1632,7 +1895,7 @@ class archive_tar
                 $v_temp_tar = @gzopen($this->_tarname.".tmp", "rb");
             elseif ($this->_compress_type == 'bz2')
                 $v_temp_tar = @bzopen($this->_tarname.".tmp", "rb");
-                
+
             if ($v_temp_tar == 0) {
                 $this->_error('Unable to open file \''.$this->_tarname
 				              .'.tmp\' in binary read mode');
@@ -1686,14 +1949,14 @@ class archive_tar
             $v_size = filesize($this->_tarname);
 
             // We might have zero, one or two end blocks.
-            // The standard is two, but we should try to handle 
+            // The standard is two, but we should try to handle
             // other cases.
             fseek($this->_file, $v_size - 1024);
             if (fread($this->_file, 512) == ARCHIVE_TAR_END_BLOCK) {
                 fseek($this->_file, $v_size - 1024);
             }
             elseif (fread($this->_file, 512) == ARCHIVE_TAR_END_BLOCK) {
-                fseek($this->_file, $v_size - 512);    
+                fseek($this->_file, $v_size - 512);
             }
         }
 
@@ -1706,7 +1969,7 @@ class archive_tar
     {
         if (!$this->_openAppend())
             return false;
-            
+
         if ($this->_addList($p_filelist, $p_add_dir, $p_remove_dir))
            $this->_writeFooter();
 
@@ -1752,7 +2015,7 @@ class archive_tar
     // {{{ _pathReduction()
 
     /**
-     * Compress path by changing for example "/dir/foo/../bar" to "/dir/bar", 
+     * Compress path by changing for example "/dir/foo/../bar" to "/dir/bar",
      * rand emove double slashes.
      *
      * @param string $p_dir path to reduce
