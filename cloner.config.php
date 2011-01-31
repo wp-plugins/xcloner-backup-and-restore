@@ -37,11 +37,8 @@ $_CONFIG['zippath']="";
 $_CONFIG['tarpath']="tar";
 $_CONFIG['sqldump']="mysqldump --quote-names ";
 $_CONFIG['system_dlink']="";
-$_CONFIG['system_ftptransfer']= "0";
-$_CONFIG['system_mdatabases']= "0";
-$_CONFIG['recordsPerSession']= "10000";
-$_CONFIG['excludeFilesSize'] = "-1";
-$_CONFIG['splitBackupSize'] = "2048"; //MB
+$_CONFIG['system_ftptransfer']="0";
+$_CONFIG['system_mdatabases']="0";
 
 ### Defaults
 $script_dir = str_replace("\\","/",dirname(__FILE__));
@@ -55,35 +52,41 @@ $_CONFIG['backup_path'] = $script_dir;
 $_CONFIG['clonerPath'] = $script_dir."/backups";
 $_CONFIG['enable_db_backup'] = '0';
 
-###Joomla specific configuration
+###Wordpress specific configuration
 
-if(@include("../../../configuration.php")){
-
-if(@class_exists('JConfig')){
-  $config = new JConfig();
+/*if(@include("../../../wp-config.php")){
 
   $_CONFIG["enable_db_backup"] = 1;
-  $_CONFIG['mysql_host'] = $config->host;
-  $_CONFIG['mysql_user'] = $config->user;
-  $_CONFIG['mysql_pass'] = $config->password;
-  $_CONFIG['mysql_database'] = $config->db;
-}else{
+  $_CONFIG['mysql_host'] = DB_HOST;
+  $_CONFIG['mysql_user'] = DB_USER;
+  $_CONFIG['mysql_pass'] = DB_PASSWORD;
+  $_CONFIG['mysql_database'] = DB_NAME;
+
+
+}*/
+
+if(@file_exists("../../../wp-config.php")){
+
+  $content = file_get_contents("../../../wp-config.php");	
+  $content = str_replace("require_once","#require_once", $content);	
+  $content = str_replace(array("<?php","<?","?>"),array("","",""), $content);		
+  eval($content);
 
   $_CONFIG["enable_db_backup"] = 1;
-  $_CONFIG['mysql_host'] = $mosConfig_host;
-  $_CONFIG['mysql_user'] = $mosConfig_user;
-  $_CONFIG['mysql_pass'] = $mosConfig_password;
-  $_CONFIG['mysql_database'] = $mosConfig_db;
+  $_CONFIG['mysql_host'] = DB_HOST;
+  $_CONFIG['mysql_user'] = DB_USER;
+  $_CONFIG['mysql_pass'] = DB_PASSWORD;
+  $_CONFIG['mysql_database'] = DB_NAME;
 
-  }
 
 }
-$script_dir = str_replace("administrator/components/com_xcloner-backupandrestore","", $script_dir);
+
+$script_dir = str_replace("wp-content/plugins/xcloner-backup-and-restore","", $script_dir);
 
 $_CONFIG['backup_path'] = $script_dir;
+
 $_CONFIG['clonerPath'] = realpath($script_dir."/administrator/backups");
 $_CONFIG['clonerPath'] = str_replace("\\","/", $_CONFIG['clonerPath']);
-
 
 $_CONFIG['mosConfig_live_site']=$_SERVER['HTTP_HOST'];
 
