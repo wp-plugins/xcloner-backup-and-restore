@@ -387,7 +387,7 @@ if($_REQUEST['refresh'] < 1){
 ############### RESTORING HTACCESS AND CONFIGURATION PERM#####################################
 
  if($_REQUEST[transfer_mode]==2){
-	$cmd = "CHMOD 0777 ".$_REQUEST[ftp_path]."/"."wo-config.php";
+	$cmd = "CHMOD 0777 ".$_REQUEST[ftp_path]."/"."wp-config.php";
 	@ftp_site($conn_id, $cmd);
  }else{
 	 @chmod($_REQUEST[output_path]."/"."wp-config.php", 0777);
