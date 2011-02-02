@@ -398,10 +398,7 @@ class DB{
 
 	                foreach ($arr as $key => $value) {
 						$value = mysql_escape_string($value);
-						if($value == "")
-							$buffer .= "'NULL', ";
-						else
-							$buffer .= "'".$value."', ";
+						$buffer .= "'".$value."', ";
 					}
 					$buffer = rtrim($buffer, ', ') . ");\n";
 					fwrite($fd, $buffer);
