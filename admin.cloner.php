@@ -145,7 +145,8 @@
 	case 'generate':
 		if($_CONFIG['refresh_mode']){
 			$_REQUEST['mode'] = "start";
-			goRecurseDatabases();
+			if($_CONFIG['enable_db_backup'])
+				goRecurseDatabases();
 			//initBackup($_REQUEST['bname']);
 			//break;
 		}
