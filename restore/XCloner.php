@@ -192,7 +192,7 @@ function step2($file=""){
 		if (!@mysql_select_db($DBname)) {
 			die("<br /><span class='error'>Could not connect to $DBname database! Please make sure the database exists and that you assigned the mysql user to it...</span>");
 		}
-
+		mysql_query("SET sql_mode='';");	
 		if($_REQUEST['charset_of_file']!="")
 			mysql_query("SET NAMES ".$_REQUEST['charset_of_file']."");
 		else
