@@ -3,9 +3,6 @@
 
 define("_VALID_MOS", 1);
 
-include "../cloner.config.php";
-include "../common.php";
-
 $thisApp=$_SERVER['PHP_SELF'] . "?browse=true";
 
 $fp = @fopen($_CONFIG['exfile'], "w");
