@@ -66,13 +66,13 @@ function header(){
 	global $mosConfig_live_site, $task;
 	$excl_tasks = array("view", "config","");
 
-	if(!in_array($_REQUEST['task'], $excl_tasks)){
+	/*if(!in_array($_REQUEST['task'], $excl_tasks)){
 		$seconds_to_cache = 3600;
 		$ts = gmdate("D, d M Y H:i:s", time() + $seconds_to_cache) . " GMT";
 		@header("Expires: $ts");
 		@header("Pragma: cache");
 		@header("Cache-Control: maxage=$seconds_to_cache");
-	}
+	}*/
 ?>
 <html lang="en">
 <head>
