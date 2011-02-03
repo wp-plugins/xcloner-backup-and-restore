@@ -703,7 +703,7 @@ $error	= 0;
 	</span></div>
 
 	<div class="status">
-	<span class="mtext">Authentification: </span>
+	<span class="mtext">Authentication: </span>
 	<?php
 
 		if($_CONFIG['jcpass'] == md5('admin')){
@@ -740,7 +740,7 @@ $error	= 0;
 <?php
 }
 
-/*The basic authentification form*/
+/*The basic Authentication form*/
 function Login(){
 
 	?>
@@ -773,7 +773,7 @@ function Login(){
 	<table class="loginForm">
 		<tr><td align='center'>
 			<table align='center' cellpadding='10' cellspacing='20'>
-				<tr ><td colspan='2' align='center'><b>Authentification Area:</b></td></tr>
+				<tr ><td colspan='2' align='center'><b>Authentication Area:</b></td></tr>
 				<tr><td>Username:</td><td><input type='text' size='30' name='username'></td></tr>
 				<tr><td>Password:</td><td><input type='password' size='30' name='password'></td></tr>
 				<tr><td>&nbsp;</td><td>

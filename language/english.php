@@ -63,8 +63,8 @@ define("LM_CONFIG_MYSQLU_SUB","");
 define("LM_CONFIG_MYSQLP_SUB","");
 define("LM_CONFIG_MYSQLD_SUB","");
 
-define("LM_TAB_AUTH","Authentification");
-define("LM_CONFIG_AUTH","User Authentification Area");
+define("LM_TAB_AUTH","Authentication");
+define("LM_CONFIG_AUTH","User Authentication Area");
 define("LM_CONFIG_AUTH_USER","Login Username:");
 define("LM_CONFIG_AUTH_PASS","Login Password:");
 define("LM_CONFIG_AUTH_USER_SUB","this will be your default login user to XCloner");
