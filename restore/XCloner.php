@@ -461,12 +461,19 @@ if($_REQUEST['refresh'] < 1){
 
 
 ##### RESTORE CONFIGURATION #####
+     $update_config = 1;	
+
+    if(($_REQUEST['files_skip']) and  (isset($_REQUEST['fpos']))){
+    
+    	$update_config = 0;	
+    	
+    }	
 
     if(($_REQUEST['do_database'] != 1) || ($_REQUEST['files_skip'] == 1)){
 		$config_file = $_CONFIG[output_path]."/wp-config.php";
 		@chmod($config_file,0777);
 		@unlink($_CONFIG[output_path]."/administrator/backups/perm.txt");
-		if(($_CONFIG['sql_usefile'] == "database-sql.sql") )
+		if(($_CONFIG['sql_usefile'] == "database-sql.sql") and ($update_config))
 			if(write_config($config_file)){
 				echo "<H2>Configuration updated!</H2>";
 			}else{
