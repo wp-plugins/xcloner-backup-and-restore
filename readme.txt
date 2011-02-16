@@ -3,8 +3,8 @@ Contributors: xcloner
 Donate link: http://www.xcloner.com/
 Tags: backup, restore, admin, plugin, database, full backup, cloner, xcloner, theme, files, upload, wordpress backup, backup plugin, database backup, database restore, site move, transfer, blog transfer
 Requires at least: 2.0.2
-Tested up to: 3.0.1
-Stable tag: 2.2.1
+Tested up to: 3.0.5
+Stable tag: 3.0
 
 XCloner is a full backup and restore plugin for Wordpress, it will backup and restore both files and database. www.xcloner.com
 
@@ -26,15 +26,11 @@ XCloner Generate, Move and Restore process:
 
 Features:
 
-    * Backup and Restore any PHP/Mysql  application
-
-    * Create custom backups
-
-    * Generate automatic backups based on cronjobs
-
-    * Restore your backups anywhere
-
-    * Share your custom backups with your clients
+   * Backup and Restore any PHP/Mysql  application
+   * Create custom backups
+   * Generate automatic backups based on cronjobs
+   * Restore your backups anywhere
+   * Share your custom backups with your clients
 
 
 == Installation ==
@@ -44,14 +40,9 @@ Features:
 3. Create directory administrator/backups and make it writeable under your Wordpress site root
 4. Access it from the Plugins->XCloner menu
 
-IMPORTANT:
-
-If the plugin was downloaded from the xcloner.com website, follow this install:
-
-1. Upload the package files to your Wordpress ROOT directory
-2. Activate the plugin
-3. Create directory administrator/backups and make it writeable under your Wordpress site root
-4. Access it from the Plugins->XCloner menu
+UPGRADE:
+ 
+If you plan on upgrading your XCloner installation, to keep it's original setting, please keep a copy after your wp-content/plugins/xcloner-backup-and-restore/cloner.config.php file, and re-upload it after the upgrade.
 
 == Frequently Asked Questions ==
 
@@ -73,8 +64,17 @@ If the inside Clone option fails for some reason, you need to:
 5. View Backups
 6. Generate Backup -> database options
 7. Generate Backup -> files options
+8. Restore screen
 
 == Changelog ==
+
+= 3.0 =
+* incremental database backup
+* incremental file system scan
+* backup size limit and option to split it into additional archives, default 2GB
+* exclude files larger than a certain size option
+* incremental files restore
+* JQuery Start interface
 
 = 2.2.1 =
 * Added JSON AJAX interface to the Generate Backup process
@@ -90,5 +90,5 @@ If the inside Clone option fails for some reason, you need to:
 
 == Upgrade Notice ==
 
-= 2.2.1 =
-Improved filesystem scan to deal with large systems, improved Backup interface
+= 3.0 =
+Please check the changelog, there are several improvements, including better interface, better incremental backup process, as well as several restore addons and speed improvements
