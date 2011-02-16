@@ -22,33 +22,33 @@ include_once("cloner.functions.php");
 
 $script_dir = str_replace("\\","/",dirname(__FILE__));
 if(is_dir($script_dir)){
- 
+
  chdir($script_dir);
 
  }
 
 if($_REQUEST['config'] == ""){
-	
+
 	if($argv[1] != ""){
-	
-		$_REQUEST['config'] = $argv[1];	
-	
+
+		$_REQUEST['config'] = $argv[1];
+
 	}
 
 
 }
 
 if($_REQUEST['config'] != ""){
-	
+
 	require_once( './configs/'.$_REQUEST['config'] );
-	
+
 	$smsg = "Using configs/".$_REQUEST['config']." as configuration file";
-	
+
 }
 else{
 
     @require_once( './cloner.config.php' );
-    
+
     $smsg = "Using default configuration file";
 
 }
@@ -75,7 +75,7 @@ if($_CONFIG['select_lang']!="")
 if (file_exists( "language/".$mosConfig_lang.".php" )) {
     include_once( "language/".$mosConfig_lang.".php" );
     @include_once( "language/english.php" );
-} 
+}
 else{
 	include_once( "language/english.php" );
 }
@@ -88,10 +88,10 @@ $ip_list[] = $_SERVER['SERVER_ADDR'];
 $curent_ip = $_SERVER["REMOTE_ADDR"];
 
 if(!in_array($curent_ip, $ip_list)){
-	
+
 	echo "Access Denied for ip $curent_ip!";
 	exit;
-	
+
 }
 #########################
 
@@ -105,14 +105,14 @@ $_REQUEST['databases_incl'] = @explode(",",$_CONFIG[databases_incl_list]);
 
 if($_CONFIG[cron_bname]!="")
  $_REQUEST['bname'] = $_CONFIG[cron_bname];
- 
-  
+
+
 function logxx($string = ""){
- 
-    global $mail_log; 
+
+    global $mail_log;
 
     $return = "<b>$string</b><br />\r\n";
-    
+
     $mail_log .= $return;
 
     echo $return;
@@ -132,8 +132,8 @@ logxx("Starting XCloner for site $mosConfig_live_site at ".date("Y-m-d H:i"));
     #recurseFiles($d_arr, $ds_arr, $f_arr, $s_arr, $d, $f, $s, $excludefolders, '');
     #$excludedFolders = confirmBackup('nohtml');
     #logxx("Done");
-    
-    
+
+
 
 if($_CONFIG['cron_btype']==0){
     $_REQUEST[dbbackup] = 1;
@@ -155,7 +155,7 @@ if($_CONFIG['cron_btype']==2){
         $GLOBALS['_CONFIG'] = $_CONFIG;
         $_REQUEST[cron_dbonly] = 1;
     #}
-    
+
     logxx("Creating an sql only backup");
     $msg = "database backup";
    }
@@ -184,7 +184,7 @@ $destination_files[] = $_CONFIG[cron_ftp_path]."/".$file;
 list($fhost, $fport) = explode(":",$_CONFIG[cron_ftp_server]);
 if($fport == "")
  $fport = '21';
- 
+
 $ftp_timeout = '3600';
 
 // set up basic connection
@@ -249,7 +249,7 @@ if($_CONFIG[cron_ftp_delb]==1){
  @unlink($source_file);
  logxx("Backup succesfully deleted from the original server!");
  }
-    
+
 ##############################################################################
     }
 elseif($_CONFIG['cron_send']==2){
@@ -263,19 +263,19 @@ elseif($_CONFIG['cron_send']==2){
     Attached is the backup generated on $date
     Source Filename: $source_file
     Server: $mosConfig_live_site
-    
-    Powered by http://www.joomlaplug.com - XCloner - Backup and Restore made easy!
+
+    Powered by http://www.xcloner.com - XCloner - Backup and Restore made easy!
     </pre>
 
     ";
-    
+
 	$ok = send_mail($mosConfig_mailfrom, "XCloner $msg", $message, $_CONFIG['cron_email_address'], $source_file);
-	
+
 	#echo mosMail( $mosConfig_mailfrom, $mosConfig_fromname, $_CONFIG['cron_email_address'], "XCloner $msg", $message, $mode, '', '' );
     if($ok)
 	 logxx("Mail sent to ".$_CONFIG['cron_email_address']);
 	else
-     logxx("There was an error in sending the mail cron to ".$_CONFIG['cron_email_address']);   
+     logxx("There was an error in sending the mail cron to ".$_CONFIG['cron_email_address']);
 
 ##############################################################################
     }
@@ -333,27 +333,27 @@ delete_older_backups($clonerPath);
 
 $logemail = explode(";", $_CONFIG['cron_logemail']);
 if(sizeof($logemail)>0){
-	
+
 	for($i=0; $i<sizeof($logemail);$i++){
-		
+
 		$email = trim($logemail[$i]);
 		if($email != ""){
-			
+
 			$email_subject = "cron log ".time();
-			
+
 			$headers ="From: \"Cronlog XCloner\" <nobody@noreply.com>\n";
 
 			if(mail($email, $email_subject, strip_tags($mail_log), $headers)){
-			
+
 				logxx ("Notification Mail was sent to $email");
-				
+
 			}
-			
-			
+
+
 		}
-		
+
 	}
-	
+
 }
 
 logxx("<br />\n\nALL DONE! I will exit now from cron.");
@@ -375,78 +375,78 @@ getBackupFiles($d_arr, $f_arr, $s_arr, $d, $f);
 if(is_array($f_arr))
 foreach($f_arr as $file)
   if(($file!='.')&&($file != '..')){
-   
+
     #logxx("Processing backup file $file");
 	$cfile = $_CONFIG['clonerPath']."/".$file;
-    
+
     $filemtime = filemtime($cfile) ;
-    
+
     $ftime= $filemtime + $_CONFIG['cron_file_delete']*24*60*60;
-    
+
     $ctime = time();
-    
+
     if($ftime < $ctime){
-		
+
 	  if(unlink($cfile))
 	  logxx("Deleted backup file $file created on ".date("Y-m-d",  $filemtime));
 	  else
 	  logxx("Could not delete backup file $file, please delete it manually");
-	 	
+
 	 }
-       
+
 }
 
 }
 
 function send_mail($email_from, $email_subject, $email_txt, $email_to, $fileatt){
-$fileatt_type = "application/octet-stream"; // File Type 
-$fileatt_name = basename($fileatt); // Filename that will be used for the file as the attachment 
+$fileatt_type = "application/octet-stream"; // File Type
+$fileatt_name = basename($fileatt); // Filename that will be used for the file as the attachment
 $data = "";
 
-$headers = "From: \"Cronbackup XCloner\" <".$email_from.">"; 
+$headers = "From: \"Cronbackup XCloner\" <".$email_from.">";
 
 if($fileatt != ""){
-	
+
 if($file = @fopen($fileatt,'rb')){
-	 
+
 $data = fread($file,filesize($fileatt));
- 
+
 fclose($file);
 
-} 
+}
 else{
 	logxx("Unable to open file $fileatt");
 }
 
 }
 
-$semi_rand = md5(time()); 
-$mime_boundary = "==Multipart_Boundary_x{$semi_rand}x"; 
-   
-$headers .= "\nMIME-Version: 1.0\n" . 
-            "Content-Type: multipart/mixed;\n" . 
-            " boundary=\"{$mime_boundary}\""; 
+$semi_rand = md5(time());
+$mime_boundary = "==Multipart_Boundary_x{$semi_rand}x";
 
-$email_message .= "This is a multi-part message in MIME format.\n\n" . 
-                "--{$mime_boundary}\n" . 
-                "Content-Type:text/html; charset=\"iso-8859-1\"\n" . 
-               "Content-Transfer-Encoding: 7bit\n\n" . 
-$email_txt . "\n\n"; 
+$headers .= "\nMIME-Version: 1.0\n" .
+            "Content-Type: multipart/mixed;\n" .
+            " boundary=\"{$mime_boundary}\"";
 
-$data = chunk_split(base64_encode($data)); 
+$email_message .= "This is a multi-part message in MIME format.\n\n" .
+                "--{$mime_boundary}\n" .
+                "Content-Type:text/html; charset=\"iso-8859-1\"\n" .
+               "Content-Transfer-Encoding: 7bit\n\n" .
+$email_txt . "\n\n";
 
-$email_message .= "--{$mime_boundary}\n" . 
-                  "Content-Type: {$fileatt_type};\n" . 
-                  " name=\"{$fileatt_name}\"\n" . 
-                  //"Content-Disposition: attachment;\n" . 
-                  //" filename=\"{$fileatt_name}\"\n" . 
-                  "Content-Transfer-Encoding: base64\n\n" . 
-                 $data . "\n\n" . 
-                  "--{$mime_boundary}--\n"; 
+$data = chunk_split(base64_encode($data));
 
-$ok = mail($email_to, $email_subject, $email_message, $headers); 
+$email_message .= "--{$mime_boundary}\n" .
+                  "Content-Type: {$fileatt_type};\n" .
+                  " name=\"{$fileatt_name}\"\n" .
+                  //"Content-Disposition: attachment;\n" .
+                  //" filename=\"{$fileatt_name}\"\n" .
+                  "Content-Transfer-Encoding: base64\n\n" .
+                 $data . "\n\n" .
+                  "--{$mime_boundary}--\n";
+
+$ok = mail($email_to, $email_subject, $email_message, $headers);
 
 return $ok;
 
 }
-?> 
+?>
