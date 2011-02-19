@@ -86,7 +86,7 @@ else{
 }
 
 $version = str_replace(".", "", phpversion());
-if(($version < 520) or ($_CONFIG['backup_refresh'] == 0)){
+if (version_compare(PHP_VERSION, '5.2.3') < 0) {
 	$_CONFIG['refresh_mode']="0";
 }
 

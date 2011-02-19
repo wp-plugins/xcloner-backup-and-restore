@@ -1984,7 +1984,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		        <b><?php
 				$version = phpversion();
 		        $ver = str_replace(".", "", $version);
-		        $val = ($ver < 520)? $version: "Off";
+		        $val = (version_compare(PHP_VERSION, '5.2.3') < 0)? $version: "Off";
 		        echo HTML_cloner::get_color($version, $val);
 		        ?></b>
 		        <br />
