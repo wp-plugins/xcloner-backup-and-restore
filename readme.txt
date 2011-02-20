@@ -1,7 +1,7 @@
 === XCloner - Backup and Restore===
 Contributors: xcloner
 Donate link: http://www.xcloner.com/
-Tags: backup, restore, admin, plugin, database, full backup, cloner, xcloner, theme, files, upload, wordpress backup, backup plugin, database backup, database restore, site move, transfer, blog transfer
+Tags: backup, restore, admin, plugin, database, full backup, cloner, xcloner, theme, files, upload, wordpress backup, backup plugin, database backup, database restore, site move, transfer, blog transfer, BuddyPress
 Requires at least: 2.0.2
 Tested up to: 3.0.5
 Stable tag: 3.0
