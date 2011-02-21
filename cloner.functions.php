@@ -141,13 +141,13 @@
           if ($fp = @fopen($config_file, 'w')) {
               $cfg = '<?' . 'php' . "\n";
 
-              $cfg .= '$_CONFIG[\'license_code\']="' . $_REQUEST[license_code] . '";' . "\n";
+              $cfg .= '$_CONFIG[\'license_code\']=\'' . $_REQUEST[license_code] . '\';' . "\n";
 
               $cfg .= '$_CONFIG[\'backup_path\']="' . $_REQUEST[backup_path] . '";' . "\n";
 
               $cfg .= '$_CONFIG[\'clonerPath\']="' . $_REQUEST[clonerPath] . '";' . "\n";
 
-              $cfg .= '$_CONFIG[\'jcuser\']="' . $_REQUEST[jcuser] . '";' . "\n";
+              $cfg .= '$_CONFIG[\'jcuser\']=\'' . $_REQUEST[jcuser] . '\';' . "\n";
 
               if ($_REQUEST['jcpass'] == '') {
                   $jcpass = $_CONFIG['jcpass'];
@@ -161,7 +161,7 @@
 
               $cfg .= '$_CONFIG[\'mysql_host\']="' . $_REQUEST[mysql_host] . '";' . "\n";
 
-              $cfg .= '$_CONFIG[\'mysql_user\']="' . $_REQUEST[mysql_user] . '";' . "\n";
+              $cfg .= '$_CONFIG[\'mysql_user\']=\'' . $_REQUEST[mysql_user] . '\';' . "\n";
 
               $cfg .= '$_CONFIG[\'mysql_pass\']=\'' . $_REQUEST[mysql_pass] . '\';' . "\n";
 
@@ -189,7 +189,7 @@
 
               $cfg .= '$_CONFIG[\'cron_ftp_server\']="' . $_REQUEST[cron_ftp_server] . '";' . "\n";
 
-              $cfg .= '$_CONFIG[\'cron_ftp_user\']="' . $_REQUEST[cron_ftp_user] . '";' . "\n";
+              $cfg .= '$_CONFIG[\'cron_ftp_user\']=\'' . $_REQUEST[cron_ftp_user] . '\';' . "\n";
 
               $cfg .= '$_CONFIG[\'cron_ftp_pass\']=\'' . $_REQUEST[cron_ftp_pass] . '\';' . "\n";
 
@@ -245,13 +245,13 @@
 
               $cfg .= '$_CONFIG[\'cron_amazon_active\']="' . $_REQUEST[cron_amazon_active] . '";' . "\n";
 
-              $cfg .= '$_CONFIG[\'cron_amazon_awsAccessKey\']="' . $_REQUEST[cron_amazon_awsAccessKey] . '";' . "\n";
+              $cfg .= '$_CONFIG[\'cron_amazon_awsAccessKey\']=\'' . $_REQUEST[cron_amazon_awsAccessKey] . '\';' . "\n";
 
-              $cfg .= '$_CONFIG[\'cron_amazon_awsSecretKey\']="' . $_REQUEST[cron_amazon_awsSecretKey] . '";' . "\n";
+              $cfg .= '$_CONFIG[\'cron_amazon_awsSecretKey\']=\'' . $_REQUEST[cron_amazon_awsSecretKey] . '\';' . "\n";
 
-              $cfg .= '$_CONFIG[\'cron_amazon_bucket\']="' . $_REQUEST[cron_amazon_bucket] . '";' . "\n";
+              $cfg .= '$_CONFIG[\'cron_amazon_bucket\']=\'' . $_REQUEST[cron_amazon_bucket] . '\';' . "\n";
 
-              $cfg .= '$_CONFIG[\'cron_amazon_dirname\']="' . $_REQUEST[cron_amazon_dirname] . '";' . "\n";
+              $cfg .= '$_CONFIG[\'cron_amazon_dirname\']=\'' . $_REQUEST[cron_amazon_dirname] . '\';' . "\n";
 
               $cfg .= '$_CONFIG[\'debug\']="' . $_REQUEST[debug] . '";' . "\n";
 
