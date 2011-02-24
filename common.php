@@ -90,6 +90,10 @@ if (version_compare(PHP_VERSION, '5.2.3') < 0) {
 	$_CONFIG['refresh_mode']="0";
 }
 
+if (!$_CONFIG['backup_refresh']) {
+	$_CONFIG['refresh_mode']="0";
+}
+
 $_CONFIG['backup_start_path'] 	= $_CONFIG['backup_path'];
 $_CONFIG['backup_store_path'] 	= $_CONFIG['clonerPath'];
 $_CONFIG['temp_dir'] 		= $_CONFIG['backups_dir'];
