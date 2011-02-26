@@ -41,7 +41,7 @@ Features:
 4. Access it from the Plugins->XCloner menu
 
 UPGRADE:
- 
+
 If you plan on upgrading your XCloner installation, to keep it's original setting, please keep a copy after your wp-content/plugins/xcloner-backup-and-restore/cloner.config.php file, and re-upload it after the upgrade.
 
 == Frequently Asked Questions ==
@@ -67,6 +67,9 @@ If the inside Clone option fails for some reason, you need to:
 8. Restore screen
 
 == Changelog ==
+
+= 3.0.1=
+* several security for bug fixes
 
 = 3.0 =
 * incremental database backup
