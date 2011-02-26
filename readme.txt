@@ -69,7 +69,7 @@ If the inside Clone option fails for some reason, you need to:
 == Changelog ==
 
 = 3.0.1=
-* several security for bug fixes
+* several important security and bug fixes
 
 = 3.0 =
 * incremental database backup
