@@ -77,9 +77,16 @@ if ($handle = opendir('./')) {
 ######################################################################
 
 
-$_CONFIG['output_path'] = $_REQUEST['output_path'];
+$_CONFIG['output_path'] = realpath($_REQUEST['output_path']);
 $_CONFIG['output_url'] = $_REQUEST['output_url_pref']."://".$_REQUEST['output_url'];
-$_CONFIG['tmp'] = $_REQUEST['output_path'];
+$_REQUEST['output_url'] = str_replace("/###","",$_REQUEST['output_url']."###");
+$_REQUEST['output_url'] = str_replace("###","",$_REQUEST['output_url']);
+
+if(function_exists('filter_var')){
+	$_CONFIG['output_url'] = filter_var($_CONFIG['output_url'], FILTER_SANITIZE_URL);
+}
+$_CONFIG['tmp'] = realpath($_REQUEST['output_path']);
+
 
 if($_REQUEST['files_skip'] == 1)
 	$_REQUEST['do_database'] = 1;
@@ -553,6 +560,8 @@ if($_REQUEST['refresh'] < 1){
 
 function write_config($file){
 
+	global $_CONFIG;
+
     if(@$fp = fopen($file, "r")){
 		$config_data = "";
 		while(!feof($fp))
@@ -566,7 +575,7 @@ function write_config($file){
 		$config_data = str_replace("define('DB_USER', '", "define('DB_USER', '".$_REQUEST[mysql_username]."');#", $config_data);
 		$config_data = str_replace("define('DB_PASSWORD', '", "define('DB_PASSWORD', '".$_REQUEST[mysql_pass]."');#", $config_data);
 		$config_data = str_replace("define('DB_NAME', '", "define('DB_NAME', '".$_REQUEST[mysql_db]."');#", $config_data);
-		$liveurl = $_REQUEST[output_url_pref]."://".$_REQUEST[output_url];
+		$liveurl = $_CONFIG['output_url'];
 		$config_data = str_replace("define('DB_HOST", "define('WP_SITEURL','".$liveurl."');\ndefine('WP_HOME','".$liveurl."');\ndefine('RELOCATE',true);\ndefine('DB_HOST", $config_data);
 
 		$config_data = str_replace("define('WP_SITEURL', '", "define('WP_SITEURL', '".$liveurl."');#", $config_data);
@@ -583,11 +592,9 @@ function write_config($file){
 		$config_data = str_replace('$'.'ftp_enable =',"$"."ftp_enable ='0';#", $config_data);
 	}
 
-	$_REQUEST[output_url] = str_replace("/###","",$_REQUEST[output_url]."###");
-    $_REQUEST[output_url] = str_replace("###","",$_REQUEST[output_url]);
 
-	$config_data = str_replace('$'.'live_site =',"$"."live_site ='".$_REQUEST[output_url_pref]."://".$_REQUEST[output_url]."';#", $config_data);
-	$config_data = str_replace('$'.'absolute_path =',"$"."absolute_path ='".$_REQUEST[output_path]."';#", $config_data);
+	$config_data = str_replace('$'.'live_site =',"$"."live_site ='".$_CONFIG['output_url']."';#", $config_data);
+	$config_data = str_replace('$'.'absolute_path =',"$"."absolute_path ='".$_CONFIG['output_path']."';#", $config_data);
 
 	if ($fp = fopen($file, "w")) {
 		fwrite( $fp, $config_data);
