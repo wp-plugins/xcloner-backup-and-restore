@@ -77,7 +77,7 @@ if ($handle = opendir('./')) {
 ######################################################################
 
 
-$_CONFIG['output_path'] = realpath($_REQUEST['output_path']);
+$_CONFIG['output_path'] = $_REQUEST['output_path'];
 $_CONFIG['output_url'] = $_REQUEST['output_url_pref']."://".$_REQUEST['output_url'];
 $_REQUEST['output_url'] = str_replace("/###","",$_REQUEST['output_url']."###");
 $_REQUEST['output_url'] = str_replace("###","",$_REQUEST['output_url']);
@@ -85,7 +85,7 @@ $_REQUEST['output_url'] = str_replace("###","",$_REQUEST['output_url']);
 if(function_exists('filter_var')){
 	$_CONFIG['output_url'] = filter_var($_CONFIG['output_url'], FILTER_SANITIZE_URL);
 }
-$_CONFIG['tmp'] = realpath($_REQUEST['output_path']);
+$_CONFIG['tmp'] = $_REQUEST['output_path'];
 
 
 if($_REQUEST['files_skip'] == 1)
