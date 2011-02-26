@@ -68,7 +68,7 @@ If the inside Clone option fails for some reason, you need to:
 
 == Changelog ==
 
-= 3.0.1=
+= 3.0.1 =
 * several important security and bug fixes
 
 = 3.0 =
@@ -93,5 +93,5 @@ If the inside Clone option fails for some reason, you need to:
 
 == Upgrade Notice ==
 
-= 3.0 =
-Please check the changelog, there are several improvements, including better interface, better incremental backup process, as well as several restore addons and speed improvements
+= 3.0.1 =
+Important security and bug fixes, upgrade is Highly recommended!
