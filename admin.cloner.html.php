@@ -206,7 +206,7 @@ document.write(d);
 <?php
 if($_REQUEST['mosmsg']!="")
 
- echo "<center><h2>".$_REQUEST['mosmsg']."</h2></center>";
+ echo "<center><h2>".strip_tags($_REQUEST['mosmsg'])."</h2></center>";
 
 }
 

@@ -20,6 +20,14 @@
  *      MA 02110-1301, USA.
  */
 
+if(is_file("../cloner.config.php")){
+
+	echo "<h3>Access denied, if you are trying to restore a backup, please move the restore script in another directory!</h3>";
+
+	exit;
+
+}
+
 
 @set_time_limit(3600);
 
@@ -192,7 +200,7 @@ function step2($file=""){
 		if (!@mysql_select_db($DBname)) {
 			die("<br /><span class='error'>Could not connect to $DBname database! Please make sure the database exists and that you assigned the mysql user to it...</span>");
 		}
-		mysql_query("SET sql_mode='';");	
+		mysql_query("SET sql_mode='';");
 		if($_REQUEST['charset_of_file']!="")
 			mysql_query("SET NAMES ".$_REQUEST['charset_of_file']."");
 		else
@@ -461,13 +469,13 @@ if($_REQUEST['refresh'] < 1){
 
 
 ##### RESTORE CONFIGURATION #####
-     $update_config = 1;	
+     $update_config = 1;
 
     if(($_REQUEST['files_skip']) and  (isset($_REQUEST['fpos']))){
-    
-    	$update_config = 0;	
-    	
-    }	
+
+    	$update_config = 0;
+
+    }
 
     if(($_REQUEST['do_database'] != 1) || ($_REQUEST['files_skip'] == 1)){
 		$config_file = $_CONFIG[output_path]."/wp-config.php";

@@ -18,6 +18,22 @@ define( '_VALID_MOS', 1 );
 include_once("admin.cloner.html.php");
 include_once("cloner.functions.php");
 
+require_once( 'cloner.config.php' );
+
+####### VERIFY IP ACCESS
+$ip_list = @explode("\r\n", $_CONFIG['cron_ip']);
+$ip_list[] = $_SERVER['SERVER_ADDR'];
+$curent_ip = $_SERVER["REMOTE_ADDR"];
+
+if(!in_array($curent_ip, $ip_list)){
+
+	echo "Access Denied for ip $curent_ip!";
+	exit;
+
+}
+#########################
+
+
 
 
 $script_dir = str_replace("\\","/",dirname(__FILE__));
@@ -83,7 +99,7 @@ else{
 
 
 ####### VERIFY IP ACCESS
-$ip_list = @explode("\r\n", $_CONFIG['cron_ip']);
+/*$ip_list = @explode("\r\n", $_CONFIG['cron_ip']);
 $ip_list[] = $_SERVER['SERVER_ADDR'];
 $curent_ip = $_SERVER["REMOTE_ADDR"];
 
@@ -92,7 +108,7 @@ if(!in_array($curent_ip, $ip_list)){
 	echo "Access Denied for ip $curent_ip!";
 	exit;
 
-}
+}*/
 #########################
 
 $access=1;
