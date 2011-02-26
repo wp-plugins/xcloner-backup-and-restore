@@ -35,6 +35,8 @@
 	require_once("admin.cloner.html.php");
 	require_once("common.php");
 
+	$option = "xcloner";
+
 	//Doing some basic authentification
 	if ((!isset($_SESSION['clone'])) && ($task != 'dologin')) {
 	$task = 'login';
