@@ -43,6 +43,7 @@ if(is_dir($script_dir)){
 
  }
 
+
 if($_REQUEST['config'] == ""){
 
 	if($argv[1] != ""){
@@ -53,6 +54,9 @@ if($_REQUEST['config'] == ""){
 
 
 }
+
+//filter the config request path
+$_REQUEST['config'] = str_replace(array("..","/","\\"), array("","",""), trim($_REQUEST['config']));
 
 if($_REQUEST['config'] != ""){
 
