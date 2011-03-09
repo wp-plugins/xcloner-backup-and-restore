@@ -20,7 +20,7 @@
  *      MA 02110-1301, USA.
  */
 
-if(is_file("../cloner.config.php")){
+if(@is_file("../cloner.config.php")){
 
 	echo "<h3>Access denied, if you are trying to restore a backup, please move the restore script in another directory!</h3>";
 
