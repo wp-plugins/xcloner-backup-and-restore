@@ -1128,6 +1128,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		$( "#cron_file_delete_act" ).button();
 		$( "#cron_sql_drop" ).button();
 		$( "#cron_amazon_active" ).button();
+		$( "#cron_amazon_ssl" ).button();
 		$( "#cron_ftp_delb" ).button();
 		$( "#checkmysqldump" ).button();
 	});
@@ -1202,18 +1203,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		     </td>
 		    </tr>
 
-			<tr>
-		     <td>
-		      <?php echo LM_CRON_COMPRESS?>
-		     </td>
-		     <td>
-		      <div id="radiog2">
-			      <label for="radiog21"><?php echo LM_YES?></label> <input id="radiog21" type=radio size=50 value=1 name='backup_compress' <?php if($_CONFIG[backup_compress]==1) echo 'checked';?>>
-			      <label for="radiog22"><?php echo LM_NO?></label> <input  id="radiog22" type=radio size=50 value=0 name='backup_compress' <?php if($_CONFIG[backup_compress]==0) echo 'checked';?>>
-		     <br /> <small>set it to Yes in order to compress the files into smaller backups</small>
-		     </div>
-		     </td>
-		    </tr>
+			
 
 		    <tr>
 		     <td>
@@ -1574,6 +1564,19 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		      <input type=text size=20 name='refresh_time' value=<?php echo $_CONFIG[refresh_time];?>> miliseconds
 
 		     </td></tr>
+		     
+		     <tr>
+		     <td>
+		      <?php echo LM_CRON_COMPRESS?>
+		     </td>
+		     <td>
+		      <div id="radiog2">
+			      <label for="radiog21"><?php echo LM_YES?></label> <input id="radiog21" type=radio size=50 value=1 name='backup_compress' <?php if($_CONFIG[backup_compress]==1) echo 'checked';?>>
+			      <label for="radiog22"><?php echo LM_NO?></label> <input  id="radiog22" type=radio size=50 value=0 name='backup_compress' <?php if($_CONFIG[backup_compress]==0) echo 'checked';?>>
+		     <br /> <small>Note: this option might break your backup process if the Manual backup option is also enabled</small>
+		     </div>
+		     </td>
+		    </tr>
 
 		    <tr><td>
 		      <?php echo LM_REFRESH_MODE?>
@@ -1787,6 +1790,9 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		     	<td>
 		     	<label for="cron_amazon_active"><?php echo LM_AMAZON_S3_ACTIVATE?></label>
 				<input id="cron_amazon_active" type=checkbox name='cron_amazon_active' <?php if($_CONFIG[cron_amazon_active]==1) echo "checked";?> value='1'>
+				
+				<label for="cron_amazon_ssl"><?php echo LM_AMAZON_S3_SSL?></label>
+				<input id="cron_amazon_ssl" type=checkbox name='cron_amazon_ssl' <?php if($_CONFIG[cron_amazon_ssl]==1) echo "checked";?> value='1'>
 			</td>
 			</tr>
 
@@ -1807,7 +1813,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 				<input type=text size=50  name='cron_amazon_awsSecretKey' value="<?php echo $_CONFIG['cron_amazon_awsSecretKey'];?>">
 			</td>
 			</tr>
-
+			
 			<tr>
 			<td width='200'>
 		     		<?php echo LM_AMAZON_S3_BUCKET;?>

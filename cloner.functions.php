@@ -252,6 +252,8 @@
               $cfg .= '$_CONFIG[\'cron_amazon_bucket\']=\'' . $_REQUEST[cron_amazon_bucket] . '\';' . "\n";
 
               $cfg .= '$_CONFIG[\'cron_amazon_dirname\']=\'' . $_REQUEST[cron_amazon_dirname] . '\';' . "\n";
+              
+              $cfg .= '$_CONFIG[\'cron_amazon_ssl\']=\'' . $_REQUEST[cron_amazon_ssl] . '\';' . "\n";
 
               $cfg .= '$_CONFIG[\'debug\']="' . $_REQUEST[debug] . '";' . "\n";
 
