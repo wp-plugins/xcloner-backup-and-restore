@@ -2,11 +2,11 @@
 
 // --- FRONT AREA---//
 define("LM_FRONT_CHOOSE_PACKAGE","<b>Choose the package to install:</b>");
-define("LM_FRONT_CHOOSE_PACKAGE_SUB","<small>Please select your Wordpress version you wish to install</small>");
-define("LM_FRONT_TOP","<span colspan='2' class='contentheading'>Install Wordpress Software Online</span>");
+define("LM_FRONT_CHOOSE_PACKAGE_SUB","<small>Please select your Joomla version you wish to install</small>");
+define("LM_FRONT_TOP","<span colspan='2' class='contentheading'>Install Joomla Software Online</span>");
 define("LM_FRONT_TOP_FTP_DETAILS","<h2>Provide your ftp details below:</h2>");
 define("LM_FRONT_WEBSITE_URL","<b>Website Url:</b>");
-define("LM_FRONT_WEBSITE_URL_SUB","<small>Please provide the website url where Wordpress will be installed, example http://www.sitename.com/Wordpress</small>");
+define("LM_FRONT_WEBSITE_URL_SUB","<small>Please provide the website url where Joomla will be installed, example http://www.sitename.com/Joomla</small>");
 define("LM_FRONT_FTP_HOST","<b>Ftp hostname:</b>");
 define("LM_FRONT_FTP_HOST_SUB","<small>example ftp.sitename.com</small>");
 define("LM_FRONT_FTP_USER","<b>Ftp username:</b>");
@@ -14,7 +14,7 @@ define("LM_FRONT_FTP_USER_SUB","<small>example john</small>");
 define("LM_FRONT_FTP_PASS","<b>Ftp password:</b>");
 define("LM_FRONT_FTP_PASS_SUB","<small>example johnpass</small>");
 define("LM_FRONT_FTP_DIR","<b>Ftp directory:</b>");
-define("LM_FRONT_FTP_DIR_SUB","<small>Please provide the ftp directory of where you would like to install Wordpress, example public_html/Wordpress/ or htdocs/Wordpress/ and make sure it has write permissions for everybody</small>");
+define("LM_FRONT_FTP_DIR_SUB","<small>Please provide the ftp directory of where you would like to install Joomla, example public_html/Joomla/ or htdocs/Joomla/ and make sure it has write permissions for everybody</small>");
 define("LM_TRANSFER_FTP_INCT","Incremental transfer: ");
 define("LM_TRANSFER_FTP_INCT_SUB","will attempt to transfer the files over ftp in an incremental mode to avoid any blank pages or timeouts ");
 define("LM_FRONT_BOTTOM","Didn't work for you? Please tell us what happened -> <a href='http://www.xcloner.com/contact/'>Contact page</a><br />
@@ -31,16 +31,17 @@ define("LM_AMAZON_S3_AWSACCESSKEY", "AWS Access Key:");
 define("LM_AMAZON_S3_AWSSECRETKEY", "AWS Secret Key:");
 define("LM_AMAZON_S3_BUCKET", "Bucket name:");
 define("LM_AMAZON_S3_DIRNAME", "Upload Directory:");
+define("LM_AMAZON_S3_SSL","Enable SSL transfer");
 
 
 define("LM_DATABASE_EXCLUDE_TABLES","Select tables to exclude from backup:");
 define("LM_CONFIG_SYSTEM_FOLDER","Folders display:");
 define("LM_CONFIG_SYSTEM_FOLDER_SUB","please select the mode you would like to select the exclude folders from 'Generate Backup' section");
 define("LM_CONFIG_SYSTEM_LANG","System Language:");
-define("LM_CONFIG_SYSTEM_LANG_SUB","configures the XCloner language, if set to default it will display the default language of Wordpress if available");
+define("LM_CONFIG_SYSTEM_LANG_SUB","configures the XCloner language, if set to default it will display the default language of Joomla if available");
 define("LM_CONFIG_SYSTEM_LANG_DEFAULT","System Default");
 define("LM_CONFIG_SYSTEM_DOWNLOAD","Enable Direct Download link:");
-define("LM_CONFIG_SYSTEM_DOWNLOAD_SUB","if this is checked, in the 'View Backups' screen, the download link will be a direct link from your server to download the package, please note that the backup path must be within the Wordpress root path");
+define("LM_CONFIG_SYSTEM_DOWNLOAD_SUB","if this is checked, in the 'View Backups' screen, the download link will be a direct link from your server to download the package, please note that the backup path must be within the Joomla root path");
 define("LM_CONFIG_DISPLAY","Display Settings");
 define("LM_CONFIG_SYSTEM","System Settings");
 define("LM_CONFIG_SYSTEM_FTP","FTP Transfer Mode");
@@ -195,7 +196,7 @@ define("LM_MSG_BACK_6","Unpublishing failed! Please check your paths!");
 define("LM_MSG_BACK_7","Succesfully published to frontend");
 define("LM_MSG_BACK_8","Publishing failed! Please check your paths!");
 define("LM_MSG_BACK_9","Clones succesfully renamed!");
-define("LM_MSG_BACK_10","The Wordpress path is not within your backup path! Could not use the direct download mode! You should edit your Configuration->System Tab and set 'Direct Download link' to No");
+define("LM_MSG_BACK_10","The Joomla path is not within your backup path! Could not use the direct download mode! You should edit your Configuration->System Tab and set 'Direct Download link' to No");
 define("LM_MSG_BACK_11","All done! Manual Backup process finished! <a href='index2.php?option=com_cloner&task=view'>Click here to continue</a>");
 define("LM_MSG_BACK_12","<h2>Backup failed! Please check that you have support for the zip utility(/usr/bin/zip or /usr/local/bin/zip) on your server and the path you set it's corect in Configuration, or choose the Tar archive type!</h2>");
 define("LM_MSG_BACK_13","<h2>Backup failed! Please check that you have support for the tar utility(/usr/bin/tar or /usr/local/bin/tar) on your server and the path you set it's corect in Configuration,  or choose the Zip archive type!</h2>");
