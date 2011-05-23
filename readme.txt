@@ -68,6 +68,10 @@ If the inside Clone option fails for some reason, you need to:
 
 == Changelog ==
 
+= 3.0.3 =
+* added amazon ssl option box
+* moved the compress option to the System tab, don't use unless you know what you are doing!
+
 = 3.0.1 =
 * several important security and bug fixes
 
