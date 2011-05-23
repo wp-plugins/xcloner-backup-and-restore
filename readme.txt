@@ -97,5 +97,5 @@ If the inside Clone option fails for some reason, you need to:
 
 == Upgrade Notice ==
 
-= 3.0.1 =
-Important security and bug fixes, upgrade is Highly recommended!
+= 3.0.3 =
+Please check changelog!
