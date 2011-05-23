@@ -415,7 +415,7 @@ define("LM_LOGIN_TEXT","
  1. If you are on this screen for the first time, your default
     username is '<i>admin</i>' and password '<i>admin</i>', you should change them after login
 
- 2. if you forget your password, to reset it you need to add
+ 2. If you've forgot your password, to reset it you need to add
     this code:
 
 	<b>$"."_CONFIG[\"jcpass\"] = md5(\"my_new_pass\");</b>
@@ -423,6 +423,8 @@ define("LM_LOGIN_TEXT","
     at the end of the config file cloner.config.php just
     before line ?>
     Don't forget to replace my_new_pass with the actual password
+  
+  3. The username and password are Case-Sensitive  
 </pre>
 ");
 ?>
