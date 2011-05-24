@@ -313,7 +313,7 @@ if(!$_CONFIG['cron_amazon_ssl'])
 else
 	$amazon_ssl = true;
 
-$s3 = new S3($_CONFIG['cron_amazon_awsAccessKey'], $_CONFIG['cron_amazon_awsSecretKey'], $amazon_ssl);
+$s3 = new S3($_CONFIG['cron_amazon_awsAccessKey'], $_CONFIG['cron_amazon_awsSecretKey'], (int)$amazon_ssl);
 
 logxx("AMAZON S3: Starting communication with the Amazon S3 server...ssl mode ".$amazon_ssl);
 
