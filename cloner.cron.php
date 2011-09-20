@@ -54,7 +54,7 @@ if($_REQUEST['config'] == ""){
 
 }
 
-//filter the config request path
+//filter the config request path, remove LFI vulnerability
 $_REQUEST['config'] = str_replace(array("..","/","\\"), array("","",""), trim($_REQUEST['config']));
 
 if($_REQUEST['config'] != ""){
