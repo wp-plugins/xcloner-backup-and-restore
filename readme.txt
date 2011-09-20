@@ -68,6 +68,9 @@ If the inside Clone option fails for some reason, you need to:
 
 == Changelog ==
 
+= 3.0.4 =
+* LFI vulnerability fix
+
 = 3.0.3 =
 * added amazon ssl option box
 * moved the compress option to the System tab, don't use it unless you know what you are doing!
