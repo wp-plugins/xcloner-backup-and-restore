@@ -35,8 +35,11 @@ $_CONFIG['multiple_config_dir'] = "configs";
 //if((substr($_CONFIG['backup_path'], $strlen-1, $strlen) != '/') && (substr($_CONFIG['backup_path'], $strlen-1, $strlen) != '\\'))
 //	$_CONFIG['backup_path'] .= "/";
 
-$_CONFIG['backup_path'] = realpath($_CONFIG['backup_path'])."/";
-$_CONFIG['backups_dir'] = realpath($_CONFIG['backup_path'])."/administrator/backups";
+#$_CONFIG['backup_path'] = realpath($_CONFIG['backup_path'])."/";
+#$_CONFIG['backups_dir'] = realpath($_CONFIG['backup_path'])."/administrator/backups";
+
+$_CONFIG['backup_path'] = ($_CONFIG['backup_path']);
+$_CONFIG['backups_dir'] = str_replace("//administrator","/administrator",($_CONFIG['backup_path'])."/administrator/backups");
 
 $_CONFIG['backup_path'] = str_replace("\\","/", $_CONFIG['backup_path']);
 $_CONFIG['backups_dir'] = str_replace("\\","/", $_CONFIG['backups_dir']);
