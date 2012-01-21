@@ -2051,9 +2051,9 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
                   $InsertDump = "INSERT INTO `$tblval` VALUES (";
                   $arr = $row;
                   foreach ($arr as $key => $value) {
-                      $value = addslashes($value);
-                      $value = str_replace("\n", '\r\n', $value);
-                      $value = str_replace("\r", '', $value);
+                      $value = mysql_escape_string($value);
+                      #$value = str_replace("\n", '\r\n', $value);
+                      #$value = str_replace("\r", '', $value);
                       //if (@preg_match ("/\b" . $FieldType[$tblval][$key] . "\b/i", "DATE TIME DATETIME CHAR VARCHAR TEXT TINYTEXT MEDIUMTEXT LONGTEXT BLOB TINYBLOB MEDIUMBLOB LONGBLOB ENUM SET"))
                       {
                           $InsertDump .= "'$value',";
