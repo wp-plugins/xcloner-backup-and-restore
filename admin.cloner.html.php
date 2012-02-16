@@ -1036,13 +1036,46 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 
     ?>
 
-    <script>
+    <script type="text/javascript">
+		
 	$(function() {
 		$( "#toggle" ).button();
 		$( "#toggle" ).click(function() { checkJAll(<?php echo (count( $files )); ?>, "toggle", "cb"); });
 		$( "#checklist" ).buttonset();
-	});
+		
+		$( "#Clone, #Rename, #Delete, #Move" ).unbind("click");
+		$( "#Clone, #Rename, #Delete, #Move" ).click(function(){
+				if(!$("input:checked").length){
+					
+					$( "#error-message" ).dialog({
+						width: 500,
+						modal: true,
+						buttons: {
+							Ok: function() {
+								$( this ).dialog( "close" );
+							}
+						}
+					});					
+				
+					return false;
+				}else{
+					var action = $(this).attr('id').toLowerCase();
+					document.adminForm.task.value=action;
+					document.adminForm.submit();
+				}
+		})
+
+	
+	})
 	</script>
+	
+	<div id="error-message" title="Error" style="display:none;">
+		<p>
+			<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+			Please select at least one backup archive.
+		</p>
+
+	</div>
 	<div id="checklist">
     <form action="index2.php" method="post" name="adminForm">
     <table class="adminlist">
@@ -2644,3 +2677,4 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 
 }
 ?>
+
