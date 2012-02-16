@@ -748,21 +748,25 @@ function Login(){
 
 	<script>
 	$(function() {
-		$( "button, submit:input", ".loginform" ).button({
+		$( "#login" ).button({
             icons: {
                 primary: "ui-icon-locked"
             }
-        }).next()
-			.button({
+        })
+        $("#login").click(function() {
+				$("#adminForm")[0].submit();
+				return false;
+			})
+        
+        $( "#reset" ).button({
 				icons: {
                 primary: "ui-icon-trash"
 				}
 			})
-			.click(function() {
-					$("#adminForm")[0].reset();
-					return false;
-				});
-
+		$( "#reset" ).click(function() {
+				$("#username").val('');$("#password").val('');
+				return false;
+			});
 
 	});
 	</script>
@@ -774,12 +778,12 @@ function Login(){
 		<tr><td align='center'>
 			<table align='center' cellpadding='10' cellspacing='20'>
 				<tr ><td colspan='2' align='center'><b>Authentication Area:</b></td></tr>
-				<tr><td>Username:</td><td><input type='text' size='30' name='username'></td></tr>
-				<tr><td>Password:</td><td><input type='password' size='30' name='password'></td></tr>
+				<tr><td>Username:</td><td><input type='text' size='30' name='username' id='username'></td></tr>
+				<tr><td>Password:</td><td><input type='password' size='30' name='password' id='password'></td></tr>
 				<tr><td>&nbsp;</td><td>
 				<div class="loginform">
-				<button>Login</button>
-				<button>Reset</button>
+				<button id="login">Login</button>
+				<button id="reset">Reset</button>
 
 
 				</div>

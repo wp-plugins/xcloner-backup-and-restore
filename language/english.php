@@ -354,7 +354,10 @@ define("LM_CLONER_RESTORE","<h2>How to restore a backup on different locations I
 
    <b>Note:</b> if this process fails for any reason, you need to do this:
    	1. Download the backup on your computer
-   	2. Download the restore script, all files from directory administrator/components/com_xcloner-backupandrestore/restore/
+   	2. Download the restore script, all files from directory:
+   		Joomla : administrator/components/com_xcloner-backupandrestore/restore/
+		Wordpress : wp-content/plugins/xcloner-backup-and-restore/
+		Standalone: restore/
    	3. Upload both backup and restore script to your restore location
    	4. Launch XCloner.php in your browser and follow the restore screen as specified below
 
@@ -363,7 +366,7 @@ define("LM_CLONER_RESTORE","<h2>How to restore a backup on different locations I
    <b>XCloner.php - the restore script</b>
     - at this step you already should have in place the backup you created and the Restore script
     - enter your new mysql access details, this includes your new mysql hostname, user and password, and a new database if different from the original one
-    - enter your new location Url and password
+    - enter your new location Url and Path
     - to restore the files you have <b>2 options:</b>
 
        	- 1. restore the files through ftp, the script will simulate a ftp upload process on your server, this will
