@@ -182,6 +182,7 @@
 	  mosRedirect('index2.php?option=' . $option . "&task=config", $_REQUEST['fconfig'] . $msg);
 	  break;
 
+	case 'delete':
 	case 'remove':
 	  deleteBackups($cid, $option);
 	  break;
