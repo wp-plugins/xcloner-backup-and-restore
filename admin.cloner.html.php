@@ -1049,6 +1049,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 					
 					$( "#error-message" ).dialog({
 						width: 500,
+						height: 200,
 						modal: true,
 						buttons: {
 							Ok: function() {
@@ -2677,4 +2678,5 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 
 }
 ?>
+
 
