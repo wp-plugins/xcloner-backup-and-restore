@@ -2678,5 +2678,3 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 
 }
 ?>
-
-
