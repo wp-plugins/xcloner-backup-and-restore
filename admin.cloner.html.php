@@ -2679,7 +2679,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     </form>
 
     <?php
-      }
+    }
 
 }
 ?>
