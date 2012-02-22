@@ -666,8 +666,8 @@ $error	= 0;
 				echo "<span class='success'>OK";
 				if(!is_dir($_CONFIG[backup_start_path]."/administrator/backups")){	
 					@mkdir($_CONFIG[backup_start_path]."/administrator");
-					@mkdir($_CONFIG[backup_start_path]."/administrator/backups");
-					echo "<script>window.location='index2.php'</script";
+					if(@mkdir($_CONFIG[backup_start_path]."/administrator/backups"))
+						echo "<script>window.location='index2.php'</script";
 				}
 			}
 		echo " ($_CONFIG[backup_start_path])";
