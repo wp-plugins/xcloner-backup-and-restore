@@ -39,6 +39,9 @@ $_CONFIG['sqldump']="mysqldump --quote-names ";
 $_CONFIG['system_dlink']="";
 $_CONFIG['system_ftptransfer']="0";
 $_CONFIG['system_mdatabases']="0";
+$_CONFIG['recordsPerSession']= "10000";
+$_CONFIG['excludeFilesSize'] = "-1";
+$_CONFIG['splitBackupSize'] = "2048"; //MB
 
 ### Defaults
 $script_dir = str_replace("\\","/",dirname(__FILE__));

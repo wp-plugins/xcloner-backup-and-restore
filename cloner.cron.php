@@ -18,6 +18,23 @@ define( '_VALID_MOS', 1 );
 include_once("admin.cloner.html.php");
 include_once("cloner.functions.php");
 
+require_once( 'cloner.config.php' );
+
+####### VERIFY IP ACCESS
+$ip_list = @explode("\r\n", $_CONFIG['cron_ip']);
+$ip_list[] = $_SERVER['SERVER_ADDR'];
+$curent_ip = $_SERVER["REMOTE_ADDR"];
+
+if(!in_array($curent_ip, $ip_list)){
+	
+	echo "Access Denied for ip $curent_ip!";
+	exit;
+	
+}
+#########################
+
+
+
 
 $script_dir = str_replace("\\","/",dirname(__FILE__));
 if(is_dir($script_dir)){
@@ -36,6 +53,9 @@ if($_REQUEST['config'] == ""){
 
 
 }
+
+//filter the config request path, remove LFI vulnerability
+$_REQUEST['config'] = str_replace(array("..","/","\\"), array("","",""), trim($_REQUEST['config']));
 
 if($_REQUEST['config'] != ""){
 	
@@ -82,7 +102,7 @@ else{
 
 
 ####### VERIFY IP ACCESS
-$ip_list = @explode("\r\n", $_CONFIG['cron_ip']);
+/*$ip_list = @explode("\r\n", $_CONFIG['cron_ip']);
 $ip_list[] = $_SERVER['SERVER_ADDR'];
 $curent_ip = $_SERVER["REMOTE_ADDR"];
 
@@ -91,7 +111,7 @@ if(!in_array($curent_ip, $ip_list)){
 	echo "Access Denied for ip $curent_ip!";
 	exit;
 	
-}
+}*/
 #########################
 
 $access=1;
@@ -263,7 +283,7 @@ elseif($_CONFIG['cron_send']==2){
     Source Filename: $source_file
     Server: $mosConfig_live_site
     
-    Powered by http://www.xcloner.com - Xcloner - Backup and Restore made easy!
+    Powered by http://www.xcloner.com - XCloner - Backup and Restore made easy!
     </pre>
 
     ";
@@ -288,9 +308,14 @@ include_once("classes/S3.php");
 
 logxx();
 
-$s3 = new S3($_CONFIG['cron_amazon_awsAccessKey'], $_CONFIG['cron_amazon_awsSecretKey']);
+if(!$_CONFIG['cron_amazon_ssl'])
+	$amazon_ssl = false;
+else
+	$amazon_ssl = true;
 
-logxx("AMAZON S3: Starting communication with the Amazon S3 server...");
+$s3 = new S3($_CONFIG['cron_amazon_awsAccessKey'], $_CONFIG['cron_amazon_awsSecretKey'], (int)$amazon_ssl);
+
+logxx("AMAZON S3: Starting communication with the Amazon S3 server...ssl mode ".$amazon_ssl);
 
 $buckets = $s3->listBuckets();
 
