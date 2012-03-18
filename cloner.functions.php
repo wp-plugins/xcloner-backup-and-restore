@@ -123,7 +123,8 @@
 
   function fdefault()
   {
-      HTML_cloner::_FDefault();
+      $html = new HTML_cloner();
+      $html->_FDefault();
   }
 
   function config($option)
@@ -288,7 +289,8 @@
               E_print($msg);
           }
       }
-      HTML_cloner::Config($option);
+      $html = new HTML_cloner();
+      $html->Config($option);
   }
 
   //## JoomlaCloner Language Manager
@@ -314,7 +316,8 @@
           mosRedirect('index2.php?option=' . $option . "&task=lang", $msg);
       }
 
-      HTML_cloner::Translator($option, $lang_array);
+      $html = new HTML_cloner();
+      $html->Translator($option, $lang_array);
   }
 
   function translator_add($option, $task)
@@ -340,9 +343,9 @@
 
           mosRedirect('index2.php?option=' . $option . "&task=lang", $msg);
       }
-
-
-      HTML_cloner::Translator_Add($option);
+	
+	  $html = new HTML_cloner();
+      $html->Translator_Add($option);
   }
   function translator_edit($option, $task)
   {
@@ -424,14 +427,15 @@
 
 
       if ($lang == 'english') {
-          HTML_cloner::Translator_Edit_DEFAULT($option, $content, $file, $lang);
+          $html = new HTML_cloner();
+          $html->Translator_Edit_DEFAULT($option, $content, $file, $lang);
       } else {
           $def_data = get_lang_data($dfile);
           $cur_data = get_lang_data($file);
 
           $data = array_merge($def_data, $cur_data);
-
-          HTML_cloner::Translator_Edit($option, $data, $def_data, $file, $lang);
+		  $html = new HTML_cloner();
+          $html->Translator_Edit($option, $data, $def_data, $file, $lang);
       }
   }
 
@@ -646,7 +650,8 @@
       getBackupFiles($d_arr, $f_arr, $s_arr, $d, $f);
 
       // load presentation layer
-      HTML_cloner::showBackups($f_arr, $s_arr, $_CONFIG['clonerPath'], $option);
+      $html = new HTML_cloner();
+      $html->showBackups($f_arr, $s_arr, $_CONFIG['clonerPath'], $option);
   }
 
   function moveBackup($option)
@@ -662,8 +667,10 @@
       if ($_REQUEST['action'] == "connect") {
           $ret = start_connect($_REQUEST[files]);
       }
-      if (!$ret)
-          HTML_cloner::TransferForm($option, $files_out);
+      if (!$ret){
+		  $html = new HTML_cloner();
+          $html->TransferForm($option, $files_out);
+	  }
   }
 
   function start_connect($files)
@@ -895,8 +902,8 @@
       }
 
 
-
-      HTML_Cloner::rename($files, $option);
+	  $html = new HTML_cloner();
+      $html->rename($files, $option);
   }
   function downloadBackup($file)
   {
@@ -1025,9 +1032,10 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
           }
 
       // load presentation layer
-      if ($option != 'nohtml')
-          HTML_cloner::confirmBackups($d_arr, $ds_arr, $_CONFIG['clonerPath'], $option);
-      else
+      if ($option != 'nohtml'){
+          $html = new HTML_cloner();
+          $html->confirmBackups($d_arr, $ds_arr, $_CONFIG['clonerPath'], $option);
+      }else
           return $d_arr;
   }
 
@@ -1544,8 +1552,8 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
              // echo "Starting the manual backup process!<br />";
               if((!$_CONFIG['refresh_mode']) and ($_CONFIG['enable_db_backup']))
 				echo "<h2>Database backup: </h2>" . $databaseResult . "<br /><br />";
-
-              HTML_cloner::goRefreshHtml($filename, $perm_lines, $excl_manual);
+			  $html = new HTML_cloner();
+              $html->goRefreshHtml($filename, $perm_lines, $excl_manual);
               return;
           }
 
@@ -1637,8 +1645,8 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
                   E_print("Backup failed, please check your tar server utility support!");
                   return;
               }*/
-
-              HTML_cloner::goRefreshHtml($filename, $perm_lines, $excl_manual);
+			  $html = new HTML_cloner();
+              $html->goRefreshHtml($filename, $perm_lines, $excl_manual);
 
               return;
           }
@@ -1680,11 +1688,12 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
       // load presentation layer
       if ($option != 'nohtml') {
-          HTML_cloner::generateBackup($filename1, $archiveSize, $originalSize, $mdir, $f, $databaseResult, $option);
+		  $html = new HTML_cloner();
+          $html->generateBackup($filename1, $archiveSize, $originalSize, $mdir, $f, $databaseResult, $option);
       } else {
 
-
-          logxx(HTML_cloner::generateBackup_text($filename1, $archiveSize, $originalSize, $mdir, $f, $databaseResult, $option));
+		  $html = new HTML_cloner();	
+          logxx($html->generateBackup_text($filename1, $archiveSize, $originalSize, $mdir, $f, $databaseResult, $option));
       }
 
       if (is_array($databases_incl)) {
@@ -1708,7 +1717,8 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
       // ----------------------------------------------------------
 
       // load presentation layer
-      HTML_cloner::showHelp($option);
+      $html = new HTML_cloner();
+      $html->showHelp($option);
   }
 
 
@@ -2051,7 +2061,7 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
                   $InsertDump = "INSERT INTO `$tblval` VALUES (";
                   $arr = $row;
                   foreach ($arr as $key => $value) {
-                      $value = mysql_escape_string($value);
+                      $value = mysql_real_escape_string($value);
                       #$value = str_replace("\n", '\r\n', $value);
                       #$value = str_replace("\r", '', $value);
                       //if (@preg_match ("/\b" . $FieldType[$tblval][$key] . "\b/i", "DATE TIME DATETIME CHAR VARCHAR TEXT TINYTEXT MEDIUMTEXT LONGTEXT BLOB TINYBLOB MEDIUMBLOB LONGBLOB ENUM SET"))

@@ -16,54 +16,56 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 
 require_once('toolbar.cloner.html.php' );
 
+$html = new TOOLBAR_cloner();
+
 switch ( $task ) {
   case 'help':
   case 'credits':
   case 'refresh':
   case 'generate':
-    TOOLBAR_cloner::_GENERATE();
+    $html->_GENERATE();
     break;
 
   case 'rename_save':
   case 'rename':
-    TOOLBAR_cloner::_RENAME();
+    $html->_RENAME();
     break;
   case 'confirm':
-    TOOLBAR_cloner::_CONFIRM();
+    $html->_CONFIRM();
     break;
   case 'continue':
   case 'move':
   case 'clone':
-    TOOLBAR_cloner::_CLONE();
+    $html->_CLONE();
     break;
   case 'config':
-    TOOLBAR_cloner::_CONFIG();
+    $html->_CONFIG();
     break;
   case 'show':
   case 'view':
-    TOOLBAR_cloner::_VIEW();
+    $html->_VIEW();
     break;
 
 
   case 'add_lang':
-     TOOLBAR_cloner::_LANG_ADD();
+     $html->_LANG_ADD();
      break;
   case 'save_lang_apply':
   case 'edit_lang':
-     TOOLBAR_cloner::_LANG_EDIT();
+     $html->_LANG_EDIT();
      break;
 
   case 'del_lang':
   case 'lang':
-    TOOLBAR_cloner::_LANG();
+    $html->_LANG();
     break;
 
   case 'login':
-    TOOLBAR_cloner::_LOGIN();
+    $html->_LOGIN();
 	break;
 
   default:
-    TOOLBAR_cloner::_DEFAULT();
+    $html->_DEFAULT();
     break;
 }
 

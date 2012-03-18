@@ -41,11 +41,12 @@
 	if ((!isset($_SESSION['clone'])) && ($task != 'dologin')) {
 	$task = 'login';
 
-	HTML_cloner::header();
+	$html = new HTML_cloner();
+	$html->header();
 
-	HTML_cloner::Login();
+	$html->Login();
 
-	HTML_cloner::footer();
+	$html->footer();
 
 	exit;
 	} elseif ($task == 'dologin') {
@@ -76,8 +77,11 @@
 	}
 
 	if(!$_REQUEST['nohtml'])
-	if (($task != 'download') and (($_REQUEST['task']!="refresh") or (!$_CONFIG['refresh_mode'])))
-		HTML_cloner::header();
+	if (($task != 'download') and (($_REQUEST['task']!="refresh") or (!$_CONFIG['refresh_mode']))){
+		//HTML_cloner::header();
+		$html = new HTML_cloner();
+		$html->header();
+	}
 
 	//########## SETTING THE GLOBALS VARIABLES #########################
 
@@ -163,14 +167,14 @@
 	  downloadBackup($_REQUEST[file]);
 	  break;
 	case 'cron':
-	  HTML_cloner::Cron();
+	  $html->Cron();
 	  break;
 	case 'about':
 	case 'credits':
 	  showHelp($option);
 	  break;
 	case 'restore':
-	  HTML_cloner::Restore($option);
+	  $html->Restore($option);
 	  break;
 
 	case 'cron_delete':
@@ -182,7 +186,7 @@
 	  mosRedirect('index2.php?option=' . $option . "&task=config", $_REQUEST['fconfig'] . $msg);
 	  break;
 
-	case 'delete':
+	case 'delete':	
 	case 'remove':
 	  deleteBackups($cid, $option);
 	  break;
@@ -215,7 +219,7 @@
 
 	closeXLog();
 	if(!$_REQUEST['nohtml'])
-		HTML_cloner::footer();
+		$html->footer();
 
 	@mysql_close($link);
 ?>

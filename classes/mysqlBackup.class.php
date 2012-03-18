@@ -315,7 +315,7 @@ class DB{
 								$return['totalRecords'] 	= $tableInfo[1];
 
 								//if(intval($return['totalRecords']) != 0)
-								if(trim($tableName) != "")
+								if(trim($tableName) !="")
 									self::exportTable($databaseName, $tableName, $startAtRecord, self::$recordsPerSession, $fd);
 
 								fclose($fd);
@@ -398,7 +398,7 @@ class DB{
 					self::$countRecords++;
 
 	                foreach ($arr as $key => $value) {
-						$value = mysql_escape_string($value);
+						$value = mysql_real_escape_string($value);
 						$buffer .= "'".$value."', ";
 					}
 					$buffer = rtrim($buffer, ', ') . ");\n";

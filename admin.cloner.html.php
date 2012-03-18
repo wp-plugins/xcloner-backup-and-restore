@@ -581,7 +581,7 @@ function path_check($path){
 	}
 
 function  _FDefault(){
-		global $_CONFIG;
+		global $_CONFIG, $html;
 ?>
 
 <form action="index2.php" method="post" name="adminForm">
@@ -656,8 +656,8 @@ $error	= 0;
 	<div class="status">
 	<span class="mtext">Backup Start Path Check: </span>
 	<?php
-
-		$stat = HTML_cloner::path_check($_CONFIG[backup_start_path]);
+		$html = new HTML_cloner();
+		$stat = $html->path_check($_CONFIG[backup_start_path]);
 
 		if( $stat['code'] > 0 and $stat['code'] < 3){
 				echo "<span class='error'>".$stat['message']; $error = 1;
@@ -668,7 +668,7 @@ $error	= 0;
 					@mkdir($_CONFIG[backup_start_path]."/administrator");
 					if(@mkdir($_CONFIG[backup_start_path]."/administrator/backups"))
 						echo "<script>window.location='index2.php'</script";
-				}
+				}	
 			}
 		echo " ($_CONFIG[backup_start_path])";
 	?>
@@ -678,7 +678,7 @@ $error	= 0;
 	<span class="mtext">Backup Store Path Check: </span>
 	<?php
 
-		$stat = HTML_cloner::path_check($_CONFIG[backup_store_path]);
+		$stat = $html->path_check($_CONFIG[backup_store_path]);
 
 		if( $stat['code'] > 0){
 				echo "<span class='error'>".$stat['message']; $error = 1;
@@ -695,7 +695,7 @@ $error	= 0;
 	<span class="mtext">Temporary Path Check: </span>
 	<?php
 
-		$stat = HTML_cloner::path_check($_CONFIG[temp_dir]);
+		$stat = $html->path_check($_CONFIG[temp_dir]);
 
 		if( $stat['code'] > 0){
 				echo "<span class='error'>".$stat['message']; $error = 1;
@@ -2679,7 +2679,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     </form>
 
     <?php
-    }
+      }
 
 }
 ?>
