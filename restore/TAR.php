@@ -1329,7 +1329,9 @@ class archive_tar
       if (!$this->_readHeader($v_binary_data, $v_header))
         return false;
 
-      $v_header['filename'] = $v_filename;
+      //$v_header['filename'] = $v_filename;
+      $v_header['filename'] = str_replace("\x00","",$v_filename);
+      
         if ($this->_maliciousFilename($v_filename)) {
             $this->_error('Malicious .tar detected, file "' . $v_filename .
                 '" will not install in desired directory tree');
