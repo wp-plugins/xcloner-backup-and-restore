@@ -69,7 +69,7 @@ If the inside Clone option fails for some reason, you need to:
 == Changelog ==
 
 = 3.0.7 =
-* added sftp support for backup transfer, thanks Todd Bluhm
+* added sftp support for backup transfer, thanks Todd Bluhm - dynamicts.com
 
 = 3.0.6 =
 * added php 5.4 compatibility
