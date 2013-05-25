@@ -175,6 +175,7 @@ document.write(d);
 //-->
 </script></div> </td></tr></table>
 
+<div id="ads" value="display:none";>
 <!--XCloner Ads -->
 <br />
 <table width='100%' cellpadding='5' height='100%' class='menu_table'><tr><td>
@@ -199,6 +200,8 @@ document.write(d);
 </center>
 </td></td></table>
 <!-- END Ads -->
+</div>
+
 
 </td><td valign='top' align='left' style="padding-left: 20px;">
 
@@ -219,7 +222,10 @@ function footer(){
 <p>Powered by <a href='http://www.xcloner.com' target='_blank'>XCloner</a>. Backup and Restore Made Easy!</p></center>
 
 </td></tr></table>
-<script> $( "#toolbar" ).show(); </script>
+<script> 
+	$( "#toolbar" ).show(); 
+	$( "#ads" ).show();
+</script>
 </body></html>
 
 <?php
