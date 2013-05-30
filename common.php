@@ -101,5 +101,6 @@ $_CONFIG['backup_start_path'] 	= $_CONFIG['backup_path'];
 $_CONFIG['backup_store_path'] 	= $_CONFIG['clonerPath'];
 $_CONFIG['temp_dir'] 		= $_CONFIG['backups_dir'];
 
-date_default_timezone_set('America/Los_Angeles');
+if(!date_default_timezone_get())
+	date_default_timezone_set('America/Los_Angeles');
 ?>
