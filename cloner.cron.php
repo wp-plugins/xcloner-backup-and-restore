@@ -430,6 +430,12 @@ delete_older_backups($clonerPath);
 ###################END OLDER BACKUPS
 
 $logemail = explode(";", $_CONFIG['cron_logemail']);
+
+if($_CONFIG['cron_fromlogemail'])
+	$fromemail = $_CONFIG['cron_fromlogemail'];
+else
+	$fromemail = "nobody@noreply.com";
+	
 if(sizeof($logemail)>0){
 	
 	for($i=0; $i<sizeof($logemail);$i++){
@@ -439,7 +445,7 @@ if(sizeof($logemail)>0){
 			
 			$email_subject = "cron log ".time();
 			
-			$headers ="From: \"Cronlog XCloner\" <nobody@noreply.com>\n";
+			$headers ="From: \"XCloner Cron Log Output\" <".$fromemail.">\n";
 
 			if(mail($email, $email_subject, strip_tags($mail_log), $headers)){
 			

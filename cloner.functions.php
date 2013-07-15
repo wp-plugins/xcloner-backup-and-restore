@@ -177,6 +177,8 @@
               $cfg .= '$_CONFIG[\'backup_compress\']="' . $_REQUEST[backup_compress] . '";' . "\n";
 
               $cfg .= '$_CONFIG[\'cron_logemail\']="' . $_REQUEST[cron_logemail] . '";' . "\n";
+              
+              $cfg .= '$_CONFIG[\'cron_fromlogemail\']="' . $_REQUEST[cron_fromlogemail] . '";' . "\n";
 
               $cfg .= '$_CONFIG[\'cron_exclude\']="' . $_REQUEST[cron_exclude] . '";' . "\n";
 

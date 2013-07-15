@@ -125,6 +125,8 @@ define("LM_CRON_DELETE_FILES_SUB","Delete backups older than: ");
 define("LM_CRON_DELETE_FILES_SUB_ACTIVE"," Activate");
 define("LM_CRON_SEMAIL","Email cron log to: ");
 define("LM_CRON_SEMAIL_SUB","If an email address is set, after running a cron job, the cron log will be emailed to this address; multiple addresses can be added separated by ;");
+define("LM_CRON_FROMEMAIL","Email cron log from: ");
+define("LM_CRON_FROMEMAIL_SUB","If an email address is set, after running a cron job, the cron log will be emailed from this address");
 define("LM_CRON_MCRON","Configuration Name:");
 define("LM_CRON_MCRON_AVAIL","Available Configurations:");
 define("LM_CRON_MCRON_R","please provide a simple name for your new cron configuration");

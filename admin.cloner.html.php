@@ -1717,6 +1717,16 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		       <?php echo LM_CRON_SEMAIL_SUB?>
 		     </td>
 		    </tr>
+		    
+		    <tr>
+		    <td width='250'>
+		      <?php echo LM_CRON_FROMEMAIL?>
+		     </td>
+		     <td>
+		      <input type=text size=30 value="<?php echo $_CONFIG[cron_fromlogemail]?>" name='cron_fromlogemail' > <br />
+		       <?php echo LM_CRON_FROMEMAIL_SUB?>
+		     </td>
+		    </tr>
 
 		    <tr>
 		     <td>
