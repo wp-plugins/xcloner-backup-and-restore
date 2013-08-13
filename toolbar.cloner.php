@@ -4,7 +4,7 @@
 * Oficial website: http://www.joomlaplug.com/
 * -------------------------------------------
 * Creator: Liuta Romulus Ovidiu
-* License: GNU/GPL
+* License: All Rights Reserved
 * Email: admin@joomlaplug.com
 * Revision: 1.0
 * Date: July 2007
@@ -16,57 +16,54 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 
 require_once('toolbar.cloner.html.php' );
 
-$html = new TOOLBAR_cloner();
-
 switch ( $task ) {
   case 'help':
   case 'credits':
   case 'refresh':
   case 'generate':
-    $html->_GENERATE();
+    TOOLBAR_cloner::_GENERATE();
     break;
 
   case 'rename_save':
   case 'rename':
-    $html->_RENAME();
+    TOOLBAR_cloner::_RENAME();
     break;
   case 'confirm':
-    $html->_CONFIRM();
+    TOOLBAR_cloner::_CONFIRM();
     break;
   case 'continue':
   case 'move':
   case 'clone':
-    $html->_CLONE();
+    TOOLBAR_cloner::_CLONE();
     break;
   case 'config':
-    $html->_CONFIG();
+    TOOLBAR_cloner::_CONFIG();
     break;
   case 'show':
   case 'view':
-    $html->_VIEW();
+    TOOLBAR_cloner::_VIEW();
     break;
-
-
+  
+  
   case 'add_lang':
-     $html->_LANG_ADD();
+     TOOLBAR_cloner::_LANG_ADD();
      break;
   case 'save_lang_apply':
   case 'edit_lang':
-     $html->_LANG_EDIT();
+     TOOLBAR_cloner::_LANG_EDIT();
      break;
-
+    
   case 'del_lang':
   case 'lang':
-    $html->_LANG();
+    TOOLBAR_cloner::_LANG();
     break;
-
+    
   case 'login':
-    $html->_LOGIN();
-	break;
-
+    TOOLBAR_cloner::_LOGIN();
+	break;  
+	  
   default:
-    $html->_DEFAULT();
+    TOOLBAR_cloner::_DEFAULT();
     break;
 }
-
 ?>

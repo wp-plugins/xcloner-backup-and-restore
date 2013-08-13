@@ -20,16 +20,14 @@
    *      MA 02110-1301, USA.
    */
 
-  /** ensure this file is being included by a parent file */
-  defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
-
-
   /*
    * Process the logout request
    * name: doLogout()
    * @param
    * @return
    */
+
+  /*processing the Logout  task*/
   function doLogout()
   {
       if (function_exists('session_unregister')) {
@@ -123,8 +121,7 @@
 
   function fdefault()
   {
-      $html = new HTML_cloner();
-      $html->_FDefault();
+      HTML_cloner::_FDefault();
   }
 
   function config($option)
@@ -142,13 +139,13 @@
           if ($fp = @fopen($config_file, 'w')) {
               $cfg = '<?' . 'php' . "\n";
 
-              $cfg .= '$_CONFIG[\'license_code\']=\'' . $_REQUEST[license_code] . '\';' . "\n";
+              $cfg .= '$_CONFIG[\'license_code\']="' . $_REQUEST[license_code] . '";' . "\n";
 
               $cfg .= '$_CONFIG[\'backup_path\']="' . $_REQUEST[backup_path] . '";' . "\n";
 
               $cfg .= '$_CONFIG[\'clonerPath\']="' . $_REQUEST[clonerPath] . '";' . "\n";
 
-              $cfg .= '$_CONFIG[\'jcuser\']=\'' . $_REQUEST[jcuser] . '\';' . "\n";
+              $cfg .= '$_CONFIG[\'jcuser\']="' . $_REQUEST[jcuser] . '";' . "\n";
 
               if ($_REQUEST['jcpass'] == '') {
                   $jcpass = $_CONFIG['jcpass'];
@@ -162,7 +159,7 @@
 
               $cfg .= '$_CONFIG[\'mysql_host\']="' . $_REQUEST[mysql_host] . '";' . "\n";
 
-              $cfg .= '$_CONFIG[\'mysql_user\']=\'' . $_REQUEST[mysql_user] . '\';' . "\n";
+              $cfg .= '$_CONFIG[\'mysql_user\']="' . $_REQUEST[mysql_user] . '";' . "\n";
 
               $cfg .= '$_CONFIG[\'mysql_pass\']=\'' . $_REQUEST[mysql_pass] . '\';' . "\n";
 
@@ -190,7 +187,7 @@
 
               $cfg .= '$_CONFIG[\'cron_ftp_server\']="' . $_REQUEST[cron_ftp_server] . '";' . "\n";
 
-              $cfg .= '$_CONFIG[\'cron_ftp_user\']=\'' . $_REQUEST[cron_ftp_user] . '\';' . "\n";
+              $cfg .= '$_CONFIG[\'cron_ftp_user\']="' . $_REQUEST[cron_ftp_user] . '";' . "\n";
 
               $cfg .= '$_CONFIG[\'cron_ftp_pass\']=\'' . $_REQUEST[cron_ftp_pass] . '\';' . "\n";
 
@@ -216,12 +213,6 @@
 
               $cfg .= '$_CONFIG[\'refresh_mode\']="' . $_REQUEST[refresh_mode] . '";' . "\n";
 
-              $cfg .= '$_CONFIG[\'recordsPerSession\']="' . $_REQUEST[recordsPerSession] . '";' . "\n";
-
-              $cfg .= '$_CONFIG[\'excludeFilesSize\']="' . $_REQUEST[excludeFilesSize] . '";' . "\n";
-
-              $cfg .= '$_CONFIG[\'splitBackupSize\']="' . $_REQUEST[splitBackupSize] . '";' . "\n";
-
               $cfg .= '$_CONFIG[\'backup_refresh_number\']="' . $_REQUEST[backup_refresh_number] . '";' . "\n";
 
               $cfg .= '$_CONFIG[\'sql_mem\']="' . $_REQUEST[sql_mem] . '";' . "\n";
@@ -246,15 +237,13 @@
 
               $cfg .= '$_CONFIG[\'cron_amazon_active\']="' . $_REQUEST[cron_amazon_active] . '";' . "\n";
 
-              $cfg .= '$_CONFIG[\'cron_amazon_awsAccessKey\']=\'' . $_REQUEST[cron_amazon_awsAccessKey] . '\';' . "\n";
+              $cfg .= '$_CONFIG[\'cron_amazon_awsAccessKey\']="' . $_REQUEST[cron_amazon_awsAccessKey] . '";' . "\n";
 
-              $cfg .= '$_CONFIG[\'cron_amazon_awsSecretKey\']=\'' . $_REQUEST[cron_amazon_awsSecretKey] . '\';' . "\n";
+              $cfg .= '$_CONFIG[\'cron_amazon_awsSecretKey\']="' . $_REQUEST[cron_amazon_awsSecretKey] . '";' . "\n";
 
-              $cfg .= '$_CONFIG[\'cron_amazon_bucket\']=\'' . $_REQUEST[cron_amazon_bucket] . '\';' . "\n";
+              $cfg .= '$_CONFIG[\'cron_amazon_bucket\']="' . $_REQUEST[cron_amazon_bucket] . '";' . "\n";
 
-              $cfg .= '$_CONFIG[\'cron_amazon_dirname\']=\'' . $_REQUEST[cron_amazon_dirname] . '\';' . "\n";
-              
-              $cfg .= '$_CONFIG[\'cron_amazon_ssl\']=\'' . $_REQUEST[cron_amazon_ssl] . '\';' . "\n";
+              $cfg .= '$_CONFIG[\'cron_amazon_dirname\']="' . $_REQUEST[cron_amazon_dirname] . '";' . "\n";
 
               $cfg .= '$_CONFIG[\'debug\']="' . $_REQUEST[debug] . '";' . "\n";
 
@@ -277,7 +266,7 @@
                   } else {
 
 
-                      $msg = "Unable to save  ".$fcron." file, please make sure the folder is writeable!";
+                      $msg = "Unable to save  $fcron file, please make sure the folder is writeable!";
                   }
               }
 
@@ -289,8 +278,7 @@
               E_print($msg);
           }
       }
-      $html = new HTML_cloner();
-      $html->Config($option);
+      HTML_cloner::Config($option);
   }
 
   //## JoomlaCloner Language Manager
@@ -316,8 +304,7 @@
           mosRedirect('index2.php?option=' . $option . "&task=lang", $msg);
       }
 
-      $html = new HTML_cloner();
-      $html->Translator($option, $lang_array);
+      HTML_cloner::Translator($option, $lang_array);
   }
 
   function translator_add($option, $task)
@@ -343,9 +330,9 @@
 
           mosRedirect('index2.php?option=' . $option . "&task=lang", $msg);
       }
-	
-	  $html = new HTML_cloner();
-      $html->Translator_Add($option);
+
+
+      HTML_cloner::Translator_Add($option);
   }
   function translator_edit($option, $task)
   {
@@ -427,15 +414,14 @@
 
 
       if ($lang == 'english') {
-          $html = new HTML_cloner();
-          $html->Translator_Edit_DEFAULT($option, $content, $file, $lang);
+          HTML_cloner::Translator_Edit_DEFAULT($option, $content, $file, $lang);
       } else {
           $def_data = get_lang_data($dfile);
           $cur_data = get_lang_data($file);
 
           $data = array_merge($def_data, $cur_data);
-		  $html = new HTML_cloner();
-          $html->Translator_Edit($option, $data, $def_data, $file, $lang);
+
+          HTML_cloner::Translator_Edit($option, $data, $def_data, $file, $lang);
       }
   }
 
@@ -483,103 +469,11 @@
       return $lang_arr;
   }
 
-  function goRecurseDatabases(){
-	global $_CONFIG;
-
-	include_once("classes/mysqlBackup.class.php");
-
-	$return = array();
-
-	$data['dbHostname'] 			= $_CONFIG['mysql_host'];
-	$data['dbUsername'] 			= $_CONFIG['mysql_user'];
-	$data['dbPassword'] 			= $_CONFIG['mysql_pass'];
-	$data['dbDatabase'] 			= $_CONFIG['mysql_database'];
-	$data['excludedTables']			= "";
-	$data['recordsPerSession']		= $_CONFIG['recordsPerSession'];
-	$data['dbCompatibility'] 		= $_REQUEST['dbbackup_comp']; //version compatibility
-	$data['dbDropSyntax'] 			= $_REQUEST['dbbackup_drop']; //Add DROP Syntax
-
-	$data['TEMP_DUMP_FILE'] 		= $_CONFIG['temp_dir']."/database-sql.sql";
-	$data['TEMP_DBPROCESS_FILE'] 	= $_CONFIG['temp_dir']."/.database";
-
-	if($_REQUEST['mode'] == "start"){
-	//do the initial table readings
-
-		//foreach($_REQUEST['excltables'] as $value) //check if any tables are excluded, we will only export their structure
-		$data['excludedTables']	= $_REQUEST['excltables'];
-
-		//foreach($_REQUEST['excltables'] as $value) //check if any other databases are included
-		$extradb = $_REQUEST['databases_incl'];
-
-		$db = new DB();
-		$db->init($data, 1);
-		$db->writeTempFile();
-		$db->disconnect();
-
-		//building the .database temp file
-		if(is_array($extradb))
-		foreach($extradb as $database){
-			$data['dbDatabase'] = $database;
-			$data['TEMP_DUMP_FILE'] = $_CONFIG['temp_dir']."/".$data['dbDatabase']."-sql.sql";
-			$db = new DB();
-			$db->init($data);
-			$db->writeTempFile();
-			$db->disconnect();
-
-		}
-
-		return;
-	}
-
-	//we start the backup process for the actual database
-
-	$data['dbDatabase'] 		= "";
-	$dumpfile 					= "";
-	$data['dbCompatibility'] 	= $_REQUEST['dbbackup_comp']; //version compatibility
-	$data['dbDropSyntax'] 		= $_REQUEST['dbbackup_drop']; //Add DROP Syntax
-	$startAtLine 				= intval($_REQUEST['startAtLine']);
-	$startAtRecord 				= intval($_REQUEST['startAtRecord']);
-	$dumpfile 					= $_REQUEST['dumpfile'];
-
-	$db = new DB();
-	$db->init($data);
-
-	$records = $db->resetcountRecords();
-
-	while(($records < $_CONFIG['recordsPerSession']) and (!$return['finished']) and(!$return['newDump']) and(!$return['endDump'])){
-
-		$return = $db->processIncremental($startAtLine, $startAtRecord, $dumpfile);
-
-		$records = $db->getcountRecords();
-		$startAtLine = $return['startAtLine'];
-		$startAtRecord = $return['startAtRecord'];
-		$dumpfile = $return['dumpfile'];
-
-	}
-
-	/*if($return['newDump'])
-		print_r($return);*/
-	/*$startAtLine = $return['startAtLine'];
-	$startAtRecord = $return['startAtRecord'];
-	$dumpfile = $return['dumpfile'];*/
-
-	$return['dbbackup_comp'] = $_REQUEST['dbbackup_comp'];
-	$return['dbbackup_drop'] = $_REQUEST['dbbackup_drop'];
-
-	if($return['databaseName'] == "###enddump###")
-		$return['databaseName'] = "";
-
-	$db->disconnect();
-
-	echo json_encode($return);
-	exit;
-
-  }
 
   function goRecurseFiles(){
 
 	global $_CONFIG;
-
+	
 	include_once("classes/fileRecursion.php");
 
 	$status['finished'] = "1";
@@ -587,18 +481,16 @@
 
 	$handle = new fileRecursion();
 
-	$dataInit['TEMP_PERM'] 				= $_CONFIG['temp_dir']."/perm.txt";
-	$dataInit['TEMP_EXCL'] 				= $_CONFIG['exfile'];
-	$dataInit['TEMP_D_ARR']				= $_CONFIG['temp_dir']."/.dir";
-	$dataInit['TEMP_DIR']				= $_CONFIG['clonerPath'];
-	$dataInit['START_DIR']				= $_CONFIG['backup_path'];
-	$dataInit['EXCLUDE_FILES_SIZE']		= $_CONFIG['excludeFilesSize'];
-	$dataInit['TEMP_OVERSIZED_FILE'] 	= $_CONFIG['temp_dir']."/.oversized_files";
+	$TEMP_PERM 		= $_CONFIG['backups_dir']."/perm.txt";
+	$TEMP_EXCL 		= $_CONFIG['exfile'];
+	$TEMP_D_ARR 		= $_CONFIG['backups_dir']."/.dir";
+	$TEMP_DIR 		= $_CONFIG['clonerPath'];
+	$START_DIR		= $_CONFIG['backup_path'];
 
-	$handle->setData($dataInit);
+	$handle->setData($TEMP_PERM,$TEMP_EXCL,$TEMP_D_ARR,$TEMP_DIR, $START_DIR);
 
 	if($_REQUEST['mode'] == 'start')
-		$handle->init($_CONFIG['backup_start_path']);
+		$handle->init($_CONFIG['backup_path']);
 	else
 		$handle->init();
 
@@ -613,15 +505,10 @@
 
 	if(!$handle->isQueueFinished())
 		$status['finished'] = "0";
-	else{
-	//recurse finished, lets return the excluded files by size
-		if(intval($_CONFIG['EXCLUDE_FILES_SIZE']) > -1){
-			$status['overlimit'] = $handle->getOverLimitFiles();
-			}
-	}
+
+
 
 	echo json_encode($status);
-	$handle->close();
 	exit;
 
   }
@@ -650,8 +537,7 @@
       getBackupFiles($d_arr, $f_arr, $s_arr, $d, $f);
 
       // load presentation layer
-      $html = new HTML_cloner();
-      $html->showBackups($f_arr, $s_arr, $_CONFIG['clonerPath'], $option);
+      HTML_cloner::showBackups($f_arr, $s_arr, $_CONFIG['clonerPath'], $option);
   }
 
   function moveBackup($option)
@@ -667,10 +553,8 @@
       if ($_REQUEST['action'] == "connect") {
           $ret = start_connect($_REQUEST[files]);
       }
-      if (!$ret){
-		  $html = new HTML_cloner();
-          $html->TransferForm($option, $files_out);
-	  }
+      if (!$ret)
+          HTML_cloner::TransferForm($option, $files_out);
   }
 
   function start_connect($files)
@@ -902,14 +786,14 @@
       }
 
 
-	  $html = new HTML_cloner();
-      $html->rename($files, $option);
+
+      HTML_Cloner::rename($files, $option);
   }
   function downloadBackup($file)
   {
       global $_CONFIG;
 
-      $file = realpath($_CONFIG['clonerPath'] . "/$file");
+      $file = $_CONFIG['clonerPath'] . "/$file";
 
       //First, see if the file exists
       if (!is_file($file)) {
@@ -923,65 +807,74 @@
 
       //Setam Content-Type-urile pentru  fisierul in cauza
       switch ($file_extension) {
+          case "pdf":
+              $ctype = "application/pdf";
+              break;
+          case "exe":
+              $ctype = "application/octet-stream";
+              break;
+          case "zip":
+              $ctype = "application/zip";
+              break;
+          case "doc":
+              $ctype = "application/msword";
+              break;
+          case "xls":
+              $ctype = "application/vnd.ms-excel";
+              break;
+          case "ppt":
+              $ctype = "application/vnd.ms-powerpoint";
+              break;
+          case "gif":
+              $ctype = "image/gif";
+              break;
+          case "png":
+              $ctype = "image/png";
+              break;
+          case "jpeg":
+          case "jpg":
+              $ctype = "image/jpg";
+              break;
+          case "mp3":
+              $ctype = "audio/mpeg";
+              break;
+          case "wav":
+              $ctype = "audio/x-wav";
+              break;
+          case "mpeg":
+          case "mpg":
+          case "mpe":
+              $ctype = "video/mpeg";
+              break;
+          case "mov":
+              $ctype = "video/quicktime";
+              break;
+          case "avi":
+              $ctype = "video/x-msvideo";
+              break;
+
           default:
               $ctype = "application/force-download";
       }
 
-	  smartReadFile($file, $filename);
+      //Writing Headers
+      header("Pragma: public");
+      header("Expires: 0");
+      header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+      header("Cache-Control: public");
+      header("Content-Description: File Transfer");
 
+      //Content-Type-ul
+      header("Content-Type: $ctype");
+
+      //Force Download
+      $header = "Content-Disposition: attachment; filename=" . $filename . ";";
+      header($header);
+      header("Content-Transfer-Encoding: binary");
+      header("Content-Length: " . $len);
+      @readfile($file);
       exit;
   }
-
-function smartReadFile($location, $filename, $mimeType='application/octet-stream')
-{ if(!file_exists($location))
-  { header ("HTTP/1.0 404 Not Found");
-    return;
-  }
-
-  $size=filesize($location);
-  $time=date('r',filemtime($location));
-
-  $fm=@fopen($location,'r');
-  if(!$fm)
-  { header ("HTTP/1.0 505 Internal server error");
-    return;
-  }
-
-  $begin=0;
-  $end=$size;
-
-  if(isset($_SERVER['HTTP_RANGE']))
-  { if(preg_match('/bytes=\h*(\d+)-(\d*)[\D.*]?/i', $_SERVER['HTTP_RANGE'], $matches))
-    { $begin=intval($matches[0]);
-      if(!empty($matches[1]))
-        $end=intval($matches[1]);
-    }
-  }
-
-  if($begin>0||$end<$size)
-    header('HTTP/1.0 206 Partial Content');
-  else
-    header('HTTP/1.0 200 OK');
-
-  header("Content-Type: $mimeType");
-  header('Cache-Control: public, must-revalidate, max-age=0');
-  header('Pragma: no-cache');
-  header('Accept-Ranges: bytes');
-  header('Content-Length:'.($end-$begin));
-  header("Content-Range: bytes $begin-$end/$size");
-  header("Content-Disposition: inline; filename=$filename");
-  header("Content-Transfer-Encoding: binary\n");
-  header("Last-Modified: $time");
-  header('Connection: close');
-
-  $cur=$begin;
-  fseek($fm,$begin,0);
-
-  while(!feof($fm)&&$cur<$end&&(connection_status()==0))
-  { print fread($fm,min(1024*16,$end-$cur));
-    $cur+=1024*16;
-  }
-}
 
 
   function confirmBackup($option)
@@ -1032,10 +925,9 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
           }
 
       // load presentation layer
-      if ($option != 'nohtml'){
-          $html = new HTML_cloner();
-          $html->confirmBackups($d_arr, $ds_arr, $_CONFIG['clonerPath'], $option);
-      }else
+      if ($option != 'nohtml')
+          HTML_cloner::confirmBackups($d_arr, $ds_arr, $_CONFIG['clonerPath'], $option);
+      else
           return $d_arr;
   }
 
@@ -1073,9 +965,9 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
       $log = "";
 
-      $backup_file = $_CONFIG['backup_store_path']."/".$backup_filename;
+      $backup_file = $_CONFIG['clonerPath']."/".$backup_filename ;
 
-      $perm_file = $_CONFIG['temp_dir'] . "/perm.txt";
+      $perm_file = $_CONFIG['backups_dir'] . "/perm.txt";
 
 
       $lines = $_REQUEST['lines'];
@@ -1099,6 +991,7 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
       $url = "index2.php?option=com_cloner&task=refresh&json=$json&startf=$endf&lines=$lines&backup=$backup_filename&excl_manual=" . $_REQUEST['excl_manual'];
 
+
       if ($endf >= $lines)
           $endf = $lines;
       else
@@ -1106,6 +999,7 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
       if ((int)$lines != 0)
           $percent = sprintf("%d", ($endf * 100) / (int)$lines);
+
 
       $log .= "Total process: $percent% out of $lines files<br />\n";
       $log .= "Processing files $startf to $endf for backup file $backup_file!<br />\n";
@@ -1127,23 +1021,6 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
                       //## appending files
                       $log .= "file - $file";
-
-                      if(intval($_CONFIG['splitBackupSize']) > 0){
-
-						  $fileSize = intval($buffer[2]);
-						  $backupSize = get_filesize($backup_file);
-						  $limit = $_CONFIG['splitBackupSize']*1024*1024; //MB limit
-
-						  //check if the size is bigger than $_CONFIF['splitBackupSize'] and split backup
-						  if(($fileSize+$backupSize) > $limit){
-
-								$backup_filename = getNewBackupName($backup_filename);
-								//exit;
-								$backup_file = $_CONFIG['backup_store_path']."/".$backup_filename;
-
-							  }
-
-						}
 
 
                       if (!$_CONFIG['mem']) {
@@ -1178,7 +1055,7 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
           }
 
           //exit;
-		  $newFileSize = get_filesize($backup_file);
+		  $newFileSize = getFileSizeText(get_filesize($backup_file));
           $log .= "\n<br />New backup size: " . $newFileSize . "<br />\n";
 
           addXLog($log);
@@ -1193,21 +1070,21 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
               //# REDIRECTING
               @fclose($fperm);
 
-              $log .= "<br>All done, redirecting... or <a href='$url'>click here </a>";
+              $log .= "<br>All done, redirecting in " . $_CONFIG['refresh_time'] . " seconds, or <a href='$url'>click here </a>";
 
               $log .= "
-				      <script language='javascript'>
-				      function redirect(){
-				      window.location = '" . $url . "';
-				      }
+      <script language='javascript'>
+      function redirect(){
+      window.location = '" . $url . "';
+      }
 
-				      setTimeout(\"redirect()\",parseInt(" . $_CONFIG['refresh_time'] . "));
-				      //redirect();
+      setTimeout(\"redirect()\"," . $_CONFIG['refresh_time'] . "000);
 
-				      </script>";
+      </script>";
           }
-
       } else {
+
+
           $log .= "Unable to continue, could not open file $perm_file for reading!";
       }
 
@@ -1221,10 +1098,10 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 		$status['finished']  = 1;
       }
 
-	  if(!$json){
-			echo $log;
+	if(!$json){
+		echo $log;
 		}
-	  else{
+	else{
 		$status['backupSize'] = $newFileSize;
 		$status['percent'] = $percent;
 		$status['option'] = 'com_cloner';
@@ -1238,7 +1115,7 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 		echo json_encode($status);
 		exit;
 
-	  }
+	}
 
       return;
   }
@@ -1257,7 +1134,9 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
       if (!$_CONFIG['enable_db_backup']) {
           $backupDatabase = 0;
       } else {
-   		  $backupDatabase = $_REQUEST['dbbackup'];
+
+
+          $backupDatabase = $_REQUEST['dbbackup'];
       }
 
       if ($_REQUEST[cron_access]) {
@@ -1294,6 +1173,8 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
           $f_ext = '.tgz';
           $_CONFIG['tarcompress'] = 'z';
       } else {
+
+
           $f_ext = '.tar';
           $_CONFIG['tarcompress'] = '';
       }
@@ -1323,15 +1204,6 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
           $filename1 = $_REQUEST['bname'] . $f_ext;
       }
 
-	  //check if comments are set
-	  if($_REQUEST['backupComments'] != "")
-		writeComments($_REQUEST['backupComments']);
-
-	 //we created the backup name, but skip sql at this step, we will do it incrementally
-		if(($_CONFIG['refresh_mode']) and (!$_REQUEST[cron_access]))
-		//we skip the backup at this process,we will do it incrementally
-			$backupDatabase = 0;
-
       $sql_file = array();
 
       if ($backupDatabase == 1) {
@@ -1359,7 +1231,7 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
               mysql_query("USE  " . $_CONFIG['mysql_database']);
           }
       } else {
-          #$databaseResult = LM_DATABASE_EXCLUDED;
+          $databaseResult = LM_DATABASE_EXCLUDED;
       }
 
 
@@ -1452,24 +1324,22 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
       if(($_REQUEST['cron_access']) or (!$_CONFIG['refresh_mode'])){
 
-			$perm_file = $_CONFIG['backups_dir'] . "/perm.txt";
-			@unlink($perm_file);
-			$fperm = fopen($perm_file, "w");
+	$perm_file = $_CONFIG['backups_dir'] . "/perm.txt";
+	@unlink($perm_file);
+	$fperm = fopen($perm_file, "w");
 
-			for ($i = 0; $i < sizeof($excluded); $i++) {
-			  $excluded[$i] = str_replace("//", "/", $excluded[$i]);
-			}
+	for ($i = 0; $i < sizeof($excluded); $i++) {
+		  $excluded[$i] = str_replace("//", "/", $excluded[$i]);
+	}
 
-			// obtain the list of files by recursing the mambo file store
-			addXLog("Starting the file scanning process");
+	// obtain the list of files by recursing the mambo file store
+	addXLog("Starting the file scanning process");
 
-			recurseFiles($d_arr, $ds_arr, $f_arr, $s_arr, $d, $f, $s, $includeFolder, '', $excluded, $fperm);
+	recurseFiles($d_arr, $ds_arr, $f_arr, $s_arr, $d, $f, $s, $includeFolder, '', $excluded, $fperm);
+	@fclose($fperm);
+	@chmod($perm_file, 0777);
 
-			@fclose($fperm);
-
-			@chmod($perm_file, 0777);
-
-		}
+	}
 
 
       // format total archive size
@@ -1525,9 +1395,6 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
           if ($_CONFIG['backup_refresh']) {
               $f_arr = array($_CONFIG['backups_dir'] . "/index.html");
-              $fp=@fopen($_CONFIG['backups_dir'] . "/index.html" , "w");
-              if($fp)
-				fclose($fp);
           }
 
 
@@ -1550,10 +1417,9 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
           if ($_CONFIG['backup_refresh']) {
              // echo "Starting the manual backup process!<br />";
-              if((!$_CONFIG['refresh_mode']) and ($_CONFIG['enable_db_backup']))
-				echo "<h2>Database backup: </h2>" . $databaseResult . "<br /><br />";
-			  $html = new HTML_cloner();
-              $html->goRefreshHtml($filename, $perm_lines, $excl_manual);
+              echo "<h3>Database backup: </h3>" . $databaseResult . "<br /><br />";
+
+              HTML_cloner::goRefreshHtml($filename, $perm_lines, $excl_manual);
               return;
           }
 
@@ -1645,8 +1511,8 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
                   E_print("Backup failed, please check your tar server utility support!");
                   return;
               }*/
-			  $html = new HTML_cloner();
-              $html->goRefreshHtml($filename, $perm_lines, $excl_manual);
+
+              HTML_cloner::goRefreshHtml($filename, $perm_lines, $excl_manual);
 
               return;
           }
@@ -1688,12 +1554,11 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
       // load presentation layer
       if ($option != 'nohtml') {
-		  $html = new HTML_cloner();
-          $html->generateBackup($filename1, $archiveSize, $originalSize, $mdir, $f, $databaseResult, $option);
+          HTML_cloner::generateBackup($filename1, $archiveSize, $originalSize, $mdir, $f, $databaseResult, $option);
       } else {
 
-		  $html = new HTML_cloner();	
-          logxx($html->generateBackup_text($filename1, $archiveSize, $originalSize, $mdir, $f, $databaseResult, $option));
+
+          logxx(HTML_cloner::generateBackup_text($filename1, $archiveSize, $originalSize, $mdir, $f, $databaseResult, $option));
       }
 
       if (is_array($databases_incl)) {
@@ -1717,8 +1582,7 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
       // ----------------------------------------------------------
 
       // load presentation layer
-      $html = new HTML_cloner();
-      $html->showHelp($option);
+      HTML_cloner::showHelp($option);
   }
 
 
@@ -2061,9 +1925,9 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
                   $InsertDump = "INSERT INTO `$tblval` VALUES (";
                   $arr = $row;
                   foreach ($arr as $key => $value) {
-                      $value = mysql_real_escape_string($value);
-                      #$value = str_replace("\n", '\r\n', $value);
-                      #$value = str_replace("\r", '', $value);
+                      $value = addslashes($value);
+                      $value = str_replace("\n", '\r\n', $value);
+                      $value = str_replace("\r", '', $value);
                       //if (@preg_match ("/\b" . $FieldType[$tblval][$key] . "\b/i", "DATE TIME DATETIME CHAR VARCHAR TEXT TINYTEXT MEDIUMTEXT LONGTEXT BLOB TINYBLOB MEDIUMBLOB LONGBLOB ENUM SET"))
                       {
                           $InsertDump .= "'$value',";
@@ -2092,46 +1956,11 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
       }
   }
 
-	function getNewBackupName($backupFilename){
 
-		$newFilename = $backupFilename;
-
-		$tmp = explode(".",$backupFilename);
-		$extension = $tmp[sizeof($tmp)-1];
-		$inc = $tmp[sizeof($tmp)-2];
-
-		if(strlen($inc)<3){
-			$newinc = $inc+1;
-			$newFilename = str_replace(".$inc.$extension", "", $backupFilename); //ex, replace .1.tar
-			$newFilename = $newFilename .".$newinc.$extension";
-		}else{
-			//it is a first backup, no .0.tar
-			$newFilename = str_replace(".".$extension, "", $backupFilename); //ex, replace .1.tar
-			$newFilename = $newFilename .".1.". $extension;
-			}
-
-		return $newFilename;
-	}
-
-	function writeComments($comments){
-	  global $_CONFIG;
-
-	  $fp = @fopen($_CONFIG['commentsfile'], "w");
-	  if($fp){
-		fwrite($fp, stripcslashes($comments));
-		fclose($fp);
-	  }
-	  else{
-		addXLog("Unable to write comments to file ".$_CONFIG['commentsfile']);
-	  }
-
-
-	}
-
-	function getVersion()
-	{
-	  $query = mysql_query("SELECT version()");
-	  $row = mysql_fetch_array($query);
-	  return $row[0];
-	}
+  function getVersion()
+  {
+      $query = mysql_query("SELECT version()");
+      $row = mysql_fetch_array($query);
+      return $row[0];
+  }
 ?>
