@@ -22,15 +22,28 @@ include_once("cloner.functions.php");
 require_once( 'cloner.config.php' );
 
 ####### VERIFY IP ACCESS
+function check_user_ip($current_ip, $ip_list)
+{
+	$valid = FALSE;
+
+	foreach ($ip_list as $ip){
+		$ip_or_name = gethostbyname($ip);
+		if ($current_ip == $ip_or_name) {
+			$valid = TRUE;
+			break;	
+		} 
+	}
+
+	return $valid;
+}
+
 $ip_list = @explode("\r\n", $_CONFIG['cron_ip']);
 $ip_list[] = $_SERVER['SERVER_ADDR'];
 $curent_ip = $_SERVER["REMOTE_ADDR"];
 
-if(!in_array($curent_ip, $ip_list)){
-	
+if (check_user_ip($curent_ip, $ip_list) == FALSE) {
 	echo "Access Denied for ip $curent_ip!";
 	exit;
-	
 }
 #########################
 
