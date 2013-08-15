@@ -1129,7 +1129,7 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
               $buffer = explode("|", fgets($fperm, 4096));
 
-              if (($line < $endf) && ($line >= $startf)) {
+              if (($line <= $endf) && ($line >= $startf)) {
                    $log .= "\n<br />$line. ";
 
                   if (($buffer[0] != "") && (is_file($buffer[0]))) {
