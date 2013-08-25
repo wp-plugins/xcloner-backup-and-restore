@@ -75,7 +75,7 @@ define("LM_CONFIG_EDIT","Bewerken van het config bestand");
 define("LM_CONFIG_BSETTINGS","Backup Pad Instellingen");
 define("LM_CONFIG_BSETTINGS_OPTIONS","Backup Generator Opties");
 define("LM_CONFIG_BSETTINGS_SERVER","Server Gebruiks Opties");
-define("LM_CONFIG_BPATH","Backup Oplsag Pad:");
+define("LM_CONFIG_BPATH","Backup Opslag Pad:");
 define("LM_CONFIG_UBPATH","Backup Start Pad:");
 define("LM_CONFIG_BPATH_SUB","<small>dit is het pad waar alle backups zullen worden opgeslagen</small>");
 define("LM_CONFIG_UBPATH_SUB","<small>vul hier het pad in van waaruit XCloner alle processen zal starten</small>");
