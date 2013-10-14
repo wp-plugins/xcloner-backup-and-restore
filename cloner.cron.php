@@ -423,7 +423,11 @@ if(!$dropbox->IsAuthorized())
 
 
 $return = $dropbox->UploadFile($clonerPath."/".$file, $_CONFIG['cron_dropbox_dirname']."/".$file);
-logxx("File copied to ".$_CONFIG['cron_dropbox_dirname']."/$file");
+if($return->error)
+	logxx($return->error);
+else
+	logxx("File copied to ".$return->path);
+
 #print_r($return);
 
 }
