@@ -315,7 +315,7 @@ class DB{
 								$return['totalRecords'] 	= $tableInfo[1];
 
 								//if(intval($return['totalRecords']) != 0)
-								if(trim($tableName) !="")
+								if(trim($tableName) !=""  and !$tableInfo[2])
 									self::exportTable($databaseName, $tableName, $startAtRecord, self::$recordsPerSession, $fd);
 
 								fclose($fd);
