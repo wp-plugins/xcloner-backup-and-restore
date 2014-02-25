@@ -73,8 +73,7 @@ function header(){
 
 <script type="text/javascript" src="<?php echo plugins_url('javascript/dtree.js', __FILE__) ?>"></script>
 <script type="text/javascript" src="<?php echo plugins_url('javascript/main.js', __FILE__) ?>"></script>
-<script type="text/javascript" src="<?php echo plugins_url('javascript/jquery-1.4.4.min.js', __FILE__) ?>"></script>
-<script type="text/javascript" src="<?php echo plugins_url('javascript/jquery-ui-1.8.9.custom.min.js', __FILE__) ?>"></script>
+<script type="text/javascript" src="<?php echo plugins_url('javascript/main.min.js', __FILE__) ?>"></script>
 <script type="text/javascript">
 
 /* Optional: Temporarily hide the "tabber" class so it does not "flash"
@@ -203,7 +202,11 @@ function footer(){
 <p>Powered by <a href='http://www.xcloner.com' target='_blank'>XCloner</a>. Backup and Restore Made Easy!</p></center>
 
 </td></tr></table>
-<script> $( "#toolbar" ).show(); </script>
+<script> 
+	
+	$( "#toolbar" ).show(); 
+
+</script>
 
 
 <?php
