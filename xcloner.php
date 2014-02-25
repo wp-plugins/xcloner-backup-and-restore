@@ -16,6 +16,9 @@ Plugin URI: http://www.xcloner.com
 define("_VALID_MOS", 1);
 
 
+global $xcloner_db_version;
+$xcloner_db_version = "1.0";
+
 
 function xcloner_show(){
 
@@ -23,7 +26,7 @@ function xcloner_show(){
 
 }
 function xcloner_install(){
-
+	
 }
 
 function xcloner_page(){
