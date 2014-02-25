@@ -46,8 +46,6 @@ $_CONFIG['splitBackupSize'] = "2048"; //MB
 ### Defaults
 $script_dir = str_replace("\\","/",dirname(__FILE__));
 
-$_CONFIG['jcuser'] = 'admin';
-$_CONFIG['jcpass'] = md5('admin');
 $_CONFIG['mem']="0";
 $_CONFIG['archive_type']="0";
 $_CONFIG['backup_refresh'] = "1";
