@@ -144,7 +144,7 @@ d.add(841,840,'&nbsp;<?php echo LM_MENU_View_backups;?>','plugins.php?page=xclon
 d.add(842,840,'&nbsp;<?php echo LM_MENU_Generate_backup;?>','plugins.php?page=xcloner_show&option=com_cloner&task=confirm','','','<?php echo plugins_url('images/wizardsm.png', __FILE__) ?>');
 d.add(843,840,'&nbsp;<?php echo LM_MENU_Restore_backup;?>','plugins.php?page=xcloner_show&option=com_cloner&task=restore','','','<?php echo plugins_url('images/wizardsm_restore.png', __FILE__) ?>');
 
-d.add(830,0,'&nbsp;<?php echo LM_MENU_SUPPORT;?>','','','','images/support.png','<?php echo plugins_url('images/support.png', __FILE__) ?>');
+d.add(830,0,'&nbsp;<?php echo LM_MENU_SUPPORT;?>','','','','<?php echo plugins_url('images/support.png', __FILE__) ?>','<?php echo plugins_url('images/support.png', __FILE__) ?>');
 d.add(831,830,'&nbsp;<?php echo LM_MENU_FORUM;?>','http://www.xcloner.com/support/forums/','','_blank','<?php echo plugins_url('images/forum.png', __FILE__) ?>','<?php echo plugins_url('images/forum.png', __FILE__) ?>');
 d.add(832,830,'&nbsp;<?php echo LM_MENU_WEBSITE;?>','http://www.xcloner.com','','_blank','<?php echo plugins_url('images/website.png', __FILE__) ?>','<?php echo plugins_url('images/website.png', __FILE__) ?>');
 
