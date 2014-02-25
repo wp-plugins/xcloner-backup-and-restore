@@ -43,7 +43,8 @@
 	define("_VALID_MOS", 1);
 
 	//load configuration
-	$config_file = "cloner.config.php";
+	$config_file = __DIR__."/cloner.config.php";
+	
 	require_once($config_file);
 	
 	$task = $_GET["task"];
