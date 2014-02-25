@@ -39,12 +39,13 @@ $_CONFIG['sqldump']="mysqldump --quote-names ";
 $_CONFIG['system_dlink']="";
 $_CONFIG['system_ftptransfer']="0";
 $_CONFIG['system_mdatabases']="0";
+$_CONFIG['recordsPerSession']= "10000";
+$_CONFIG['excludeFilesSize'] = "-1";
+$_CONFIG['splitBackupSize'] = "2048"; //MB
 
 ### Defaults
 $script_dir = str_replace("\\","/",dirname(__FILE__));
 
-$_CONFIG['jcuser'] = 'admin';
-$_CONFIG['jcpass'] = md5('admin');
 $_CONFIG['mem']="0";
 $_CONFIG['archive_type']="0";
 $_CONFIG['backup_refresh'] = "1";
@@ -54,8 +55,6 @@ $_CONFIG['enable_db_backup'] = '0';
 
 ###Wordpress specific configuration
 
-/*if(@include("../../../wp-config.php")){
-
   $_CONFIG["enable_db_backup"] = 1;
   $_CONFIG['mysql_host'] = DB_HOST;
   $_CONFIG['mysql_user'] = DB_USER;
@@ -63,23 +62,6 @@ $_CONFIG['enable_db_backup'] = '0';
   $_CONFIG['mysql_database'] = DB_NAME;
 
 
-}*/
-
-if(@file_exists("../../../wp-config.php")){
-
-  $content = file_get_contents("../../../wp-config.php");	
-  $content = str_replace("require_once","#require_once", $content);	
-  $content = str_replace(array("<?php","<?","?>"),array("","",""), $content);		
-  eval($content);
-
-  $_CONFIG["enable_db_backup"] = 1;
-  $_CONFIG['mysql_host'] = DB_HOST;
-  $_CONFIG['mysql_user'] = DB_USER;
-  $_CONFIG['mysql_pass'] = DB_PASSWORD;
-  $_CONFIG['mysql_database'] = DB_NAME;
-
-
-}
 
 $script_dir = str_replace("wp-content/plugins/xcloner-backup-and-restore","", $script_dir);
 
@@ -90,5 +72,10 @@ $_CONFIG['clonerPath'] = str_replace("\\","/", $_CONFIG['clonerPath']);
 
 $_CONFIG['mosConfig_live_site']=$_SERVER['HTTP_HOST'];
 
+foreach($_CONFIG as $key=>$value){
+	$newVal = get_option("xcloner_".$key);
+	if($newVal)
+		$_CONFIG[$key] = $newVal;
+}
 
 ?>

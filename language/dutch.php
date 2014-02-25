@@ -148,7 +148,7 @@ define("LM_MSG_BACK_7","Met succes gepubliceerd naar de voorpagina");
 define("LM_MSG_BACK_8","Publiceren mislukt, controleer je paden!");
 define("LM_MSG_BACK_9","De Kloons zijn met succes hernoemd!");
 define("LM_MSG_BACK_10","Het Joomla! pad ligt niet binnen je backup pad. Kan geen gebruik maken van de directe download methode. Je moet je Configuratie -> Systeem tab bewerken en de optie Directe download op nee zetten.");
-define("LM_MSG_BACK_11","Alle taken zijn volbracht. Het handmatige backup proces is klaar.<a href='index2.php?option=com_cloner&task=view'>Klik hier om verder te gaan</a>");
+define("LM_MSG_BACK_11","Alle taken zijn volbracht. Het handmatige backup proces is klaar.<a href='plugins.php?page=xcloner_show&?option=com_cloner&task=view'>Klik hier om verder te gaan</a>");
 define("LM_MSG_BACK_12","<h2>Backup mislukt! controleer of je gebruik kunt maken van de ZIP applicatie op je server (/usr/bin/zip of /usr/local/bin/zip) en of het juist is ingevuld in je configuratie. Kies anders voor het TAR archief type</h2>");
 define("LM_MSG_BACK_13","<h2>Backup mislukt! controleer of je gebruik kunt maken van de TAR applicatie op je server (/usr/bin/tar of /usr/local/bin/tar) en of het juist is ingevuld in je configuratie. Kies anders voor het ZIP archief type</h2>");
 define("LM_MSG_BACK_14","<font color='red'>Er is een probleem opgetreden bij het maken van een database backup, controleer aub het MySQL server pad!</font>");
@@ -241,7 +241,7 @@ define("LM_RENAME_TO","naar");
 define("LM_CLONER_RESTORE","<h2>Hoe herstel ik een backup op verschillende locaties INFO!</h2>
 <pre>
    Het herstellen van een backup was nog nooit zo eenvoudig!
-   Met behulp van onze clone functie vanuit het With the help of our cloning function from the <a href='index2.php?option=com_cloner&task=view'>Bekijk je backups</a> scherm zul je instaat zijn om je Joomla! backup te verplaatsen waardan ook op het Internet.
+   Met behulp van onze clone functie vanuit het With the help of our cloning function from the <a href='plugins.php?page=xcloner_show&?option=com_cloner&task=view'>Bekijk je backups</a> scherm zul je instaat zijn om je Joomla! backup te verplaatsen waardan ook op het Internet.
  
    Dit is wat je er voor moet doen:
    

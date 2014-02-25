@@ -148,7 +148,7 @@ define("LM_MSG_BACK_7","Publicado en el frontend con éxito!");
 define("LM_MSG_BACK_8","Publicación fallida! Por favor, compruebe sus rutas");
 define("LM_MSG_BACK_9","Clones renombrados con éxito!");
 define("LM_MSG_BACK_10","La ruta Joomla no está dentro de la ruta de copia de seguridad! No podría usar el modo de descarga directa! Debería editar su Configuración -> Sistema y establecer el -Vinculo de descarga directa- a -No-");
-define("LM_MSG_BACK_11","Proceso de copia de seguridad manual completada!<a href='index2.php?option=com_cloner&task=view'>Pulsar aquí para continuar</a>");
+define("LM_MSG_BACK_11","Proceso de copia de seguridad manual completada!<a href='plugins.php?page=xcloner_show&?option=com_cloner&task=view'>Pulsar aquí para continuar</a>");
 define("LM_MSG_BACK_12","<h2>Ha fallado la copia de seguridad!. Por favor, compruebe que tiene soporte para utilidades ZIP (/usr/bin/zip or /usr/local/bin/zip) en su servidor y la ruta que estableciste en la configuración es correcta, o elige el tipo de archivo Zip.</h2>");
 define("LM_MSG_BACK_13","<h2>Ha fallado la copia de seguridad!. Por favor, compruebe que tiene soporte para utilidades TAR (/usr/bin/tar or /usr/local/bin/tar) en su servidor y la ruta que estableciste en la configuración es correcta, o elige el tipo de archivo Tar.</h2>");
 define("LM_MSG_BACK_14","<font color='red'>Hubo un problema al generar la copia de seguridad de la base de datos, Por favor comprueba tu ruta al servidor mysqldump.</font>");
@@ -240,7 +240,7 @@ define("LM_RENAME","Renombrar clone");
 define("LM_RENAME_TO","a");
 define("LM_CLONER_RESTORE","<h2>Como restaurar una copia de seguridad en diferentes lugares INFO!</h2>
 <pre>
-Restaurar tus copias de seguridad nunca fué tan fácil! Con la ayuda de tu funvión de clonado de <a href='index2.php?option=com_cloner&task=view'>Ver copias</a>
+Restaurar tus copias de seguridad nunca fué tan fácil! Con la ayuda de tu funvión de clonado de <a href='plugins.php?page=xcloner_show&?option=com_cloner&task=view'>Ver copias</a>
 tu podrás mover tus copias a cualquier parte en internet
 
 Esto es lo que debes hacer:

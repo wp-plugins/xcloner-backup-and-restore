@@ -63,33 +63,33 @@ function dTree(objName) {
 
 	this.icon = {
 
-		root				: 'images/logo.gif',
+		root				: '../wp-content/plugins/xcloner-backup-and-restore/images/logo.gif',
 
-		folder			: 'images/folder.gif',
+		folder			: '../wp-content/plugins/xcloner-backup-and-restore/images/folder.gif',
 
-		folderOpen	: 'images/folderopen.gif',
+		folderOpen	: '../wp-content/plugins/xcloner-backup-and-restore/images/folderopen.gif',
 
-		node				: 'images/page.gif',
+		node				: '../wp-content/plugins/xcloner-backup-and-restore/images/page.gif',
 
-		empty				: 'images/empty.gif',
+		empty				: '../wp-content/plugins/xcloner-backup-and-restore/images/empty.gif',
 
-		line				: 'images/line.gif',
+		line				: '../wp-content/plugins/xcloner-backup-and-restore/images/line.gif',
 
-		join				: 'images/join.gif',
+		join				: '../wp-content/plugins/xcloner-backup-and-restore/images/join.gif',
 
-		joinBottom	: 'images/joinbottom.gif',
+		joinBottom	: '../wp-content/plugins/xcloner-backup-and-restore/images/joinbottom.gif',
 
-		plus				: 'images/plus.gif',
+		plus				: '../wp-content/plugins/xcloner-backup-and-restore/images/plus.gif',
 
-		plusBottom	: 'images/plusbottom.gif',
+		plusBottom	: '../wp-content/plugins/xcloner-backup-and-restore/images/plusbottom.gif',
 
-		minus				: 'images/minus.gif',
+		minus				: '../wp-content/plugins/xcloner-backup-and-restore/images/minus.gif',
 
-		minusBottom	: 'images/minusbottom.gif',
+		minusBottom	: '../wp-content/plugins/xcloner-backup-and-restore/images/minusbottom.gif',
 
-		nlPlus			: 'images/nolines_plus.gif',
+		nlPlus			: '../wp-content/plugins/xcloner-backup-and-restore/images/nolines_plus.gif',
 
-		nlMinus			: 'images/nolines_minus.gif'
+		nlMinus			: '../wp-content/plugins/xcloner-backup-and-restore/images/nolines_minus.gif'
 
 	};
 

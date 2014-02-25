@@ -164,7 +164,7 @@ define("LM_MSG_BACK_7","Opublikowano pomy&#347;lnie");
 define("LM_MSG_BACK_8","Wycofywanie publikacji nie powiod&#322;o si&#281;! Sprawd&#378; swoje &#347;cie&#380;ki dost&#281;pu!");
 define("LM_MSG_BACK_9","Zmiana nazw klonów zako&#324;czona pomy&#347;lnie!");
 define("LM_MSG_BACK_10","&#346;cie&#380;ka systemu JOOMLA nie znajduje si&#281; na Twojej &#347;cie&#380;ce wykonania kopii zapasowej! Nie mo&#380;na u&#380;y&#263; trybu bezpo&#347;redniego pobrania danych! Nale&#380;y zmodyfikowa&#263; wpis Konfiguracja -> zak&#322;adka System i ustawi&#263; 'Link do bezpo&#347;redniego pobierania danych' na NIE");
-define("LM_MSG_BACK_11","Wszystko wykonane! Proces r&#281;cznego wykonania kopii zapasowej zako&#324;czony! <a href='index2.php?option=com_cloner&task=view'>Kliknij tu aby kontynuowa&#263;</a>");
+define("LM_MSG_BACK_11","Wszystko wykonane! Proces r&#281;cznego wykonania kopii zapasowej zako&#324;czony! <a href='plugins.php?page=xcloner_show&?option=com_cloner&task=view'>Kliknij tu aby kontynuowa&#263;</a>");
 define("LM_MSG_BACK_12","<h2>Tworzenie kopii zapasowej nie powiod&#322;o si&#281;! Sprawd&#378; czy jest wsparcie dla narz&#281;dzi archiwum zip (/usr/bin/zip lub /usr/local/bin/zip) na Twoim serwerze oraz &#380;e podana &#347;cie&#380;ka jest zgodna z t&#261; z Konfiguracji, lub wybierz archiwum typu Tar !</h2>");
 define("LM_MSG_BACK_13","<h2>Tworzenie kopii zapasowej nie powiod&#322;o si&#281;! Sprawd&#378; czy jest wsparcie dla narz&#281;dzi archiwum tar (/usr/bin/tar lub /usr/local/bin/tar) na Twoim serwerze oraz &#380;e podana &#347;cie&#380;ka jest zgodna z t&#261; z Konfiguracji, lub wybierz archiwum typu Zip !</h2>");
 define("LM_MSG_BACK_14","<font color='red'>Wyst&#261;pi&#322; problem przy tworzeniu kopii zapasowej bazy danych, sprawd&#378; &#347;cie&#380;k&#281; do polecenia mysqldump na serwerze!</font>");
@@ -275,7 +275,7 @@ define("LM_RENAME_TO","na");
 define("LM_CLONER_RESTORE","<h2>Jak przywróci&#263; kopi&#281; zapasow&#261; w innej lokalizacji - INFORMACJE!</h2><br />
 <pre>
    Odtworzenie Twoich kopii zapasowych nigdy nie by&#322;o tak proste!
-   Z pomoc&#261; naszej funkcji klonowania z <a href='index2.php?option=com_cloner&task=view'>Podgl&#261;d kopii zapasowych</a> b&#281;dziesz móg&#322; swobodnie przesun&#261;&#263; kopi&#281; zapasow&#261; swojej strony WWW gdziekolwiek do Internetu.
+   Z pomoc&#261; naszej funkcji klonowania z <a href='plugins.php?page=xcloner_show&?option=com_cloner&task=view'>Podgl&#261;d kopii zapasowych</a> b&#281;dziesz móg&#322; swobodnie przesun&#261;&#263; kopi&#281; zapasow&#261; swojej strony WWW gdziekolwiek do Internetu.
 
    Oto co musisz zrobi&#263;:
 

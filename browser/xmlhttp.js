@@ -35,8 +35,8 @@ function processXMLRequest() {
 
 function do_browser(){
       targetDiv=document.getElementById("browser");
-      
-      if(loadXMLDoc("browser/files_xml.php")){
+
+      if(loadXMLDoc("admin-ajax.php?action=files_xml")){
             targetDiv.className="searching";
             targetDiv.innerHTML="";
       }
@@ -102,7 +102,7 @@ function checkc(value){
 function useXML(xmlInfo){
       targetDiv.className="";
       message  = "";
-      
+
       var infoTags=xmlInfo.getElementsByTagName("directory");
       var loc=infoTags[0].getAttribute("location");
       if(loc == "")
@@ -110,25 +110,25 @@ function useXML(xmlInfo){
       else
        loc1 = loc;
 
-      var newloc1="browser/files_xml.php?dir=" + loc ;
+      var newloc1="admin-ajax.php?action=files_xml&dir=" + loc ;
 
       var stringHTML="<p><b>" + loc1 +"</b> <br /><br /></p>";
 
       if(loc.indexOf("/")!=-1){
-      var newfile="browser/files_xml.php?dir=" + loc.slice(0, loc.lastIndexOf("/"));
+      var newfile="../wp-content/plugins/xcloner-backup-and-restore/browser/files_xml.php?dir=" + loc.slice(0, loc.lastIndexOf("/"));
       stringHTML=stringHTML+"<p><a href=\"#\" onclick=\"loadXMLDoc('" + newfile +"')\">[Up a level]</a> <a href='#' onclick=\"loadXMLDoc('" + newloc1 +"&amp;act=checkall')\" >[check all]</a> <a href='#' onclick=\"loadXMLDoc('" + newloc1 +"&amp;act=uncheckall')\" >[uncheck all]</a></p><br />"
       }
       if(infoTags[0].hasChildNodes){
             stringHTML=stringHTML+"<ul>";
             for(node=infoTags[0].firstChild; node!=null; node=node.nextSibling){
 
-                  var newloc="browser/files_xml.php?dir=" + loc ;
+                  var newloc="admin-ajax.php?action=files_xml&dir=" + loc ;
                   path = loc+"/"+node.firstChild.nodeValue;
-                  
+
                   if(node.nodeName=="file"){
 
-                        stringHTML=stringHTML+"<li class=\"file\"><img src='browser/file.gif' border='0'><input type=checkbox "+node.getAttribute('check')+" onclick=\"loadXMLDoc('" + newloc +"&amp;path="+path+"')\" name=cid[] value='"+path+"'><a href=\"" +node.getAttribute('link')+ "\">"+node.firstChild.nodeValue+"</a></li>";
-                        
+                        stringHTML=stringHTML+"<li class=\"file\"><img src='../wp-content/plugins/xcloner-backup-and-restore/browser/file.gif' border='0'><input type=checkbox "+node.getAttribute('check')+" onclick=\"loadXMLDoc('" + newloc +"&amp;path="+path+"')\" name=cid[] value='"+path+"'><a href=\"" +node.getAttribute('link')+ "\">"+node.firstChild.nodeValue+"</a></li>";
+
                   }
                   if(node.nodeName=="message"){
 
@@ -139,8 +139,8 @@ function useXML(xmlInfo){
                   if(node.nodeName=="folder"){
 
 
-                        var newfile="browser/files_xml.php?dir=" + loc + "/" + node.firstChild.nodeValue;
-                        stringHTML=stringHTML+"<li class=\"folder\"><img src='browser/folder.gif' border='0'><input type=checkbox "+node.getAttribute('check')+" onclick=\"loadXMLDoc('" + newloc +"&amp;path="+path+"')\" name=cid[] value='"+path+"'><a href='#' class=\"folder\" onclick=\"loadXMLDoc('" + newfile+"')\">"+node.firstChild.nodeValue+"</a></li>";
+                        var newfile="admin-ajax.php?action=files_xml&dir=" + loc + "/" + node.firstChild.nodeValue;
+                        stringHTML=stringHTML+"<li class=\"folder\"><img src='../wp-content/plugins/xcloner-backup-and-restore/browser/folder.gif' border='0'><input type=checkbox "+node.getAttribute('check')+" onclick=\"loadXMLDoc('" + newloc +"&amp;path="+path+"')\" name=cid[] value='"+path+"'><a href='#' class=\"folder\" onclick=\"loadXMLDoc('" + newfile+"')\">"+node.firstChild.nodeValue+"</a></li>";
                   }
             }
             stringHTML=stringHTML+"</ul>";
@@ -150,5 +150,5 @@ function useXML(xmlInfo){
       }
 
       //stringHTML = stringHTML+ "</form>";
-      targetDiv.innerHTML= "<table align='right' width='200'><tr><td align='right'><b>" + "Excluded items list:" + "</b><br />"+ message+"</td></tr></table>" + stringHTML ;
+      targetDiv.innerHTML= "<table align='right' width='450'><tr><td align='right'><b>" + "Excluded items list:" + "</b><br />"+ message+"</td></tr></table>" + stringHTML ;
 }

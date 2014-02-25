@@ -27,6 +27,7 @@ class fileRecursion{
 
 	private static 	$fp;
 	private static 	$fpd;
+	private static  $fpe;
 	private static 	$d_arr;
 	private static 	$f_arr;
 	private static	$BACKUP_EXTENSIONS = array("tar", "zip", "tgz", "tar.gz");
@@ -39,17 +40,22 @@ class fileRecursion{
 	public static 	$TEMP_EXCL = "tmp/.excl";
 	public static 	$TEMP_DIR = "/opt/lampp/htdocs/joomla/administrator/backups"; //exclude other backups
 	public static 	$START_DIR = "/"; # Backups Start Dir
+	public static 	$EXCLUDE_FILES_SIZE = -1; //disabled
+	public static 	$TEMP_OVERSIZED_FILE = "tmp/.oversized_files";
 
 
 
-	public static function setData($TEMP_PERM,$TEMP_EXCL,$TEMP_D_ARR,$TEMP_DIR, $START_DIR) {
+	public static function setData($data) {
 
-        self::$TEMP_PERM 	= $TEMP_PERM;
-        self::$TEMP_EXCL 	= $TEMP_EXCL;
-        self::$TEMP_D_ARR 	= $TEMP_D_ARR;
-        self::$TEMP_DIR 	= $TEMP_DIR;
-        self::$START_DIR	= $START_DIR;
+        self::$TEMP_PERM 			= $data['TEMP_PERM'];
+        self::$TEMP_EXCL 			= $data['TEMP_EXCL'];
+        self::$TEMP_D_ARR 			= $data['TEMP_D_ARR'];
+        self::$TEMP_DIR 			= $data['TEMP_DIR'];
+        self::$START_DIR			= $data['START_DIR'];
+        self::$EXCLUDE_FILES_SIZE	= $data['EXCLUDE_FILES_SIZE'];
+        self::$TEMP_OVERSIZED_FILE	= $data['TEMP_OVERSIZED_FILE'];
     }
+
 	/*
 	 * Init the recursion system
 	 * name: init
@@ -74,6 +80,7 @@ class fileRecursion{
 
 		self::$fp 	= fopen(self::$TEMP_PERM, "a");
 		self::$fpd 	= fopen(self::$TEMP_D_ARR, "w");
+		self::$fpe	= fopen(self::$TEMP_OVERSIZED_FILE, "a");
 
 		self::initEXCL();
 
@@ -81,6 +88,20 @@ class fileRecursion{
 			$inclFiles = self::getInclFiles();
 			self::writePermFiles($inclFiles, "F", 1);
 		}
+
+	}
+
+	/*
+	 * We close the stuff left opened
+	 * name: close
+	 * @param
+	 * @return
+	 */
+	public static function close(){
+
+		@fclose(self::$fp );
+		@fclose(self::$fpd );
+		@fclose(self::$fpe );
 
 	}
 
@@ -327,6 +348,23 @@ class fileRecursion{
 
 	}
 
+	public static function getOverLimitFiles(){
+			@fclose(self::$fpe);
+			$files = explode("\n", file_get_contents(self::$TEMP_OVERSIZED_FILE));
+
+			return array_diff($files, array(""));
+	}
+
+	public static function writeExcludedFile($file, $fsize = 0){
+
+		self::debug("Excluded $file from list as it is bigger than ". self::$EXCLUDE_FILES_SIZE." MB!!!");
+
+		if(self::$fpe){
+			fwrite(self::$fpe, $file."\t(".$fsize." bytes)\n");
+		}
+
+	}
+
 	/*
 	 * Writing file details(path, permissions, size) to file
 	 *
@@ -338,12 +376,23 @@ class fileRecursion{
 	public static function writePermFile($file, $append = "", $force = 0){
 
 		$file = realpath($file);
+
 		if((self::isNotExcluded($file)) or  ($force)){
+		// we check if file is not excluded
 			$fperm = substr(sprintf('%o', @fileperms($file)), -4);
 			$fsize = self::getFileSize($file);
-			
+			$sizeLimit = (self::$EXCLUDE_FILES_SIZE)*1024*1024; // we limit by MB
+
+			if(intval(self::$EXCLUDE_FILES_SIZE) > -1){
+				if(($fsize > $sizeLimit) and is_file($file)){
+				//we check if file is larger than $EXCLUDE_FILES_SIZE
+					self::writeExcludedFile($file, $fsize);
+					return;
+				}
+			}
+
 			$file  = str_replace(self::$START_DIR, "", str_replace("\\","/", $file));
-			
+
 			fwrite(self::$fp, $file."|".$fperm."|".$fsize."|".$append."\n");
 			self::debug($file ." added to list");
 		}

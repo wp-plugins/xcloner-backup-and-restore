@@ -14,10 +14,43 @@
 @error_reporting(E_ALL^E_NOTICE);
 @set_time_limit('3600');
 define( '_VALID_MOS', 1 );
+header('Content-Type: text/html; charset=utf-8');
 
 include_once("admin.cloner.html.php");
 include_once("cloner.functions.php");
 
+$root = dirname(dirname(dirname(dirname(__FILE__))));
+
+if (file_exists($root.'/wp-load.php')) 
+	require_once($root.'/wp-load.php');
+
+require_once( 'cloner.config.php' );
+
+####### VERIFY IP ACCESS
+function check_user_ip($current_ip, $ip_list)
+{
+	$valid = FALSE;
+
+	foreach ($ip_list as $ip){
+		$ip_or_name = gethostbyname($ip);
+		if ($current_ip == $ip_or_name) {
+			$valid = TRUE;
+			break;	
+		} 
+	}
+
+	return $valid;
+}
+
+$ip_list = @explode("\r\n", $_CONFIG['cron_ip']);
+$ip_list[] = $_SERVER['SERVER_ADDR'];
+$curent_ip = $_SERVER["REMOTE_ADDR"];
+
+if (check_user_ip($curent_ip, $ip_list) == FALSE) {
+	echo "Access Denied for ip $curent_ip!";
+	exit;
+}
+#########################
 
 $script_dir = str_replace("\\","/",dirname(__FILE__));
 if(is_dir($script_dir)){
@@ -31,11 +64,11 @@ if($_REQUEST['config'] == ""){
 	if($argv[1] != ""){
 	
 		$_REQUEST['config'] = $argv[1];	
-	
 	}
-
-
 }
+
+//filter the config request path
+$_REQUEST['config'] = str_replace(array("..","/","\\"), array("","",""), trim($_REQUEST['config']));
 
 if($_REQUEST['config'] != ""){
 	
@@ -82,7 +115,7 @@ else{
 
 
 ####### VERIFY IP ACCESS
-$ip_list = @explode("\r\n", $_CONFIG['cron_ip']);
+/*$ip_list = @explode("\r\n", $_CONFIG['cron_ip']);
 $ip_list[] = $_SERVER['SERVER_ADDR'];
 $curent_ip = $_SERVER["REMOTE_ADDR"];
 
@@ -91,7 +124,7 @@ if(!in_array($curent_ip, $ip_list)){
 	echo "Access Denied for ip $curent_ip!";
 	exit;
 	
-}
+}*/
 #########################
 
 $access=1;
@@ -169,89 +202,115 @@ $source_file = $clonerPath."/".$file;
 logxx("Backup file: ".$source_file);
 $bsize = getFileSizeText(filesize($source_file));
 
-if($_CONFIG['cron_send']==1){
-######################################STARTING FTP TRANSFER##################
-
-logxx("Starting ftp transfer:");
-
-$source_files[] = $source_file;
-$destination_files[] = $_CONFIG[cron_ftp_path]."/".$file;
-
-
-
-// set up basic connection details
-list($fhost, $fport) = explode(":",$_CONFIG[cron_ftp_server]);
-if($fport == "")
- $fport = '21';
- 
-$ftp_timeout = '3600';
-
-// set up basic connection
-if(!$_CONFIG[secure_ftp]){
-$conn_id = ftp_connect($fhost, (int)$fport, (int)$ftp_timeout);
-$connect = "Normal";
-}
-else{
-$conn_id = ftp_ssl_connect($fhost, (int)$fport, (int)$ftp_timeout);
-$connect = "Secure";
-}
-
-//$conn_id = ftp_connect($_CONFIG[cron_ftp_server]) or die("Could not connect to the ftp server ".$_CONFIG[cron_ftp_server]);
-
-// login with username and password
-$login_result = ftp_login($conn_id, $_CONFIG[cron_ftp_user], $_CONFIG[cron_ftp_pass])
-                or die("Authentification failed when connecting to the ftp server for user ".$_CONFIG[cron_ftp_user]." with pass".$_CONFIG[cron_ftp_pass]);
-
-// check connection
-if ((!$conn_id) || (!$login_result)) {
-       echo "<b  style='color:red'>FTP connection has failed!</b>";
-       echo "<b  style='color:red'>Attempted to connect to ".$_CONFIG[cron_ftp_server]." for user ".$_CONFIG[cron_ftp_user]."</b>";
-       return;
-   } else {
-       #echo "Connected to $_REQUEST[ftp_server], for user $_REQUEST[ftp_user]";
-   }
-
-if($_CONFIG['system_ftptransfer']==1)
+if($_CONFIG['cron_send']==1)
 {
-// turn passive mode on
-@ftp_pasv($conn_id, true);
-$mode = "Passive";
-}
-else
-{
-// turn passive mode off
-@ftp_pasv($conn_id, false);
-$mode = "Active";
-}
-echo "Connected to $connect <b>$_CONFIG[cron_ftp_server] Mode: $mode</b><br />";
-for($i=0;$i<sizeof($source_files);$i++)
-{
-// upload the file
-$upload = ftp_put($conn_id, $destination_files[$i], $source_files[$i], FTP_BINARY);
-
-// check upload status
-if (!$upload) {
-       echo "<b style='color:red'>FTP upload has failed for file $source_files[$i] ! Stopping ....<br /></b>";return;
-   } else {
-       echo "<b>Upload success from file <i>$source_files[$i]</i> <br />to <i>$destination_files[$i]</i> ...<br /></b>";
-   }
-
-}
-
-// close the FTP stream
-ftp_close($conn_id);
-
-logxx("Ftp transfer finished succesfully!");
-
-if($_CONFIG[cron_ftp_delb]==1){
-
- @unlink($source_file);
- logxx("Backup succesfully deleted from the original server!");
- }
+    ######################################STARTING FTP TRANSFER##################
     
-##############################################################################
+    $source_files[] = $source_file;
+    $destination_files[] = $_CONFIG[cron_ftp_path]."/".$file;
+    
+    // set up basic connection details
+    list($fhost, $fport) = explode(":",$_CONFIG[cron_ftp_server]);
+    if($fport == "")
+        $fport = '21';
+     
+    $ftp_timeout = '3600';
+    
+    logxx("Starting ftp transfer:");
+    if(!$_CONFIG[secure_ftp])
+    {
+        // set up basic connection
+        $conn_id = ftp_connect($fhost, (int)$fport, (int)$ftp_timeout);
+        $connect = "Normal";
+        
+        // login with username and password
+        $login_result = ftp_login($conn_id, $_CONFIG[cron_ftp_user], $_CONFIG[cron_ftp_pass])
+                        or die("Authentification failed when connecting to the ftp server for user ".$_CONFIG[cron_ftp_user]." with pass".$_CONFIG[cron_ftp_pass]);
+        
+        // check connection
+        if ((!$conn_id) || (!$login_result)) {
+               echo "<b  style='color:red'>FTP connection has failed!</b>";
+               echo "<b  style='color:red'>Attempted to connect to ".$_CONFIG[cron_ftp_server]." for user ".$_CONFIG[cron_ftp_user]."</b>";
+               return;
+           } else {
+               #echo "Connected to $_REQUEST[ftp_server], for user $_REQUEST[ftp_user]";
+           }
+        
+        if($_CONFIG['system_ftptransfer']==1)
+        {
+            // turn passive mode on
+            @ftp_pasv($conn_id, true);
+            $mode = "Passive";
+        }
+        else
+        {
+            // turn passive mode off
+            @ftp_pasv($conn_id, false);
+            $mode = "Active";
+        }
+        echo "Connected to $connect <b>$_CONFIG[cron_ftp_server] Mode: $mode</b><br />";
+        for($i=0;$i<sizeof($source_files);$i++)
+        {
+            // upload the file
+            $upload = ftp_put($conn_id, $destination_files[$i], $source_files[$i], FTP_BINARY);
+            
+            // check upload status
+            if (!$upload) {
+                   echo "<b style='color:red'>FTP upload has failed for file $source_files[$i] ! Stopping ....<br /></b>";return;
+               } else {
+                   echo "<b>Upload success from file <i>$source_files[$i]</i> <br />to <i>$destination_files[$i]</i> ...<br /></b>";
+               }
+        }
+        
+        // close the FTP stream
+        ftp_close($conn_id);
     }
-elseif($_CONFIG['cron_send']==2){
+    else //Use sftp
+    {
+        //set php path to include required sftp files
+        set_include_path(get_include_path() . PATH_SEPARATOR .'classes/phpseclib');
+
+        include('Net/SFTP.php');
+        //define('NET_SFTP_LOGGING', NET_SFTP_LOG_COMPLEX); // or NET_SFTP_LOG_SIMPLE
+
+        //connect to host and authenticate user
+        $sftp = new Net_SFTP($fhost);
+        if (!$sftp->login($_CONFIG[cron_ftp_user], $_CONFIG[cron_ftp_pass])) 
+        {
+            logxx('Login Failed');
+            die("Login Failed");
+        }
+        logxx("Connected to $connect <b>$_CONFIG[cron_ftp_server] Successfully!><br />");
+        
+        //transfere files
+        for($i=0;$i<sizeof($source_files);$i++)
+        {
+            // upload the file
+            $upload = $sftp->put($destination_files[$i], $source_files[$i], NET_SFTP_LOCAL_FILE);
+            
+            // check upload status
+            if (!$upload) {
+                   logxx("<b style='color:red'>FTP upload has failed for file $source_files[$i] ! Stopping ....<br /></b>");return;
+               } else {
+                   logxx("<b>Upload success from file <i>$source_files[$i]</i> <br />to <i>$destination_files[$i]</i> ...<br /></b>");
+               }
+        }
+        
+        //disconnect from server
+        unset($sftp);
+    }
+    
+    logxx("Ftp transfer finished succesfully!");
+    
+    if($_CONFIG[cron_ftp_delb]==1)
+    {
+        @unlink($source_file);
+        logxx("Backup succesfully deleted from the original server!");
+    }
+    ##############################################################################
+}
+else if($_CONFIG['cron_send']==2)
+{
 #######################################STARTING Email TRANSFER################
     logxx("Sending mail with backup");
 
@@ -263,7 +322,7 @@ elseif($_CONFIG['cron_send']==2){
     Source Filename: $source_file
     Server: $mosConfig_live_site
     
-    Powered by http://www.xcloner.com - Xcloner - Backup and Restore made easy!
+    Powered by http://www.xcloner.com - XCloner - Backup and Restore made easy!
     </pre>
 
     ";
@@ -288,9 +347,14 @@ include_once("classes/S3.php");
 
 logxx();
 
-$s3 = new S3($_CONFIG['cron_amazon_awsAccessKey'], $_CONFIG['cron_amazon_awsSecretKey']);
+if(!$_CONFIG['cron_amazon_ssl'])
+	$amazon_ssl = false;
+else
+	$amazon_ssl = true;
 
-logxx("AMAZON S3: Starting communication with the Amazon S3 server...");
+$s3 = new S3($_CONFIG['cron_amazon_awsAccessKey'], $_CONFIG['cron_amazon_awsSecretKey'], $amazon_ssl);
+
+logxx("AMAZON S3: Starting communication with the Amazon S3 server...ssl mode ".(int)$amazon_ssl);
 
 $buckets = $s3->listBuckets();
 
@@ -317,6 +381,63 @@ if (($s3->putBucket($_CONFIG['cron_amazon_bucket'], "private")) || (@in_array($_
 }
 ###### END
 
+####### STARING DROPBOX MODE
+if($_CONFIG['cron_dropbox_active']){
+
+include_once("classes/DropboxClient.php");
+
+$dropbox = new DropboxClient(array(
+	'app_key' => $_CONFIG['cron_dropbox_Key'], 
+	'app_secret' => $_CONFIG['cron_dropbox_Secret'],
+	'app_full_access' => false,
+),'en');
+
+logxx();
+
+logxx("DROPBOX: Starting communication with the DropBox server...");
+
+// first try to load existing access token
+$access_token = load_token("access");
+if(!empty($access_token)) {
+	$dropbox->SetAccessToken($access_token);
+	//print_r($access_token);
+}
+elseif(!empty($_GET['auth_callback'])) // are we coming from dropbox's auth page?
+{
+	// then load our previosly created request token
+	$request_token = load_token($_GET['oauth_token']);
+	if(empty($request_token)) die('Request token not found!');
+	
+	// get & store access token, the request token is not needed anymore
+	$access_token = $dropbox->GetAccessToken($request_token);	
+	store_token($access_token, "access");
+	delete_token($_GET['oauth_token']);
+}
+
+// checks if access token is required
+if(!$dropbox->IsAuthorized())
+{
+	// redirect user to dropbox auth page
+	$return_url = "http://".$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']."?auth_callback=1";
+	$auth_url = $dropbox->BuildAuthorizeUrl($return_url);
+	$request_token = $dropbox->GetRequestToken();
+	store_token($request_token, $request_token['t']);
+	die("Authentication required. <a href='$auth_url'>Click here.</a>");
+}
+
+
+
+$return = $dropbox->UploadFile($clonerPath."/".$file, $_CONFIG['cron_dropbox_dirname']."/".$file);
+if($return->error)
+	logxx($return->error);
+else
+	logxx("File copied to ".$return->path);
+
+#print_r($return);
+
+}
+###### END
+
 
 ######## DELETING OLDER BACKUPS ##############################################
 
@@ -331,6 +452,12 @@ delete_older_backups($clonerPath);
 ###################END OLDER BACKUPS
 
 $logemail = explode(";", $_CONFIG['cron_logemail']);
+
+if($_CONFIG['cron_fromlogemail'])
+	$fromemail = $_CONFIG['cron_fromlogemail'];
+else
+	$fromemail = "nobody@noreply.com";
+	
 if(sizeof($logemail)>0){
 	
 	for($i=0; $i<sizeof($logemail);$i++){
@@ -340,7 +467,7 @@ if(sizeof($logemail)>0){
 			
 			$email_subject = "cron log ".time();
 			
-			$headers ="From: \"Cronlog XCloner\" <nobody@noreply.com>\n";
+			$headers ="From: \"XCloner Cron Log Output\" <".$fromemail.">\n";
 
 			if(mail($email, $email_subject, strip_tags($mail_log), $headers)){
 			
@@ -449,3 +576,21 @@ return $ok;
 
 }
 ?> 
+<?php
+function store_token($token, $name)
+{
+	if(!file_put_contents("tokens/$name.token", serialize($token)))
+		die('<br />Could not store token! <b>Make sure that the directory `tokens` exists and is writable!</b>');
+}
+
+function load_token($name)
+{
+	if(!file_exists("tokens/$name.token")) return null;
+	return @unserialize(@file_get_contents("tokens/$name.token"));
+}
+
+function delete_token($name)
+{
+	@unlink("tokens/$name.token");
+}
+?>

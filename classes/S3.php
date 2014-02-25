@@ -28,6 +28,9 @@
 * Amazon S3 is a trademark of Amazon.com, Inc. or its affiliates.
 */
 
+/** ensure this file is being included by a parent file */
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+
 /**
 * Amazon S3 PHP class
 *
@@ -794,7 +797,7 @@ class S3 {
 		}
 		array_push($policy->conditions, array('content-length-range', 0, $maxFileSize));
 		$policy = base64_encode(str_replace('\/', '/', json_encode($policy)));
-	
+
 		// Create parameters
 		$params = new stdClass;
 		$params->AWSAccessKeyId = self::$__accessKey;

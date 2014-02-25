@@ -10,21 +10,44 @@
 * Date: November 2010
 **/
 
+defined( '_VALID_MOS' ) or die( 'Restricted access' );
+
+/*$root = dirname(dirname(dirname(dirname(dirname(__FILE__)))));
+
+define('WP_ADMIN', true);
+
+if (file_exists($root.'/wp-load.php')) {
+  require_once($root.'/wp-load.php');
+}
+
+if ( ! current_user_can('manage_options') ) {
+	
+	echo "<h1>Not authorized!</h1>";
+	exit;
+}*/
+
+
+/*session_start();
+if(!isset($_SESSION['clone'])){
+	echo "Not Authorized";
+	exit;
+	}
+*/
 header("Cache-Control: no-cache");
 header("Pragma: nocache");
-header("Content-Type: text/xml");
+header("Content-Type: text/xml; charset=utf-8");
 
 error_reporting(2);
 
 ### testing the authenticity of access
-if($_COOKIE["auth_clone"] != 1){
-	echo "Access denied to this location!";
-	exit;
-}
+#if($_COOKIE["auth_clone"] != 1){
+#	echo "Access denied to this location!";
+#	exit;
+#}
 
-      
-include("../cloner.config.php");
-include("../common.php");
+
+include(__DIR__ ."/../cloner.config.php");
+include(__DIR__ ."/../common.php");
 
 
 if((strlen($_REQUEST['dir']) < strlen($_CONFIG['backup_path']))&&($_REQUEST[dir] != ''))
@@ -45,15 +68,15 @@ $path = $_REQUEST['path'];
 $loc = $_REQUEST['dir'];
 
 if(!is_dir($_CONFIG['backup_path'])){
-	
+
 	echo "<directory location=\"Error: Directory $_CONFIG[backup_path] does not exist!\"></directory>";
 	exit;
-	
+
 }elseif(!is_readable($_CONFIG['backup_path'])){
-	
+
 	echo "<directory location=\"Error: Directory $_CONFIG[backup_path] is not readable!\"></directory>";
 	exit;
-	
+
 }
 
 
@@ -70,8 +93,8 @@ elseif($_REQUEST['act'] == "uncheckall"){
 
 if($loc == "")
  $loc = "/";
- 
- 
+
+
 $data = "";
 
 if($fp = @fopen($exfile,"r")){
@@ -82,7 +105,6 @@ while(!feof($fp)){
 fclose($fp);
 }
 $_COOKIES = explode("\r\n", $data);
-
 
 
 $exc = 0;
@@ -127,10 +149,10 @@ fclose($fp);
 
 }
 else{
-	
+
 	echo "<directory location=\"Error: Unable to write to file $exfile\"></directory>";
 	exit;
-	
+
 }
 
 $_COOKIES = explode("\r\n", $data);
@@ -187,7 +209,7 @@ sort($exclude);
         $check = 'checked';
        else
         $check = '';
-        
+
        echo "<file  check='$check' link=\"#\">".htmlspecialchars($file)."</file>";
 
       }
@@ -202,7 +224,7 @@ sort($exclude);
 
 function check($loc, $exfile, $act ){
     global $_CONFIG;
-    
+
     $fulldir = $loc;
     $flist = array();
     $_COOKIES = array();
@@ -235,7 +257,7 @@ function check($loc, $exfile, $act ){
     if($act == 1){
 
         $flist = @array_merge($_COOKIES, $flist);
-        
+
         }
     else{
 
