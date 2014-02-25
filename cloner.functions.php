@@ -848,7 +848,7 @@
               return 1;
           } else {
 
-              echo "<br><br><h2>" . LM_MSG_BACK_4 . " <br /><a href='" . $redurl . "'>click here to continue...</a></h2>";
+              echo "<br><br><h2>" . LM_MSG_BACK_4 . " <br /><a target='_blank' href='" . $redurl . "'>click here to continue...</a></h2>";
               return 1;
           }
 
