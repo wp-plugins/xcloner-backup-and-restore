@@ -19,6 +19,11 @@ header('Content-Type: text/html; charset=utf-8');
 include_once("admin.cloner.html.php");
 include_once("cloner.functions.php");
 
+$root = dirname(dirname(dirname(dirname(__FILE__))));
+
+if (file_exists($root.'/wp-load.php')) 
+	require_once($root.'/wp-load.php');
+
 require_once( 'cloner.config.php' );
 
 ####### VERIFY IP ACCESS
