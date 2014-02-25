@@ -1155,6 +1155,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		$( "#cron_file_delete_act" ).button();
 		$( "#cron_sql_drop" ).button();
 		$( "#cron_amazon_active" ).button();
+		$( "#cron_dropbox_active" ).button();
 		$( "#cron_amazon_ssl" ).button();
 		$( "#cron_ftp_delb" ).button();
 		$( "#checkmysqldump" ).button();
