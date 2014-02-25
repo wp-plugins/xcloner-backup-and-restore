@@ -1,7 +1,5 @@
 <?php
-@ini_set("error_reporting", "2");
-
-define("_VALID_MOS", 1);
+defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 $thisApp=$_SERVER['PHP_SELF'] . "?browse=true";
 
