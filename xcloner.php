@@ -15,9 +15,9 @@ Plugin URI: http://www.xcloner.com
 
 define("_VALID_MOS", 1);
 
-function xcloner_show(){
 
-#print "<iframe src='../wp-content/plugins/xcloner-backup-and-restore/index.php' width='100%' height='900' frameborder=0 marginWidth=0 frameSpacing=0 marginHeight=110 ></iframe>";
+
+function xcloner_show(){
 
 	include "admin.cloner.php";
 
