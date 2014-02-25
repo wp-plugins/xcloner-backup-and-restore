@@ -205,7 +205,7 @@ function footer(){
 <script> 
 	
 	$( "#toolbar" ).show(); 
-
+	
 </script>
 
 
@@ -305,14 +305,14 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 
 							$("#db"+count).text(json.startAtLine - counter);
 
-							recurseUrl = "../wp-content/plugins/xcloner-backup-and-restore/index2.php?task=recurse_database&nohtml=1&dbbackup_comp="+json.dbbackup_comp+"&dbbackup_drop="+json.dbbackup_drop+"&startAtLine="+json.startAtLine+"&startAtRecord="+json.startAtRecord+"&dumpfile="+json.dumpfile;
+							recurseUrl = "admin-ajax.php?action=json_return&task=recurse_database&nohtml=1&dbbackup_comp="+json.dbbackup_comp+"&dbbackup_drop="+json.dbbackup_drop+"&startAtLine="+json.startAtLine+"&startAtRecord="+json.startAtRecord+"&dumpfile="+json.dumpfile;
 							xclonerRecurseMYSQL(recurseUrl);
 
 							}
 						else{
 
 							$("#fileSystem").show();
-							var recurseUrl="../wp-content/plugins/xcloner-backup-and-restore/index2.php?task=recurse_files&mode=start&nohtml=1";
+							var recurseUrl="admin-ajax.php?action=json_return&task=recurse_files&mode=start&nohtml=1";
 							xclonerRecurseJSON(recurseUrl);
 
 							}
@@ -339,7 +339,7 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 
 							$("#recurseStatus").text(json.tfiles);
 
-							var recurseUrl = "../wp-content/plugins/xcloner-backup-and-restore/index2.php?task=recurse_files&mode="+json.mode+"&nohtml=1";
+							var recurseUrl = "admin-ajax.php?action=json_return&task=recurse_files&mode="+json.mode+"&nohtml=1";
 							xclonerRecurseJSON(recurseUrl);
 
 							}
@@ -358,7 +358,7 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 							}
 
 							//xclonerGetJSON("<?php echo $urlReturn;?>");
-							returnUrl = "../wp-content/plugins/xcloner-backup-and-restore/index2.php?option=com_cloner&lines="+json.tfiles+"&task=refresh&backup=<?php echo $backupFile; ?>&excl_manual=";
+							returnUrl = "admin-ajax.php?action=json_return&option=com_cloner&lines="+json.tfiles+"&task=refresh&backup=<?php echo $backupFile; ?>&excl_manual=";
 							xclonerGetJSON(returnUrl);
 
 							}
@@ -395,12 +395,12 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 								oldSize = parseInt(json.backupSize);
 								}
 
-							var url = "../wp-content/plugins/xcloner-backup-and-restore/index2.php?option="+json.option+"&task="+json.task+"&json="+json.json+"&startf="+json.startf+"&lines="+json.lines+"&backup="+json.backup+"&excl_manual="+json.excl_manual;
+							var url = "admin-ajax.php?action=json_return&option="+json.option+"&task="+json.task+"&json="+json.json+"&startf="+json.startf+"&lines="+json.lines+"&backup="+json.backup+"&excl_manual="+json.excl_manual;
 							xclonerGetJSON(url);
 						}else{
 
 							//all done
-							url = "../wp-content/plugins/xcloner-backup-and-restore/index2.php?task=cleanup&nohtml=1";
+							url = "admin-ajax.php?action=json_return&task=cleanup&nohtml=1";
 							$.getJSON(url, function(json) {
 							});
 
@@ -451,11 +451,11 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 					$("#fileSystem").hide();
 
 					if(dbbackup){
-						recurseUrl = "../wp-content/plugins/xcloner-backup-and-restore/index2.php?task=recurse_database&nohtml=1&dbbackup_comp=<?php echo $_REQUEST['dbbackup_comp']?>&dbbackup_drop=<?php echo $_REQUEST['dbbackup_drop']?>";
+						recurseUrl = "admin-ajax.php?action=json_return&task=recurse_database&nohtml=1&dbbackup_comp=<?php echo $_REQUEST['dbbackup_comp']?>&dbbackup_drop=<?php echo $_REQUEST['dbbackup_drop']?>";
 						xclonerRecurseMYSQL(recurseUrl);
 					}else{
 						$("#fileSystem").show();
-					    var recurseUrl="../wp-content/plugins/xcloner-backup-and-restore/index2.php?task=recurse_files&mode=start&nohtml=1";
+					    var recurseUrl="admin-ajax.php?action=json_return&task=recurse_files&mode=start&nohtml=1";
 					    xclonerRecurseJSON(recurseUrl);
 
 					}

@@ -36,7 +36,7 @@ function processXMLRequest() {
 function do_browser(){
       targetDiv=document.getElementById("browser");
 
-      if(loadXMLDoc("../wp-content/plugins/xcloner-backup-and-restore/browser/files_xml.php")){
+      if(loadXMLDoc("admin-ajax.php?action=files_xml")){
             targetDiv.className="searching";
             targetDiv.innerHTML="";
       }
@@ -110,7 +110,7 @@ function useXML(xmlInfo){
       else
        loc1 = loc;
 
-      var newloc1="../wp-content/plugins/xcloner-backup-and-restore/browser/files_xml.php?dir=" + loc ;
+      var newloc1="admin-ajax.php?action=files_xml&dir=" + loc ;
 
       var stringHTML="<p><b>" + loc1 +"</b> <br /><br /></p>";
 
@@ -122,7 +122,7 @@ function useXML(xmlInfo){
             stringHTML=stringHTML+"<ul>";
             for(node=infoTags[0].firstChild; node!=null; node=node.nextSibling){
 
-                  var newloc="../wp-content/plugins/xcloner-backup-and-restore/browser/files_xml.php?dir=" + loc ;
+                  var newloc="admin-ajax.php?action=files_xml&dir=" + loc ;
                   path = loc+"/"+node.firstChild.nodeValue;
 
                   if(node.nodeName=="file"){
@@ -139,7 +139,7 @@ function useXML(xmlInfo){
                   if(node.nodeName=="folder"){
 
 
-                        var newfile="../wp-content/plugins/xcloner-backup-and-restore/browser/files_xml.php?dir=" + loc + "/" + node.firstChild.nodeValue;
+                        var newfile="admin-ajax.php?action=files_xml&dir=" + loc + "/" + node.firstChild.nodeValue;
                         stringHTML=stringHTML+"<li class=\"folder\"><img src='../wp-content/plugins/xcloner-backup-and-restore/browser/folder.gif' border='0'><input type=checkbox "+node.getAttribute('check')+" onclick=\"loadXMLDoc('" + newloc +"&amp;path="+path+"')\" name=cid[] value='"+path+"'><a href='#' class=\"folder\" onclick=\"loadXMLDoc('" + newfile+"')\">"+node.firstChild.nodeValue+"</a></li>";
                   }
             }

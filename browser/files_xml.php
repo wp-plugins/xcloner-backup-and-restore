@@ -10,9 +10,9 @@
 * Date: November 2010
 **/
 
-define("_VALID_MOS", 1);
+defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$root = dirname(dirname(dirname(dirname(dirname(__FILE__)))));
+/*$root = dirname(dirname(dirname(dirname(dirname(__FILE__)))));
 
 define('WP_ADMIN', true);
 
@@ -24,7 +24,8 @@ if ( ! current_user_can('manage_options') ) {
 	
 	echo "<h1>Not authorized!</h1>";
 	exit;
-}
+}*/
+
 
 /*session_start();
 if(!isset($_SESSION['clone'])){
@@ -45,8 +46,8 @@ error_reporting(2);
 #}
 
 
-include("../cloner.config.php");
-include("../common.php");
+include(__DIR__ ."/../cloner.config.php");
+include(__DIR__ ."/../common.php");
 
 
 if((strlen($_REQUEST['dir']) < strlen($_CONFIG['backup_path']))&&($_REQUEST[dir] != ''))

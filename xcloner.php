@@ -13,6 +13,8 @@ Plugin URI: http://www.xcloner.com
 // no direct access
 #defined( '_JEXEC' ) or die( 'Restricted access' );
 
+define("_VALID_MOS", 1);
+
 function xcloner_show(){
 
 #print "<iframe src='../wp-content/plugins/xcloner-backup-and-restore/index.php' width='100%' height='900' frameborder=0 marginWidth=0 frameSpacing=0 marginHeight=110 ></iframe>";
@@ -48,5 +50,26 @@ if (isset($_GET['activate']) && $_GET['activate'] == 'true')
  {
    add_action('init', 'xcloner_install');
  }
+ 
+ 
+ 
+add_action( 'wp_ajax_json_return', 'json_return' );
+function json_return(){
 
+	include "admin.cloner.php";
+
+	die();
+
+} 
+
+add_action( 'wp_ajax_files_xml', 'files_xml' );
+function files_xml(){
+
+	#print_r($_REQUEST);
+	set_include_path(__DIR__."/browser/");
+	include __DIR__."/browser/files_xml.php";
+
+	die();
+
+} 
 ?>
