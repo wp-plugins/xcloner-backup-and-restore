@@ -2488,7 +2488,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 	  {
       ?>
     <tr><td>
-    <link href="<?php echo plugins_url('browser/filebrowser.css', __FILE__) ?>browser/filebrowser.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo plugins_url('browser/filebrowser.css', __FILE__) ?>" rel="stylesheet" type="text/css">
 
 	<script type="text/javascript" src="<?php echo plugins_url('browser/xmlhttp.js', __FILE__) ?>"></script>
 

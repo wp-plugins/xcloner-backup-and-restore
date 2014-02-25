@@ -37,6 +37,13 @@ add_action('admin_menu', 'xcloner_page');
 
 #add_options_page('XCloner Options', 'XCloner', 9, 'index.php', 'xcloner_options');
 
+add_action( 'wp_ajax_add_foobar', 'prefix_ajax_add_foobar' );
+
+function prefix_ajax_add_foobar() {
+    // Handle request then generate response using WP_Ajax_Response
+}
+
+
 if (isset($_GET['activate']) && $_GET['activate'] == 'true')
  {
    add_action('init', 'xcloner_install');
