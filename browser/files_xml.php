@@ -22,9 +22,6 @@ if (file_exists($root.'/wp-load.php')) {
 
 if ( ! current_user_can('manage_options') ) {
 	
-	$user = wp_validate_auth_cookie();
-	print_r($user);
-	
 	echo "<h1>Not authorized!</h1>";
 	exit;
 }

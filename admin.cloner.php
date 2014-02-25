@@ -21,6 +21,20 @@
 */
 
 
+	define('WP_ADMIN', true);
+
+	$root = dirname(dirname(dirname(dirname(__FILE__))));
+	
+	if (file_exists($root.'/wp-load.php')) {
+	  require_once($root.'/wp-load.php');
+	}
+	
+	if ( ! current_user_can('manage_options') ) {
+		
+		echo "<h1>Not authorized!</h1>";
+		exit;
+	}
+
 	#session_start();
 	#header('Content-Type: text/html; charset=utf-8');
 	@set_time_limit("3600");
