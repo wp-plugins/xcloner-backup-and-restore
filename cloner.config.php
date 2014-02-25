@@ -57,12 +57,18 @@ $_CONFIG['enable_db_backup'] = '0';
 
 ###Wordpress specific configuration
 
-if(@file_exists("../../../wp-config.php")){
+/*if(@file_exists("../../../wp-config.php")){
 
   $content = file_get_contents("../../../wp-config.php");	
   $content = str_replace("require_once","#require_once", $content);	
   $content = str_replace(array("<?php","<?","?>"),array("","",""), $content);		
   eval($content);
+*/
+
+$root = dirname(dirname(dirname(dirname(__FILE__))));
+
+if (file_exists($root.'/wp-load.php')) {
+	require_once($root.'/wp-load.php');
 
   $_CONFIG["enable_db_backup"] = 1;
   $_CONFIG['mysql_host'] = DB_HOST;

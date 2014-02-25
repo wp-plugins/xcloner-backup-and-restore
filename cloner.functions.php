@@ -257,6 +257,14 @@
               $cfg .= '$_CONFIG[\'cron_amazon_dirname\']=\'' . $_REQUEST[cron_amazon_dirname] . '\';' . "\n";
               
               $cfg .= '$_CONFIG[\'cron_amazon_ssl\']=\'' . $_REQUEST[cron_amazon_ssl] . '\';' . "\n";
+              
+              $cfg .= '$_CONFIG[\'cron_dropbox_active\']=\'' . $_REQUEST[cron_dropbox_active] . '\';' . "\n";
+              
+              $cfg .= '$_CONFIG[\'cron_dropbox_Key\']=\'' . $_REQUEST[cron_dropbox_Key] . '\';' . "\n";
+              
+              $cfg .= '$_CONFIG[\'cron_dropbox_Secret\']=\'' . $_REQUEST[cron_dropbox_Secret] . '\';' . "\n";
+              
+              $cfg .= '$_CONFIG[\'cron_dropbox_dirname\']=\'' . $_REQUEST[cron_dropbox_dirname] . '\';' . "\n";
 
               $cfg .= '$_CONFIG[\'debug\']="' . $_REQUEST[debug] . '";' . "\n";
 

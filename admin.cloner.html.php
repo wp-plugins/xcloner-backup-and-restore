@@ -1864,6 +1864,56 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 	</div>
 
 	<div>
+		<h3><a href="#"> <?php echo LM_DROPBOX?></a></h3>
+		<div><p>
+			<table class='adminform'>
+
+			<tr>
+			<td width='250'>
+		     		<?php #echo LM_AMAZON_S3_ACTIVATE?>
+			</td>
+		     	<td>
+		     	<label for="cron_dropbox_active"><?php echo LM_DROPBOX_ACTIVATE?></label>
+				<input id="cron_dropbox_active" type=checkbox name='cron_dropbox_active' <?php if($_CONFIG[cron_dropbox_active]==1) echo "checked";?> value='1'>
+				
+				
+			</td>
+			</tr>
+
+			<tr>
+			<td>
+		     		<?php echo LM_DROPBOX_AWSACCESSKEY;?>
+			</td>
+		     	<td>
+				<input type=text size=50  name='cron_dropbox_Key' value="<?php echo $_CONFIG['cron_dropbox_Key'];?>">
+			</td>
+			</tr>
+
+			<tr>
+			<td>
+		     		<?php echo LM_DROPBOX_AWSSECRETKEY;?>
+			</td>
+		     	<td>
+				<input type=text size=50  name='cron_dropbox_Secret' value="<?php echo $_CONFIG['cron_dropbox_Secret'];?>">
+			</td>
+			</tr>
+			
+			<tr>
+			<td>
+		     		<?php echo LM_DROPBOX_DIRNAME;?>
+			</td>
+		     	<td>
+				<input type=text size=50  name='cron_dropbox_dirname' value="<?php echo $_CONFIG['cron_dropbox_dirname'];?>">
+			</td>
+			</tr>
+		    </tr>
+			
+		    </tr>
+			</table>
+		</p></div>
+	</div>
+
+	<div>
 		<h3><a href="#"> <?php echo LM_CRON_EMAIL_DETAILS?></a></h3>
 		<div><p>
 			<table class='adminform'>

@@ -12,6 +12,23 @@
 
 define("_VALID_MOS", 1);
 
+$root = dirname(dirname(dirname(dirname(dirname(__FILE__)))));
+
+define('WP_ADMIN', true);
+
+if (file_exists($root.'/wp-load.php')) {
+  require_once($root.'/wp-load.php');
+}
+
+if ( ! current_user_can('manage_options') ) {
+	
+	$user = wp_validate_auth_cookie();
+	print_r($user);
+	
+	echo "<h1>Not authorized!</h1>";
+	exit;
+}
+
 /*session_start();
 if(!isset($_SESSION['clone'])){
 	echo "Not Authorized";
