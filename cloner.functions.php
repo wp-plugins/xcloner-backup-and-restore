@@ -690,10 +690,10 @@
       if (($_REQUEST[task] == 'move') || ($_REQUEST[task2] == 'move')) {
       } else {
 
-          $source_file[0] = "restore/XCloner.php";
+          $source_file[0] = __DIR__ ."/restore/XCloner.php";
           $destination_file[0] = $_REQUEST[ftp_dir] . "/XCloner.php";
 
-          $source_file[1] = "restore/TAR.php";
+          $source_file[1] = __DIR_ ."/restore/TAR.php";
           $destination_file[1] = $_REQUEST[ftp_dir] . "/TAR.php";
       }
 
