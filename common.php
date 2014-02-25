@@ -53,7 +53,7 @@ $_CONFIG['commentsfile'] = $_CONFIG['backups_dir']."/.comments"; #$_REQUEST['bac
 
 $_CONFIG['script_path'] = str_replace("\\","/",dirname(__FILE__));
 
-$lang_dir =  "language";
+$lang_dir =  __DIR__."/language";
 
 $task = $_REQUEST['task'];
 ####################################
