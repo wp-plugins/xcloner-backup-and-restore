@@ -150,16 +150,6 @@
 
               $cfg .= '$_CONFIG[\'clonerPath\']="' . $_REQUEST[clonerPath] . '";' . "\n";
 
-              $cfg .= '$_CONFIG[\'jcuser\']=\'' . $_REQUEST[jcuser] . '\';' . "\n";
-
-              if ($_REQUEST['jcpass'] == '') {
-                  $jcpass = $_CONFIG['jcpass'];
-              } else {
-
-
-                  $jcpass = md5($_REQUEST['jcpass']);
-              }
-
               $cfg .= '$_CONFIG[\'jcpass\']=\'' . $jcpass . '\';' . "\n";
 
               $cfg .= '$_CONFIG[\'mysql_host\']="' . $_REQUEST[mysql_host] . '";' . "\n";
