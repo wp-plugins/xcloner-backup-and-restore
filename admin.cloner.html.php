@@ -1308,7 +1308,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		</p></div>
 	</div>
 
-	<div>
+	<!--<div>
 		<h3><a href="#">Public Key Management</a></h3>
 		<div><p>
 			<table class='adminForm'>
@@ -1326,7 +1326,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 
 		    </table>
 		</p></div>
-	</div>
+	</div>-->
 
 	</div>
 
