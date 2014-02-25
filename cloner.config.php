@@ -72,5 +72,10 @@ $_CONFIG['clonerPath'] = str_replace("\\","/", $_CONFIG['clonerPath']);
 
 $_CONFIG['mosConfig_live_site']=$_SERVER['HTTP_HOST'];
 
+foreach($_CONFIG as $key=>$value){
+	$newVal = get_option("xcloner_".$key);
+	if($newVal)
+		$_CONFIG[$key] = $newVal;
+}
 
 ?>

@@ -135,17 +135,24 @@
 
 
       if (@$_REQUEST['action'] == 'save') {
-          //print_r($_REQUEST);exit;
+		  
+		  $msg = LM_MSG_BACK_1;
+		  
           $databases_incl_list = "";
+          
           if (is_array($_REQUEST['databases_incl']))
               foreach ($_REQUEST['databases_incl'] as $database) {
                   $databases_incl_list .= $database . ",";
               }
-          if ($fp = @fopen($config_file, 'w')) {
+            foreach($_REQUEST as $key=>$value)
+				update_option( "xcloner_".$key, $value, '', 'yes' );
+              
+          #if ($fp = @fopen($config_file, 'w')) 
+          if(1){
               $cfg = '<?' . 'php' . "\n";
 
               $cfg .= '$_CONFIG[\'license_code\']=\'' . $_REQUEST[license_code] . '\';' . "\n";
-
+              
               $cfg .= '$_CONFIG[\'backup_path\']="' . $_REQUEST[backup_path] . '";' . "\n";
 
               $cfg .= '$_CONFIG[\'clonerPath\']="' . $_REQUEST[clonerPath] . '";' . "\n";
@@ -261,9 +268,9 @@
 
               $cfg .= '?' . '>';
 
-              fwrite($fp, $cfg);
+              #fwrite($fp, $cfg);
 
-              fclose($fp);
+              #fclose($fp);
 
               $msg = LM_MSG_BACK_1;
 
@@ -284,10 +291,12 @@
 
               //exit;
               mosRedirect('index2.php?option=' . $option . "&task=config", $msg);
-          } else {
+          } /*else {
               $msg = "<font color='red'>ERROR... Unable to write to ".realpath($config_file).", please make it writeable!</font>";
               E_print($msg);
-          }
+          }*/
+          
+          mosRedirect('index2.php?option=' . $option . "&task=config", $msg);
       }
       $html = new HTML_cloner();
       $html->Config($option);
