@@ -11,7 +11,7 @@
 **/
 
 if( php_sapi_name() != 'cli' ){
-	echo "<h2>Please run this script from a terminal or through a con scheduler interface</h2>";
+	echo "<h2>Please run this script from a terminal or through a cron scheduler interface</h2>";
 	exit;
 	}
 
