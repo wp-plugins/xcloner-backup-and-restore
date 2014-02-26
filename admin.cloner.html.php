@@ -1722,7 +1722,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		    </tr>
 
 
-		     <tr>
+		    <!-- <tr>
 		    <td>
 		      <?php echo LM_CRON_IP?>
 		     </td>
@@ -1730,7 +1730,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		      <textarea type=text size=50 name='cron_ip' cols='30' rows='5'><?php echo $_CONFIG[cron_ip]?></textarea> <br />
 		       <?php echo LM_CRON_IP_SUB?>
 		     </td>
-		    </tr>
+		    </tr>-->
 		    </table>
 		</p></div>
 	</div>
