@@ -1243,7 +1243,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		      <?php echo LM_CONFIG_MEM?>
 		     </td>
 		     <td align='left'>
-		     <table style="width:auto; margin-bottom: 10px;" cellpadding='0' cellspacing='2' border='1'>
+		     <table style="width:auto; margin-bottom: 10px;" cellpadding='0' cellspacing='2' border='0'>
 		     <tr bgcolor='#efefef'><td style="width:70px;">
 		     <label for="checktar"><?php echo LM_ACTIVE;?></label> <input type=checkbox id="checktar" value=1 name='mem' <?php if($_CONFIG[mem]==1) echo 'checked';?>>
 		     </td><td align='left'>
