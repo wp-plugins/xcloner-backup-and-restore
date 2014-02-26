@@ -432,7 +432,8 @@ class fileRecursion{
 	 * @return
 	 */
 	public static function getDirectories($dir){
-
+		global $_CONFIG;
+		
 		self::debug("Processing $dir");
 		
 		if(!stristr(realpath($dir), realpath($_CONFIG['backup_path']))){
