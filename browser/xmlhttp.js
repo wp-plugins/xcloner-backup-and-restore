@@ -115,7 +115,7 @@ function useXML(xmlInfo){
       var stringHTML="<p><b>" + loc1 +"</b> <br /><br /></p>";
 
       if(loc.indexOf("/")!=-1){
-      var newfile="../wp-content/plugins/xcloner-backup-and-restore/browser/files_xml.php?dir=" + loc.slice(0, loc.lastIndexOf("/"));
+      var newfile="admin-ajax.php?action=files_xml&dir=" + loc.slice(0, loc.lastIndexOf("/"));
       stringHTML=stringHTML+"<p><a href=\"#\" onclick=\"loadXMLDoc('" + newfile +"')\">[Up a level]</a> <a href='#' onclick=\"loadXMLDoc('" + newloc1 +"&amp;act=checkall')\" >[check all]</a> <a href='#' onclick=\"loadXMLDoc('" + newloc1 +"&amp;act=uncheckall')\" >[uncheck all]</a></p><br />"
       }
       if(infoTags[0].hasChildNodes){

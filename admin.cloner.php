@@ -21,65 +21,63 @@
 */
 
 
-	defined( '_VALID_MOS' ) or die( 'Restricted access' );
-	
-	#header('Content-Type: text/html; charset=utf-8');
-	@set_time_limit("3600");
-	@error_reporting(E_ALL ^ E_NOTICE);
+defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-	define("_VALID_MOS", 1);
+@set_time_limit("3600");
+@error_reporting(E_ALL ^ E_NOTICE);
 
-	//load configuration
-	$config_file = __DIR__."/cloner.config.php";
-	
-	require_once($config_file);
-	
-	$task = $_GET["task"];
-	
-	require_once("restore/TAR.php");
-	require_once("cloner.functions.php");
-	require_once("admin.cloner.html.php");
-	require_once("common.php");
+//load configuration
+$config_file = __DIR__."/cloner.config.php";
 
-	$option = "xcloner";
+require_once($config_file);
 
-	//###########GLOBALS in effect
-	$GLOBALS['lang_dir'] = $lang_dir;
-	//###########
-	$lang_array = get_avalaible_langs();
+require_once("restore/TAR.php");
+require_once("cloner.functions.php");
+require_once("admin.cloner.html.php");
+require_once("common.php");
+
+$option = "xcloner";
+
+//###########GLOBALS in effect
+$GLOBALS['lang_dir'] = $lang_dir;
+//###########
+$lang_array = get_avalaible_langs();
 
 
-	// retrieve row selection from forms
-	$cid = $_REQUEST['cid'];
-	if (!is_array($cid)) {
+// retrieve row selection from forms
+$cid = $_REQUEST['cid'];
+if (!is_array($cid)) 
+{
 	$cid = array(0);
-	}
+}
 
-	if(!$_REQUEST['nohtml'])
+if(!$_REQUEST['nohtml'])
+{
 	if (($task != 'download') and (($_REQUEST['task']!="refresh") or (!$_CONFIG['refresh_mode']))){
 		//HTML_cloner::header();
 		$html = new HTML_cloner();
 		$html->header();
 	}
+}
 
-	//########## SETTING THE GLOBALS VARIABLES #########################
+//########## SETTING THE GLOBALS VARIABLES #########################
 
-	$GLOBALS['joomla_compatible'] = $joomla_compatible;
+$GLOBALS['joomla_compatible'] = $joomla_compatible;
 
-	$GLOBALS['_CONFIG'] = $_CONFIG;
+$GLOBALS['_CONFIG'] = $_CONFIG;
 
-	$GLOBALS['clonerPath'] = $clonerPath;
+$GLOBALS['clonerPath'] = $clonerPath;
 
-	$GLOBALS['baDownloadPath'] = $baDownloadPath;
+$GLOBALS['baDownloadPath'] = $baDownloadPath;
 
-	$GLOBALS['config_file'] = $config_file;
+$GLOBALS['config_file'] = $config_file;
 
-	$GLOBALS['lang_array'] = $lang_array;
+$GLOBALS['lang_array'] = $lang_array;
 
-	openXLog();
+openXLog();
 
-	// process the workflow selection
-	switch ($task) {
+// process the workflow selection
+switch ($task) {
 	case 'rename_save':
 	case 'rename':
 	  clone_rename($option);
@@ -87,8 +85,8 @@
 	case 'action':
 	  action($option);
 	  break;
-
-
+	
+	
 	case 'cancel_lang':
 	  mosRedirect('index2.php?option=' . $option . "&task=lang");
 	  break;
@@ -101,32 +99,32 @@
 	case 'edit_lang':
 	  translator_edit($option, $task);
 	  break;
-
-
+	
+	
 	case 'del_lang':
 	case 'lang':
 	  translator($option);
 	  break;
-
+	
 	case 'recurse_database';
 	  goRecurseDatabases();
 	  break;
-
+	
 	case	'recurse_files':
 	  goRecurseFiles();
 	  break;
-
+	
 	case 'cleanup':
 		include_once("classes/main.class.php");
 		$main = new Main();
 		$main->init($_CONFIG);
 		$main->cleanUp();
 		break;
-
+	
 	case 'refresh':
 	  generateBackuprefresh($cid, $option, $_REQUEST['backup'], $_CONFIG['refresh_mode']);
 	  break;
-
+	
 	case 'generate':
 		if($_CONFIG['refresh_mode']){
 			$_REQUEST['mode'] = "start";
@@ -137,7 +135,7 @@
 		}
 	  generateBackup($cid, $option);
 	  break;
-
+	
 	case 'confirm':
 	  deleteXLog();
 	  confirmBackup($option);
@@ -155,16 +153,16 @@
 	case 'restore':
 	  $html->Restore($option);
 	  break;
-
+	
 	case 'cron_delete':
 	  if (unlink($_CONFIG['multiple_config_dir'] . "/" . $_REQUEST['fconfig']))
 		  $msg = " was deleted";
 	  else
 		  $msg = " was not deleted, please delete it manually!";
-
+	
 	  mosRedirect('index2.php?option=' . $option . "&task=config", $_REQUEST['fconfig'] . $msg);
 	  break;
-
+	
 	case 'delete':	
 	case 'remove':
 	  deleteBackups($cid, $option);
@@ -174,7 +172,7 @@
 	case 'clone':
 	  moveBackup($option);
 	  break;
-
+	
 	case 'cancel':
 	  mosRedirect('index2.php?option=' . $option);
 	  break;
@@ -194,11 +192,15 @@
 	default:
 	  fdefault();
 	  break;
-	}
+}
 
-	closeXLog();
-	if(!$_REQUEST['nohtml'])
-		$html->footer();
+closeXLog();
 
-	@mysql_close($link);
+if(!$_REQUEST['nohtml'])
+{
+	$html->footer();
+}
+
+@mysql_close($link);
+
 ?>
