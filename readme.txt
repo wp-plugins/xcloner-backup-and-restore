@@ -68,6 +68,11 @@ If the inside Clone option fails for some reason, you need to:
 
 == Changelog ==
 
+= 3.1.0 =
+* added Wordpress login-less integration
+* plugin settings are now saved to database
+* security audit and hardening
+
 = 3.0.8 =
 * added russian language support
 
