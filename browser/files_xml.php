@@ -12,51 +12,24 @@
 
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-/*$root = dirname(dirname(dirname(dirname(dirname(__FILE__)))));
-
-define('WP_ADMIN', true);
-
-if (file_exists($root.'/wp-load.php')) {
-  require_once($root.'/wp-load.php');
-}
-
-if ( ! current_user_can('manage_options') ) {
-	
-	echo "<h1>Not authorized!</h1>";
-	exit;
-}*/
-
-
-/*session_start();
-if(!isset($_SESSION['clone'])){
-	echo "Not Authorized";
-	exit;
-	}
-*/
 header("Cache-Control: no-cache");
 header("Pragma: nocache");
 header("Content-Type: text/xml; charset=utf-8");
 
 error_reporting(2);
 
-### testing the authenticity of access
-#if($_COOKIE["auth_clone"] != 1){
-#	echo "Access denied to this location!";
-#	exit;
-#}
-
-
 include(__DIR__ ."/../cloner.config.php");
 include(__DIR__ ."/../common.php");
 
 
 if((strlen($_REQUEST['dir']) < strlen($_CONFIG['backup_path']))&&($_REQUEST[dir] != ''))
-
+{
 	$dir = $_CONFIG['backup_path'];
-
+}
 else
-
+{
 	$dir = ($_REQUEST['dir'] != '') ? $_REQUEST['dir'] : $_CONFIG['backup_path'];
+}
 
 $fulldir = $dir;
 $f_arr = array();
