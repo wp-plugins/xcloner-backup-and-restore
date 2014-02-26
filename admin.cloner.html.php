@@ -141,7 +141,7 @@ d.add(832,830,'&nbsp;<?php echo LM_MENU_WEBSITE;?>','http://www.xcloner.com','',
 
 
 
-d.add(820,0,'&nbsp;<?php echo LM_MENU_Documentation;?>','','','','<?php echo plugins_url('images/help.png', __FILE__) ?>','<?php echo plugins_url('images/gen_settings.png', __FILE__) ?>images/help.png');
+d.add(820,0,'&nbsp;<?php echo LM_MENU_Documentation;?>','','','','<?php echo plugins_url('images/help.png', __FILE__) ?>','<?php echo plugins_url('images/gen_settings.png', __FILE__) ?>');
 d.add(821,820,'&nbsp;<?php echo LM_MENU_ABOUT;?>','plugins.php?page=xcloner_show&option=com_cloner&task=about','','','<?php echo plugins_url('images/about.png', __FILE__) ?>','<?php echo plugins_url('images/about.png', __FILE__) ?>');
 
 document.write(d);

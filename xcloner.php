@@ -53,7 +53,6 @@ function xcloner_page()
 	if ( function_exists('add_submenu_page') )
 		add_submenu_page('plugins.php', 'XCloner', 'XCloner', 'manage_options', 'xcloner_show', 'xcloner_show');
 
-
 }
 
 #add_action('admin_head', 'xcloner');
