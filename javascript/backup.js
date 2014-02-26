@@ -1,4 +1,4 @@
-$(document).ready(function() {
+jQuery(document).ready(function() {
 
 	var globalUrl;
 	var step = "r1";
@@ -6,14 +6,14 @@ $(document).ready(function() {
 	var counter = 0;
 	var counter_old = 0;
 
-	$("#progressbar").progressbar({ value: 0 });
+	jQuery("#progressbar").progressbar({ value: 0 });
 
-	$.ajaxSetup({
+	jQuery.ajaxSetup({
 	"error":function(request, status, error) {
 	//reset state here;
-		$("#error").show();
-		$("#errorText").append(status+" -- "+error);
-		$("#errorText").append("<br /><br />JSON url: "+globalUrl);
+		jQuery("#error").show();
+		jQuery("#errorText").append(status+" -- "+error);
+		jQuery("#errorText").append("<br /><br />JSON url: "+globalUrl);
 	}});
 
 	function getSize(bytes, conv){
@@ -32,32 +32,32 @@ $(document).ready(function() {
 		globalUrl = url;
 		step = "r1";
 
-		$.getJSON(url, function(json) {
+		jQuery.getJSON(url, function(json) {
 
 		if(!json){
-			$("#error").show();
-			$("#errorText").text(url);
+			jQuery("#error").show();
+			jQuery("#errorText").text(url);
 		}
 
 		if(json.dumpsize && !json.endDump){
-					$("#mysqlProcess").append(" ("+getSize(json.dumpsize, 1024*1024)+" MB) <br />");
+					jQuery("#mysqlProcess").append(" ("+getSize(json.dumpsize, 1024*1024)+" MB) <br />");
 				}
 
 		if(json.newDump){
 				count++;
-				//$("#mysqlProcess").append(appendIcon("arrowthick-1-e"));
+				//jQuery("#mysqlProcess").append(appendIcon("arrowthick-1-e"));
 				if(json.databaseName!="")
-					$("#mysqlProcess").append("<b>["+json.databaseName+"]</b> <span id='db"+count+"'></span> tables ");
+					jQuery("#mysqlProcess").append("<b>["+json.databaseName+"]</b> <span id='db"+count+"'></span> tables ");
 				counter = parseInt(json.startAtLine);
 
 		}else{
-				$("#db"+count).text(json.startAtLine - counter);
+				jQuery("#db"+count).text(json.startAtLine - counter);
 			}
 
 		if(!parseInt(json.finished)){
 		//get next records
 
-			$("#db"+count).text(json.startAtLine - counter);
+			jQuery("#db"+count).text(json.startAtLine - counter);
 
 			recurseUrl = "../wp-content/plugins/xcloner-backup-and-restore/index2.php?task=recurse_database&nohtml=1&dbbackup_comp="+json.dbbackup_comp+"&dbbackup_drop="+json.dbbackup_drop+"&startAtLine="+json.startAtLine+"&startAtRecord="+json.startAtRecord+"&dumpfile="+json.dumpfile;
 			xclonerRecurseMYSQL(recurseUrl);
@@ -65,7 +65,7 @@ $(document).ready(function() {
 			}
 		else{
 
-			$("#fileSystem").show();
+			jQuery("#fileSystem").show();
 			var recurseUrl="../wp-content/plugins/xcloner-backup-and-restore/index2.php?task=recurse_files&mode=start&nohtml=1";
 			xclonerRecurseJSON(recurseUrl);
 
@@ -77,21 +77,21 @@ $(document).ready(function() {
 
 	function xclonerRecurseJSON(url){
 
-		$("#result").hide();
+		jQuery("#result").hide();
 
 		globalUrl = url;
 		step = "r2";
 
-		$.getJSON(url, function(json) {
+		jQuery.getJSON(url, function(json) {
 
 		if(!json){
-			$("#error").show();
-			$("#errorText").text(url);
+			jQuery("#error").show();
+			jQuery("#errorText").text(url);
 		}
 
 		if(!parseInt(json.finished)){
 
-			$("#recurseStatus").text(json.tfiles);
+			jQuery("#recurseStatus").text(json.tfiles);
 
 			var recurseUrl = "../wp-content/plugins/xcloner-backup-and-restore/index2.php?task=recurse_files&mode="+json.mode+"&nohtml=1";
 			xclonerRecurseJSON(recurseUrl);
@@ -99,8 +99,8 @@ $(document).ready(function() {
 			}
 		else{
 			var size = parseFloat(json.size)/(1024*1024);
-			$("#recurseStatus").text(" done! (Estimated size:"+size.toFixed(2)+"MB) in "+json.tfiles+" files");
-			$("#result").show();
+			jQuery("#recurseStatus").text(" done! (Estimated size:"+size.toFixed(2)+"MB) in "+json.tfiles+" files");
+			jQuery("#result").show();
 			returnUrl = "plugins.php?page=xcloner_show&option=com_cloner&lines="+json.tfiles+"&task=refresh&backup="+backupFile+"&excl_manual=";
 			xclonerGetJSON(returnUrl);
 
@@ -115,35 +115,35 @@ $(document).ready(function() {
 	globalUrl = url;
 	step = "r3";
 
-	$.getJSON(url, function(json) {
+	jQuery.getJSON(url, function(json) {
 
 		if(!json){
-			$("#error").show();
-			$("#errorText").append(url);
+			jQuery("#error").show();
+			jQuery("#errorText").append(url);
 		}
 
 		var percent = parseInt(json.percent);
-		$("#progressbar").progressbar({ value: percent });
-		$("#backupSize").text(json.backupSize);
-		$("#nFiles").text(json.startf);
-		$("#percent").text(json.percent);
+		jQuery("#progressbar").progressbar({ value: percent });
+		jQuery("#backupSize").text(json.backupSize);
+		jQuery("#nFiles").text(json.startf);
+		jQuery("#percent").text(json.percent);
 		if(!json.finished){
 			var url = "plugins.php?page=xcloner_show&option="+json.option+"&task="+json.task+"&json="+json.json+"&startf="+json.startf+"&lines="+json.lines+"&backup="+json.backup+"&excl_manual="+json.excl_manual;
 			xclonerGetJSON(url);
 		}else{
 
-			$("#complete").show();
-			$("#nFiles").text(json.lines);
-			$("#backupFiles").text(json.lines);
-			$("#backupSizeComplete").text(json.backupSize);
-			$("#backupName").text(json.backup);
-			$( "#dialog:ui-dialog" ).dialog( "destroy" );
-			$( "#dialog-message" ).dialog({
+			jQuery("#complete").show();
+			jQuery("#nFiles").text(json.lines);
+			jQuery("#backupFiles").text(json.lines);
+			jQuery("#backupSizeComplete").text(json.backupSize);
+			jQuery("#backupName").text(json.backup);
+			jQuery( "#dialog:ui-dialog" ).dialog( "destroy" );
+			jQuery( "#dialog-message" ).dialog({
 				modal: true,
 				width: 600,
 				buttons: {
 					Close: function() {
-						$( this ).dialog( "close" );
+						jQuery( this ).dialog( "close" );
 					}
 				}
 			});
@@ -154,9 +154,9 @@ $(document).ready(function() {
 
 	}
 
-	$("#retry").click(function(){
-		$("#error").hide();
-		$("#errorText").empty();
+	jQuery("#retry").click(function(){
+		jQuery("#error").hide();
+		jQuery("#errorText").empty();
 		if(step == "r1"){
 			xclonerRecurseMYSQL(globalUrl);
 		}

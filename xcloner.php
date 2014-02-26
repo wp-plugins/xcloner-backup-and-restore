@@ -75,4 +75,19 @@ function files_xml(){
 	die();
 
 } 
+
+// now load the scripts we need
+function starter_plugin_admin_scripts ($hook) {
+	
+	wp_enqueue_script ('jquery-ui');
+	wp_enqueue_script ('jquery-ui-dialog');
+	wp_enqueue_script ('jquery-ui-tabs');
+	wp_enqueue_script ('jquery-ui-sortable');
+	wp_enqueue_script ('jquery-ui-progressbar');
+	wp_enqueue_script ('jquery-ui-slider');
+	#wp_enqueue_script ('custom-starter-script');
+}
+add_action('admin_enqueue_scripts', 'starter_plugin_admin_scripts');
+
+
 ?>

@@ -25,8 +25,8 @@ function button($action, $text='', $js=''){
 		$icon = "ui-icon-arrowreturnthick-1-e";
 	?>
 	<script>
-	$(function() {
-		$( "#<?php echo $text?>" ).button({
+	jQuery(function() {
+		jQuery( "#<?php echo $text?>" ).button({
 										icons:{
 											primary: '<?php echo $icon;?>'
 											}

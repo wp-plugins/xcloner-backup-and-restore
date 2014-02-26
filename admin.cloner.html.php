@@ -73,7 +73,7 @@ function header(){
 
 <script type="text/javascript" src="<?php echo plugins_url('javascript/dtree.js', __FILE__) ?>"></script>
 <script type="text/javascript" src="<?php echo plugins_url('javascript/main.js', __FILE__) ?>"></script>
-<script type="text/javascript" src="<?php echo plugins_url('javascript/main.min.js', __FILE__) ?>"></script>
+
 <script type="text/javascript">
 
 /* Optional: Temporarily hide the "tabber" class so it does not "flash"
@@ -180,7 +180,7 @@ function footer(){
 </td></tr></table>
 <script> 
 	
-	$( "#toolbar" ).show(); 
+	jQuery( "#toolbar" ).show(); 
 	
 </script>
 
@@ -216,7 +216,7 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 				<!--Start ProgressBar-->
 				<script type="text/javascript">
 
-				$(document).ready(function() {
+				jQuery(document).ready(function() {
 
 					var globalUrl;
 					var step = "r1";
@@ -228,14 +228,14 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 					var parts = 0;
 					var oldSize = 0;
 
-					$("#progressbar").progressbar({ value: 0 });
+					jQuery("#progressbar").progressbar({ value: 0 });
 
-					$.ajaxSetup({
+					jQuery.ajaxSetup({
 					"error":function(request, status, error) {
 					//reset state here;
-						$("#error").show();
-						$("#errorText").append(status+" -- "+error);
-						$("#errorText").append("<br /><br />JSON url: "+globalUrl);
+						jQuery("#error").show();
+						jQuery("#errorText").append(status+" -- "+error);
+						jQuery("#errorText").append("<br /><br />JSON url: "+globalUrl);
 					}});
 
 					function getSize(bytes, conv){
@@ -254,32 +254,32 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 						globalUrl = url;
 						step = "r1";
 
-						$.getJSON(url, function(json) {
+						jQuery.getJSON(url, function(json) {
 
 						if(!json){
-							$("#error").show();
-							$("#errorText").text(url);
+							jQuery("#error").show();
+							jQuery("#errorText").text(url);
 						}
 
 						if(json.dumpsize && !json.endDump){
-									$("#mysqlProcess").append(" ("+getSize(json.dumpsize, 1024*1024)+" MB) <br />");
+									jQuery("#mysqlProcess").append(" ("+getSize(json.dumpsize, 1024*1024)+" MB) <br />");
 								}
 
 						if(json.newDump){
 								count++;
-								//$("#mysqlProcess").append(appendIcon("arrowthick-1-e"));
+								//jQuery("#mysqlProcess").append(appendIcon("arrowthick-1-e"));
 								if(json.databaseName!="")
-									$("#mysqlProcess").append("<b>["+json.databaseName+"]</b> <span id='db"+count+"'></span> tables ");
+									jQuery("#mysqlProcess").append("<b>["+json.databaseName+"]</b> <span id='db"+count+"'></span> tables ");
 								counter = parseInt(json.startAtLine);
 
 						}else{
-								$("#db"+count).text(json.startAtLine - counter);
+								jQuery("#db"+count).text(json.startAtLine - counter);
 							}
 
 						if(!parseInt(json.finished)){
 						//get next records
 
-							$("#db"+count).text(json.startAtLine - counter);
+							jQuery("#db"+count).text(json.startAtLine - counter);
 
 							recurseUrl = "admin-ajax.php?action=json_return&task=recurse_database&nohtml=1&dbbackup_comp="+json.dbbackup_comp+"&dbbackup_drop="+json.dbbackup_drop+"&startAtLine="+json.startAtLine+"&startAtRecord="+json.startAtRecord+"&dumpfile="+json.dumpfile;
 							xclonerRecurseMYSQL(recurseUrl);
@@ -287,7 +287,7 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 							}
 						else{
 
-							$("#fileSystem").show();
+							jQuery("#fileSystem").show();
 							var recurseUrl="admin-ajax.php?action=json_return&task=recurse_files&mode=start&nohtml=1";
 							xclonerRecurseJSON(recurseUrl);
 
@@ -299,21 +299,21 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 
 					function xclonerRecurseJSON(url){
 					//scan file system
-						$("#result").hide();
+						jQuery("#result").hide();
 
 						globalUrl = url;
 						step = "r2";
 
-						$.getJSON(url, function(json) {
+						jQuery.getJSON(url, function(json) {
 
 						if(!json){
-							$("#error").show();
-							$("#errorText").text(url);
+							jQuery("#error").show();
+							jQuery("#errorText").text(url);
 						}
 
 						if(!parseInt(json.finished)){
 
-							$("#recurseStatus").text(json.tfiles);
+							jQuery("#recurseStatus").text(json.tfiles);
 
 							var recurseUrl = "admin-ajax.php?action=json_return&task=recurse_files&mode="+json.mode+"&nohtml=1";
 							xclonerRecurseJSON(recurseUrl);
@@ -321,14 +321,14 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 							}
 						else{
 							var size = parseFloat(json.size)/(1024*1024);
-							$("#recurseStatus").text(" done! (Estimated size:"+size.toFixed(2)+"MB) in "+json.tfiles+" files");
-							$("#result").show();
+							jQuery("#recurseStatus").text(" done! (Estimated size:"+size.toFixed(2)+"MB) in "+json.tfiles+" files");
+							jQuery("#result").show();
 
 							if(json.overlimit.length > 0){
-								$("#overlimit").show();
+								jQuery("#overlimit").show();
 								for(var i=0; i < json.overlimit.length; i++){
 
-									$("#overlimit").append("<span class='oversizedFile'></span>"+json.overlimit[i]+"<br />");
+									jQuery("#overlimit").append("<span class='oversizedFile'></span>"+json.overlimit[i]+"<br />");
 
 									}
 							}
@@ -348,19 +348,19 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 					globalUrl = url;
 					step = "r3";
 
-					$.getJSON(url, function(json) {
+					jQuery.getJSON(url, function(json) {
 
 						if(!json){
-							$("#error").show();
-							$("#errorText").append(url);
+							jQuery("#error").show();
+							jQuery("#errorText").append(url);
 						}
 
 						var percent = parseInt(json.percent);
-						$("#progressbar").progressbar({ value: percent });
-						$("#backupSize").text(getSize(json.backupSize, 1024*1024));
-						$("#nFiles").text(json.startf);
-						$("#percent").text(json.percent);
-						$("#backupName").text(json.backup);
+						jQuery("#progressbar").progressbar({ value: percent });
+						jQuery("#backupSize").text(getSize(json.backupSize, 1024*1024));
+						jQuery("#nFiles").text(json.startf);
+						jQuery("#percent").text(json.percent);
+						jQuery("#backupName").text(json.backup);
 						if(!json.finished){
 
 							if(oldBackupName != json.backup){
@@ -377,25 +377,25 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 
 							//all done
 							url = "admin-ajax.php?action=json_return&task=cleanup&nohtml=1";
-							$.getJSON(url, function(json) {
+							jQuery.getJSON(url, function(json) {
 							});
 
-							$("#complete").show();
-							$("#nFiles").text(json.lines);
+							jQuery("#complete").show();
+							jQuery("#nFiles").text(json.lines);
 							if(parts > 0){
-								$("#backupParts").show();
-								$("#backupPartsNr").text(parts);
+								jQuery("#backupParts").show();
+								jQuery("#backupPartsNr").text(parts);
 							}
-							$("#backupFiles").text(json.lines);
-							$("#backupSizeComplete").append(getSize(completeSize+parseInt(json.backupSize), 1024*1024));
-							$("#backupNameC").text(json.backup);
-							$( "#dialog:ui-dialog" ).dialog( "destroy" );
-							$( "#dialog-message" ).dialog({
+							jQuery("#backupFiles").text(json.lines);
+							jQuery("#backupSizeComplete").append(getSize(completeSize+parseInt(json.backupSize), 1024*1024));
+							jQuery("#backupNameC").text(json.backup);
+							jQuery( "#dialog:ui-dialog" ).dialog( "destroy" );
+							jQuery( "#dialog-message" ).dialog({
 								modal: true,
 								width: 600,
 								buttons: {
 									Close: function() {
-										$( this ).dialog( "close" );
+										jQuery( this ).dialog( "close" );
 									}
 								}
 							});
@@ -408,9 +408,9 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 
 					//Main program here
 
-					$("#retry").click(function(){
-						$("#error").hide();
-						$("#errorText").empty();
+					jQuery("#retry").click(function(){
+						jQuery("#error").hide();
+						jQuery("#errorText").empty();
 						if(step == "r1"){
 							xclonerRecurseMYSQL(globalUrl);
 						}
@@ -423,14 +423,14 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 						}
 					});
 
-					$("#result").hide();
-					$("#fileSystem").hide();
+					jQuery("#result").hide();
+					jQuery("#fileSystem").hide();
 
 					if(dbbackup){
 						recurseUrl = "admin-ajax.php?action=json_return&task=recurse_database&nohtml=1&dbbackup_comp=<?php echo $_REQUEST['dbbackup_comp']?>&dbbackup_drop=<?php echo $_REQUEST['dbbackup_drop']?>";
 						xclonerRecurseMYSQL(recurseUrl);
 					}else{
-						$("#fileSystem").show();
+						jQuery("#fileSystem").show();
 					    var recurseUrl="admin-ajax.php?action=json_return&task=recurse_files&mode=start&nohtml=1";
 					    xclonerRecurseJSON(recurseUrl);
 
@@ -715,24 +715,24 @@ function Login(){
 	<center><br />
 
 	<script>
-	$(function() {
-		$( "#login" ).button({
+	jQuery(function() {
+		jQuery( "#login" ).button({
             icons: {
                 primary: "ui-icon-locked"
             }
         })
-        $("#login").click(function() {
-				$("#adminForm")[0].submit();
+        jQuery("#login").click(function() {
+				jQuery("#adminForm")[0].submit();
 				return false;
 			})
         
-        $( "#reset" ).button({
+        jQuery( "#reset" ).button({
 				icons: {
                 primary: "ui-icon-trash"
 				}
 			})
-		$( "#reset" ).click(function() {
-				$("#username").val('');$("#password").val('');
+		jQuery( "#reset" ).click(function() {
+				jQuery("#username").val('');jQuery("#password").val('');
 				return false;
 			});
 
@@ -777,8 +777,8 @@ function Cron(){
 ?>
 
 <script>
-	$(function() {
-		$( "#tabs" ).tabs();
+	jQuery(function() {
+		jQuery( "#tabs" ).tabs();
 	});
 	</script>
 
@@ -948,10 +948,10 @@ function Translator($option, $lang_arr){
 
 ?>
 	<script>
-	$(function() {
-		$( "#toggle" ).button();
-		$( "#toggle" ).click(function() { checkJAll(<?php echo count( $lang_arr ); ?>, "toggle", "cb"); });
-		$( "#checklist" ).buttonset();
+	jQuery(function() {
+		jQuery( "#toggle" ).button();
+		jQuery( "#toggle" ).click(function() { checkJAll(<?php echo count( $lang_arr ); ?>, "toggle", "cb"); });
+		jQuery( "#checklist" ).buttonset();
 	});
 	</script>
 
@@ -1006,29 +1006,29 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 
     <script type="text/javascript">
 		
-	$(function() {
-		$( "#toggle" ).button();
-		$( "#toggle" ).click(function() { checkJAll(<?php echo (count( $files )); ?>, "toggle", "cb"); });
-		$( "#checklist" ).buttonset();
+	jQuery(function() {
+		jQuery( "#toggle" ).button();
+		jQuery( "#toggle" ).click(function() { checkJAll(<?php echo (count( $files )); ?>, "toggle", "cb"); });
+		jQuery( "#checklist" ).buttonset();
 		
-		$( "#Clone, #Rename, #Delete, #Move" ).unbind("click");
-		$( "#Clone, #Rename, #Delete, #Move" ).click(function(){
-				if(!$("input:checked").length){
+		jQuery( "#Clone, #Rename, #Delete, #Move" ).unbind("click");
+		jQuery( "#Clone, #Rename, #Delete, #Move" ).click(function(){
+				if(!jQuery("input:checked").length){
 					
-					$( "#error-message" ).dialog({
+					jQuery( "#error-message" ).dialog({
 						width: 500,
 						height: 200,
 						modal: true,
 						buttons: {
 							Ok: function() {
-								$( this ).dialog( "close" );
+								jQuery( this ).dialog( "close" );
 							}
 						}
 					});					
 				
 					return false;
 				}else{
-					var action = $(this).attr('id').toLowerCase();
+					var action = jQuery(this).attr('id').toLowerCase();
 					document.adminForm.task.value=action;
 					document.adminForm.submit();
 				}
@@ -1114,30 +1114,30 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     <form name='adminForm' action='' method='POST'>
 
 	<script>
-	$(function() {
-		$( "#tabs" ).tabs();
+	jQuery(function() {
+		jQuery( "#tabs" ).tabs();
 	});
 
-	$(function() {
-		$( "#radiog1" ).buttonset();
-		$( "#radiog2" ).buttonset();
-		$( "#radiog3" ).buttonset();
-		$( "#radiog4" ).buttonset();
-		$( "#radio" ).buttonset();
-		$( "#radiom" ).buttonset();
-		$( "#radiob" ).buttonset();
-		$( "#radioftp" ).buttonset();
-		$( "#radioftps" ).buttonset();
-		$( "#radiodebug" ).buttonset();
-		$( "#radiorefresh" ).buttonset();
-		$( "#checktar" ).button();
-		$( "#cron_file_delete_act" ).button();
-		$( "#cron_sql_drop" ).button();
-		$( "#cron_amazon_active" ).button();
-		$( "#cron_dropbox_active" ).button();
-		$( "#cron_amazon_ssl" ).button();
-		$( "#cron_ftp_delb" ).button();
-		$( "#checkmysqldump" ).button();
+	jQuery(function() {
+		jQuery( "#radiog1" ).buttonset();
+		jQuery( "#radiog2" ).buttonset();
+		jQuery( "#radiog3" ).buttonset();
+		jQuery( "#radiog4" ).buttonset();
+		jQuery( "#radio" ).buttonset();
+		jQuery( "#radiom" ).buttonset();
+		jQuery( "#radiob" ).buttonset();
+		jQuery( "#radioftp" ).buttonset();
+		jQuery( "#radioftps" ).buttonset();
+		jQuery( "#radiodebug" ).buttonset();
+		jQuery( "#radiorefresh" ).buttonset();
+		jQuery( "#checktar" ).button();
+		jQuery( "#cron_file_delete_act" ).button();
+		jQuery( "#cron_sql_drop" ).button();
+		jQuery( "#cron_amazon_active" ).button();
+		jQuery( "#cron_dropbox_active" ).button();
+		jQuery( "#cron_amazon_ssl" ).button();
+		jQuery( "#cron_ftp_delb" ).button();
+		jQuery( "#checkmysqldump" ).button();
 	});
 	</script>
 
@@ -1471,54 +1471,54 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		<div><p>
 
 			<script>
-			$(function() {
-				$( "#slider" ).slider({
+			jQuery(function() {
+				jQuery( "#slider" ).slider({
 					value:parseInt(<?php echo $_CONFIG[backup_refresh_number];?>),
 					min: 10,
 					max: 1000,
 					step: 10,
 					slide: function( event, ui ) {
-						$( "#backup_refresh_number" ).val( ui.value );
+						jQuery( "#backup_refresh_number" ).val( ui.value );
 					}
 				});
-				$( "#backup_refresh_number" ).val( $( "#slider" ).slider( "value" ) );
+				jQuery( "#backup_refresh_number" ).val( jQuery( "#slider" ).slider( "value" ) );
 			});
-			$(function() {
-				$( "#sliderRPS" ).slider({
+			jQuery(function() {
+				jQuery( "#sliderRPS" ).slider({
 					value:parseInt(<?php echo $_CONFIG[recordsPerSession];?>),
 					min: 100,
 					max: 100000,
 					step: 100,
 					slide: function( event, ui ) {
-						$( "#recordsPerSession" ).val( ui.value );
+						jQuery( "#recordsPerSession" ).val( ui.value );
 					}
 				});
-				$( "#recordsPerSession" ).val( $( "#sliderRPS" ).slider( "value" ) );
+				jQuery( "#recordsPerSession" ).val( jQuery( "#sliderRPS" ).slider( "value" ) );
 			});
-			$(function() {
-				$( "#sliderEFZ" ).slider({
+			jQuery(function() {
+				jQuery( "#sliderEFZ" ).slider({
 					value:parseInt(<?php echo $_CONFIG[excludeFilesSize];?>),
 					min: -1,
 					max: 10240,
 					step: 1,
 					slide: function( event, ui ) {
-						$( "#excludeFilesSize" ).val( ui.value );
+						jQuery( "#excludeFilesSize" ).val( ui.value );
 					}
 				});
-				$( "#excludeFilesSize" ).val( $( "#sliderEFZ" ).slider( "value" ) );
+				jQuery( "#excludeFilesSize" ).val( jQuery( "#sliderEFZ" ).slider( "value" ) );
 			});
 
-			$(function() {
-				$( "#sliderSBS" ).slider({
+			jQuery(function() {
+				jQuery( "#sliderSBS" ).slider({
 					value:parseInt(<?php echo $_CONFIG[splitBackupSize];?>),
 					min: -1,
 					max: 10000,
 					step: 1,
 					slide: function( event, ui ) {
-						$( "#splitBackupSize" ).val( ui.value );
+						jQuery( "#splitBackupSize" ).val( ui.value );
 					}
 				});
-				$( "#splitBackupSize" ).val( $( "#sliderSBS" ).slider( "value" ) );
+				jQuery( "#splitBackupSize" ).val( jQuery( "#sliderSBS" ).slider( "value" ) );
 			});
 			</script>
 
@@ -1969,17 +1969,17 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		<div><p>
 
 			<script>
-			$(function() {
-				$( "#slider2" ).slider({
+			jQuery(function() {
+				jQuery( "#slider2" ).slider({
 					value:parseInt(<?php echo (int)$_CONFIG[cron_file_delete];?>),
 					min: 0,
 					max: 100,
 					step: 1,
 					slide: function( event, ui ) {
-						$( "#cron_file_delete" ).val( ui.value );
+						jQuery( "#cron_file_delete" ).val( ui.value );
 					}
 				});
-				$( "#cron_file_delete" ).val( $( "#slider2" ).slider( "value" ) );
+				jQuery( "#cron_file_delete" ).val( jQuery( "#slider2" ).slider( "value" ) );
 			});
 			</script>
 
@@ -2338,11 +2338,11 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 	?>
 
 	<script>
-	$(function() {
-		$( "#tabs" ).tabs().find( ".ui-tabs-nav" ).sortable({ axis: "x" });
-		$( "#radio_dbbackup" ).buttonset();
-		$( "#radio_dbbackup1" ).button( { icons: {primary:'ui-icon-bullet'} } );
-		$( "#radio_dbbackup2" ).button( { icons: {primary:'ui-icon-bullet'} } );
+	jQuery(function() {
+		jQuery( "#tabs" ).tabs().find( ".ui-tabs-nav" ).sortable({ axis: "x" });
+		jQuery( "#radio_dbbackup" ).buttonset();
+		jQuery( "#radio_dbbackup1" ).button( { icons: {primary:'ui-icon-bullet'} } );
+		jQuery( "#radio_dbbackup2" ).button( { icons: {primary:'ui-icon-bullet'} } );
 	});
 	</script>
 
@@ -2573,8 +2573,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
   function showHelp( $option ) {
     ?>
 		<script>
-	$(function() {
-		$( "#tabs" ).tabs();
+	jQuery(function() {
+		jQuery( "#tabs" ).tabs();
 	});
 	</script>
 
@@ -2604,8 +2604,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     ?>
 
 	<script>
-	$(function() {
-		$( "#tabs" ).tabs();
+	jQuery(function() {
+		jQuery( "#tabs" ).tabs();
 	});
 	</script>
 
@@ -2636,8 +2636,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 
     ?>
 	<script>
-	$(function() {
-		$( "#tabs" ).tabs();
+	jQuery(function() {
+		jQuery( "#tabs" ).tabs();
 	});
 	</script>
 
