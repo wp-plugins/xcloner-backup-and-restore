@@ -67,12 +67,7 @@ function header(){
 
 <title>XCloner Backup and Restore</title>
 
-<link rel="styleSheet" href="<?php echo plugins_url('css/dtree.css', __FILE__) ?>" type="text/css" />
-<link rel="styleSheet" href="<?php echo plugins_url('css/main.css', __FILE__) ?>" type="text/css" />
 <link rel="styleSheet" href="<?php echo plugins_url('css/start/jquery-ui-1.8.9.custom.css', __FILE__) ?>" type="text/css" />
-
-<script type="text/javascript" src="<?php echo plugins_url('javascript/dtree.js', __FILE__) ?>"></script>
-<script type="text/javascript" src="<?php echo plugins_url('javascript/main.js', __FILE__) ?>"></script>
 
 <script type="text/javascript">
 

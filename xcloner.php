@@ -86,9 +86,15 @@ function starter_plugin_admin_scripts ($hook) {
 	wp_enqueue_script ('jquery-ui-sortable');
 	wp_enqueue_script ('jquery-ui-progressbar');
 	wp_enqueue_script ('jquery-ui-slider');
-	#wp_enqueue_script ('custom-starter-script');
+	
+	wp_enqueue_script ('dtree.js', plugins_url()."/xcloner-backup-and-restore/javascript/dtree.js", "", "3.1.0");
+	wp_enqueue_script ('main.js', plugins_url()."/xcloner-backup-and-restore/javascript/main.js", "", "3.1.0");
+	
+	wp_enqueue_style('dtree.css', plugins_url()."/xcloner-backup-and-restore/css/dtree.css", "", "3.1.0");
+	wp_enqueue_style ('main.css', plugins_url()."/xcloner-backup-and-restore/css/main.css", "", "3.1.0");
+	
+	wp_enqueue_style ('jquery-start-ui-1.8.9.custom.css', plugins_url()."/xcloner-backup-and-restore/css/start/jquery-ui-1.8.9.custom.css", "", "3.1.0");
+	
 }
 add_action('admin_enqueue_scripts', 'starter_plugin_admin_scripts');
 
-
-?>
