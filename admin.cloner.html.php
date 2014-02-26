@@ -65,10 +65,6 @@ function header(){
 
 ?>
 
-<title>XCloner Backup and Restore</title>
-
-<link rel="styleSheet" href="<?php echo plugins_url('css/start/jquery-ui-1.8.9.custom.css', __FILE__) ?>" type="text/css" />
-
 <script type="text/javascript">
 
 /* Optional: Temporarily hide the "tabber" class so it does not "flash"
