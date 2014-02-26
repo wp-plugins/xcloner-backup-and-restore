@@ -31,12 +31,6 @@ if ((!extension_loaded('zlib')) &&(function_exists('ob_start'))) {
 ####################################
 
 $_CONFIG['multiple_config_dir'] = __DIR__."/configs";
-//$strlen = strlen($_CONFIG['backup_path']);
-//if((substr($_CONFIG['backup_path'], $strlen-1, $strlen) != '/') && (substr($_CONFIG['backup_path'], $strlen-1, $strlen) != '\\'))
-//	$_CONFIG['backup_path'] .= "/";
-
-#$_CONFIG['backup_path'] = realpath($_CONFIG['backup_path'])."/";
-#$_CONFIG['backups_dir'] = realpath($_CONFIG['backup_path'])."/administrator/backups";
 
 $_CONFIG['backup_path'] = ($_CONFIG['backup_path']);
 $_CONFIG['backups_dir'] = str_replace("//administrator","/administrator",($_CONFIG['backup_path'])."/administrator/backups");
@@ -44,6 +38,7 @@ $_CONFIG['backups_dir'] = str_replace("//administrator","/administrator",($_CONF
 $_CONFIG['backup_path'] = str_replace("\\","/", $_CONFIG['backup_path']);
 $_CONFIG['backups_dir'] = str_replace("\\","/", $_CONFIG['backups_dir']);
 
+$_CONFIG['backup_path'] .= "/";
 
 $_CONFIG['exfile'] = $_CONFIG['backups_dir']."/.excl";
 $_CONFIG['exfile_tar'] = $_CONFIG['backups_dir']."/.excl_tar";
@@ -100,7 +95,6 @@ if (!$_CONFIG['backup_refresh']) {
 $_CONFIG['backup_start_path'] 	= $_CONFIG['backup_path'];
 $_CONFIG['backup_store_path'] 	= $_CONFIG['clonerPath'];
 $_CONFIG['temp_dir'] 		= $_CONFIG['backups_dir'];
-
 
 date_default_timezone_set('America/Los_Angeles'); 
 

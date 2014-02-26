@@ -32,8 +32,6 @@
 	
 	require_once($config_file);
 	
-	$task = $_GET["task"];
-	
 	require_once("restore/TAR.php");
 	require_once("cloner.functions.php");
 	require_once("admin.cloner.html.php");
