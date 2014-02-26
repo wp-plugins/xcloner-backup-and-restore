@@ -11,7 +11,7 @@
 **/
 
 $topErrorLine1 = "To run this script you need to create a custom config file inside XCloner Config, and call the script using php cli command like this:";
-$topErrorLine2 = "php /home/...path-to.../wp-content/plugins/xcloner-backup-and-restore/cloner.cron.php mycustomconfig.php";
+$topErrorLine2 = "php ".__FILE__." mycustomconfig.php";
 
 if( php_sapi_name() != 'cli' ){
 	echo  "<h2>".$topErrorLine1."</h2>\n";
