@@ -378,7 +378,7 @@ table.adminform th {
 }
 table.adminform td {
 	padding: 3px;
-      border: solid 1px #d5d5d5;
+      	border: solid 0px #d5d5d5;
 	text-align: left;
 }
 table.adminform td.editor {
