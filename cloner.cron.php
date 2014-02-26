@@ -10,8 +10,12 @@
 * Date: July 2014
 **/
 
+$topErrorLine1 = "To run this script you need to create a custom config file inside XCloner Config, and call the script using php cli command like this:";
+$topErrorLine2 = "php ".__FILE__." mycustomconfig.php";
+
 if( php_sapi_name() != 'cli' ){
-	echo "<h2>Please run this script from a terminal or through a cron scheduler interface</h2>";
+	echo  "<h2>".$topErrorLine1."</h2>\n";
+	echo "<strong>".$topErrorLine2."</strong>\n";
 	exit;
 	}
 
@@ -26,37 +30,6 @@ include_once("cloner.functions.php");
 
 $root = dirname(dirname(dirname(dirname(__FILE__))));
 
-
-if (file_exists($root.'/wp-load.php')) 
-	require_once($root.'/wp-load.php');
-
-####### VERIFY IP ACCESS
-/*function check_user_ip($current_ip, $ip_list)
-{
-	$valid = FALSE;
-
-	foreach ($ip_list as $ip){
-		$ip_or_name = gethostbyname($ip);
-		if ($current_ip == $ip_or_name) {
-			$valid = TRUE;
-			break;	
-		} 
-	}
-
-	return $valid;
-}
-
-$ip_list = @explode("\r\n", $_CONFIG['cron_ip']);
-$ip_list[] = $_SERVER['SERVER_ADDR'];
-$curent_ip = $_SERVER["REMOTE_ADDR"];
-
-if (check_user_ip($curent_ip, $ip_list) == FALSE) {
-	echo "Access Denied for ip $curent_ip!";
-	exit;
-}*/
-
-#########################
-
 $script_dir = str_replace("\\","/",dirname(__FILE__));
 if(is_dir($script_dir)){
  
@@ -70,7 +43,7 @@ $_REQUEST['config'] = $argv[1];
 //filter the config request path
 $_REQUEST['config'] = str_replace(array("..","/","\\"), array("","",""), trim($_REQUEST['config']));
 
-if($_REQUEST['config'] != ""){
+if($_REQUEST['config'] != "" and file_exists('./configs/'.$_REQUEST['config'])){
 	
 	require_once( './configs/'.$_REQUEST['config'] );
 	
@@ -79,7 +52,12 @@ if($_REQUEST['config'] != ""){
 }
 else{
 
-    require_once( './cloner.config.php' );
+    #require_once( './cloner.config.php' );
+    
+    logxx($topErrorLine1);
+	logxx($topErrorLine2);
+    
+    exit;
     
     $smsg = "Using default configuration file";
 
@@ -576,4 +554,3 @@ function delete_token($name)
 {
 	@unlink("tokens/$name.token");
 }
-?>

@@ -11,6 +11,7 @@ Plugin URI: http://www.xcloner.com
 
 define("_VALID_MOS", 1);
 
+(@__DIR__ == '__DIR__') && define('__DIR__', realpath(dirname(__FILE__)));
 
 global $xcloner_db_version;
 $xcloner_db_version = "1.0";
