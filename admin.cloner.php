@@ -26,6 +26,8 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 @set_time_limit("3600");
 @error_reporting(E_ALL ^ E_NOTICE);
 
+(@__DIR__ == '__DIR__') && define('__DIR__', realpath(dirname(__FILE__)));
+
 //load configuration
 $config_file = __DIR__."/cloner.config.php";
 
