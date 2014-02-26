@@ -417,7 +417,7 @@ define("LM_CLONER_ABOUT","<h2>XCloner Backup</h2>
 
       <br/><br/>
 
-      XCloner.com &copy; 2004-2011 | <a href=\"http://www.xcloner.com\">www.xcloner.com</a>
+      XCloner.com &copy; 2004-2014 | <a href=\"http://www.xcloner.com\">www.xcloner.com</a>
       <br/><p/><br/>
 ");
 
