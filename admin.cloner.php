@@ -88,7 +88,7 @@ switch ($task) {
 	
 	
 	case 'cancel_lang':
-	  mosRedirect('index2.php?option=' . $option . "&task=lang");
+	  mosRedirect('plugins.php?page=xcloner_show&option=' . $option . "&task=lang");
 	  break;
 	case 'add_lang':
 	case 'add_lang_new':
@@ -160,7 +160,7 @@ switch ($task) {
 	  else
 		  $msg = " was not deleted, please delete it manually!";
 	
-	  mosRedirect('index2.php?option=' . $option . "&task=config", $_REQUEST['fconfig'] . $msg);
+	  mosRedirect('plugins.php?page=xcloner_show&option=' . $option . "&task=config", $_REQUEST['fconfig'] . $msg);
 	  break;
 	
 	case 'delete':	
@@ -174,13 +174,13 @@ switch ($task) {
 	  break;
 	
 	case 'cancel':
-	  mosRedirect('index2.php?option=' . $option);
+	  mosRedirect('plugins.php?page=xcloner_show&option=' . $option);
 	  break;
 	case 'config':
 	  config($option);
 	  break;
 	case 'rename_cancel':
-	  mosRedirect('index2.php?option=' . $option . "&task=view");
+	  mosRedirect('plugins.php?page=xcloner_show&option=' . $option . "&task=view");
 	  break;
 	case 'show':
 	case 'view':
