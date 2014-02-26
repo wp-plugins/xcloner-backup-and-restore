@@ -114,19 +114,6 @@ else{
 
 
 
-####### VERIFY IP ACCESS
-/*$ip_list = @explode("\r\n", $_CONFIG['cron_ip']);
-$ip_list[] = $_SERVER['SERVER_ADDR'];
-$curent_ip = $_SERVER["REMOTE_ADDR"];
-
-if(!in_array($curent_ip, $ip_list)){
-	
-	echo "Access Denied for ip $curent_ip!";
-	exit;
-	
-}*/
-#########################
-
 $access=1;
 $_REQUEST[cron_dbonly] = 0;
 $_REQUEST[cron_access] = 1;
@@ -160,11 +147,6 @@ logxx("Starting XCloner for site $mosConfig_live_site at ".date("Y-m-d H:i"));
     $f_arr = array(); $f = 0;
     $s_arr = array(); $s = 0;
     $d_arr[$d] = $_CONFIG['backup_path'];
-    #logxx("Reading the file structure");
-    #recurseFiles($d_arr, $ds_arr, $f_arr, $s_arr, $d, $f, $s, $excludefolders, '');
-    #$excludedFolders = confirmBackup('nohtml');
-    #logxx("Done");
-    
     
 
 if($_CONFIG['cron_btype']==0){
