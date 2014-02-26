@@ -7,8 +7,13 @@
 * License: GNU/GPL
 * Email: admin@xcloner.com
 * Revision: 1.0
-* Date: July 2007
+* Date: July 2014
 **/
+
+if( php_sapi_name() != 'cli' ){
+	echo "<h2>Please run this script from a terminal or through a con scheduler interface</h2>";
+	exit;
+	}
 
 // Set flag that this is a parent file
 @error_reporting(E_ALL^E_NOTICE);
@@ -21,13 +26,12 @@ include_once("cloner.functions.php");
 
 $root = dirname(dirname(dirname(dirname(__FILE__))));
 
+
 if (file_exists($root.'/wp-load.php')) 
 	require_once($root.'/wp-load.php');
 
-require_once( 'cloner.config.php' );
-
 ####### VERIFY IP ACCESS
-function check_user_ip($current_ip, $ip_list)
+/*function check_user_ip($current_ip, $ip_list)
 {
 	$valid = FALSE;
 
@@ -49,7 +53,8 @@ $curent_ip = $_SERVER["REMOTE_ADDR"];
 if (check_user_ip($curent_ip, $ip_list) == FALSE) {
 	echo "Access Denied for ip $curent_ip!";
 	exit;
-}
+}*/
+
 #########################
 
 $script_dir = str_replace("\\","/",dirname(__FILE__));
@@ -79,7 +84,7 @@ if($_REQUEST['config'] != ""){
 }
 else{
 
-    @require_once( './cloner.config.php' );
+    require_once( './cloner.config.php' );
     
     $smsg = "Using default configuration file";
 
@@ -89,6 +94,7 @@ require_once("common.php");
 require_once("restore/TAR.php");
 
 $mosConfig_live_site = $_CONFIG['mosConfig_live_site'];
+
 
 logxx($smsg);
 
