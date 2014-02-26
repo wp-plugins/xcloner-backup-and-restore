@@ -1,4 +1,7 @@
 <?php
+
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+
 $_CONFIG['license_code']="";
 $_CONFIG['backup_path']="./";
 $_CONFIG['clonerPath']="./";
