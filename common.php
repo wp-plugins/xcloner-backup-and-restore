@@ -38,8 +38,6 @@ $_CONFIG['backups_dir'] = str_replace("//administrator","/administrator",($_CONF
 $_CONFIG['backup_path'] = str_replace("\\","/", $_CONFIG['backup_path']);
 $_CONFIG['backups_dir'] = str_replace("\\","/", $_CONFIG['backups_dir']);
 
-$_CONFIG['backup_path'] .= "/";
-
 $_CONFIG['exfile'] = $_CONFIG['backups_dir']."/.excl";
 $_CONFIG['exfile_tar'] = $_CONFIG['backups_dir']."/.excl_tar";
 

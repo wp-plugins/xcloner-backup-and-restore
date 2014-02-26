@@ -81,6 +81,7 @@ function starter_plugin_admin_scripts ($hook) {
 	
 	wp_enqueue_script ('jquery-ui');
 	wp_enqueue_script ('jquery-ui-dialog');
+	wp_enqueue_script ('jquery-ui-button');
 	wp_enqueue_script ('jquery-ui-tabs');
 	wp_enqueue_script ('jquery-ui-sortable');
 	wp_enqueue_script ('jquery-ui-progressbar');
