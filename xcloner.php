@@ -15,8 +15,7 @@ define("_VALID_MOS", 1);
 global $xcloner_db_version;
 $xcloner_db_version = "1.0";
 
-echo PHP_VERSION_ID;
-if (PHP_VERSION_ID < 50200) 
+if (version_compare(PHP_VERSION, '5.2.3') < 0) 
 {
 	add_action('admin_init', 'xclonerphpError');
 }
@@ -32,7 +31,7 @@ function xclonerphpError() {
  * Called in Notice Hook
  */
 function xclonerShowError() {
-    echo '<div class="update-nag"><span style="color:red; font-weight:bold;">' . __('For XCloner to work properly, the PHP version has to be equal or greater than 5.2.0', _PLUGIN_NAME_) . '</span></div>';
+    echo '<div class="update-nag"><span style="color:red; font-weight:bold;">' . __('For XCloner to work properly, the PHP version has to be equal or greater than 5.2.3', _PLUGIN_NAME_) . '</span></div>';
 }
 
 
