@@ -18,6 +18,8 @@ header("Content-Type: text/xml; charset=utf-8");
 
 error_reporting(2);
 
+(@__DIR__ == '__DIR__') && define('__DIR__', realpath(dirname(__FILE__)));
+
 include(__DIR__ ."/../cloner.config.php");
 include(__DIR__ ."/../common.php");
 
