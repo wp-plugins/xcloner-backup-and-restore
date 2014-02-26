@@ -1153,9 +1153,9 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		</ul>
 
     <table class='adminform'>
-    <tr><th colspan='2'>
-    <?php echo LM_CONFIG_EDIT?> <?php echo $config_file?>
-    </th></tr>
+    <!--<tr><th colspan='2'>
+    <?php #echo LM_CONFIG_EDIT?> <?php #echo $config_file?>
+    </th></tr>-->
     </table>
     <?php
     $tabs->startTab(LM_TAB_GENERAL,"1");
