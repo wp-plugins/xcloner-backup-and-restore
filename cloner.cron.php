@@ -64,13 +64,8 @@ if(is_dir($script_dir)){
 
  }
 
-if($_REQUEST['config'] == ""){
-	
-	if($argv[1] != ""){
-	
-		$_REQUEST['config'] = $argv[1];	
-	}
-}
+/*accept extra config file only through argv from command line interface*/
+$_REQUEST['config'] = $argv[1];	
 
 //filter the config request path
 $_REQUEST['config'] = str_replace(array("..","/","\\"), array("","",""), trim($_REQUEST['config']));
