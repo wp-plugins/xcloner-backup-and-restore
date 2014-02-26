@@ -27,8 +27,6 @@
 	@set_time_limit("3600");
 	@error_reporting(E_ALL ^ E_NOTICE);
 
-	define("_VALID_MOS", 1);
-
 	//load configuration
 	$config_file = __DIR__."/cloner.config.php";
 	
