@@ -128,7 +128,7 @@ class DB{
 	 */
 	public function disconnect(){
 
-		mysql_close(self::$link);
+		//mysql_close(self::$link);
 
 	}
 

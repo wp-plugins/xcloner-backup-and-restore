@@ -201,6 +201,4 @@ if(!$_REQUEST['nohtml'])
 	$html->footer();
 }
 
-@mysql_close($link);
-
 ?>
