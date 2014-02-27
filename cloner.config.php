@@ -77,7 +77,7 @@ $_CONFIG['mosConfig_live_site']=$_SERVER['HTTP_HOST'];
 
 foreach($_CONFIG as $key=>$value){
 	$newVal = get_option("xcloner_".$key);
-	if($newVal)
+	if($newVal !== FALSE)
 		$_CONFIG[$key] = $newVal;
 }
 
