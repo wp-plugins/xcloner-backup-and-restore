@@ -306,7 +306,7 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 
 							jQuery("#recurseStatus").text(json.tfiles);
 
-							var recurseUrl = "admin-ajax.php?action=json_return&task=recurse_files&mode="+json.mode+"&nohtml=1";
+							var recurseUrl = "admin-ajax.php?action=json_return&task=recurse_files&mode="+json.mode+"&nohtml=1&files="+json.tfiles;
 							xclonerRecurseJSON(recurseUrl);
 
 							}
