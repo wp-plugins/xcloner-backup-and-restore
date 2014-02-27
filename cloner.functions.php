@@ -146,6 +146,10 @@
               }
             foreach($_REQUEST as $key=>$value)
 				update_option( "xcloner_".$key, $value, '', 'yes' );
+				
+			//Additional radio options
+			update_option ("xcloner_mem", $_REQUEST["mem"], '', 'yes');
+            update_option ("xcloner_sql_mem", $_REQUEST["sql_mem"], '', 'yes');	
               
           #if ($fp = @fopen($config_file, 'w')) 
           if(1){
