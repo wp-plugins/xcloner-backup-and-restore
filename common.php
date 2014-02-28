@@ -30,7 +30,7 @@ if ((!extension_loaded('zlib')) &&(function_exists('ob_start'))) {
 
 ####################################
 
-$_CONFIG['multiple_config_dir'] = __DIR__."/configs";
+$_CONFIG['multiple_config_dir'] = __XCLONERDIR__."/configs";
 
 $_CONFIG['backup_path'] = ($_CONFIG['backup_path']);
 $_CONFIG['backups_dir'] = str_replace("//administrator","/administrator",($_CONFIG['backup_path'])."/administrator/backups");
@@ -46,7 +46,7 @@ $_CONFIG['commentsfile'] = $_CONFIG['backups_dir']."/.comments"; #$_REQUEST['bac
 
 $_CONFIG['script_path'] = str_replace("\\","/",dirname(__FILE__));
 
-$lang_dir =  __DIR__."/language";
+$lang_dir =  __XCLONERDIR__."/language";
 
 $task = $_REQUEST['task'];
 ####################################
@@ -74,17 +74,17 @@ if($_CONFIG['select_lang']!="")
 
     $mosConfig_lang = $_CONFIG['select_lang'];
 
-if (file_exists( __DIR__ ."/language/".$mosConfig_lang.".php" )) {
+if (file_exists( __XCLONERDIR__ ."/language/".$mosConfig_lang.".php" )) {
 
-    include_once( __DIR__ ."/language/".$mosConfig_lang.".php" );
+    include_once( __XCLONERDIR__ ."/language/".$mosConfig_lang.".php" );
 
-    @include_once( __DIR__ ."/language/english.php" );
+    @include_once( __XCLONERDIR__ ."/language/english.php" );
 
 }
 
 else{
 
-	include_once( __DIR__ ."language/english.php" );
+	include_once( __XCLONERDIR__ ."language/english.php" );
 
 }
 

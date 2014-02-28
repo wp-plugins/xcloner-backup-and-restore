@@ -27,7 +27,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 @error_reporting(E_ALL ^ E_NOTICE);
 
 //load configuration
-$config_file = __DIR__."/cloner.config.php";
+$config_file = __XCLONERDIR__."/cloner.config.php";
 
 require_once($config_file);
 

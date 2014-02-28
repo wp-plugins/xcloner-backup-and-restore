@@ -11,7 +11,7 @@ Plugin URI: http://www.xcloner.com
 
 define("_VALID_MOS", 1);
 
-(@__DIR__ == '__DIR__') && define('__DIR__', realpath(dirname(__FILE__)));
+(@__XCLONERDIR__ == '__XCLONERDIR__') && define('__XCLONERDIR__', realpath(dirname(__FILE__)));
 
 global $xcloner_db_version;
 $xcloner_db_version = "1.0";
@@ -92,8 +92,8 @@ function files_xml(){
 
 	$_REQUEST['nohtml'] = 1;
 	
-	set_include_path(__DIR__."/browser/");
-	include __DIR__."/browser/files_xml.php";
+	set_include_path(__XCLONERDIR__."/browser/");
+	include __XCLONERDIR__."/browser/files_xml.php";
 
 	die();
 
