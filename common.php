@@ -51,14 +51,21 @@ $lang_dir =  __DIR__."/language";
 $task = $_REQUEST['task'];
 ####################################
 
+if($_CONFIG['enable_db_backup'] and !$_REQUEST['nohtml']){
 
-if($_CONFIG['enable_db_backup']){
+	### Connecting to the mysql server
+	$_CONFIG['mysqli'] = new mysqli($_CONFIG['mysql_host'], $_CONFIG['mysql_user'], $_CONFIG['mysql_pass'], $_CONFIG['mysql_database']) ;
+	
+	if (mysqli_connect_errno()) {
+			printf("Connect failed: %s\n", mysqli_connect_error());
+			//exit();
+			$_CONFIG['disable_mysql'] = 1;
+			$_CONFIG['enable_db_backup'] = 0;
+		}
+	else{
+		$_CONFIG['mysqli']->query("SET NAMES 'utf8'");
+	}	
 
-### Connecting to the mysql server
-$link = @mysql_connect($_CONFIG['mysql_host'], $_CONFIG['mysql_user'], $_CONFIG['mysql_pass']) or
-    E_print("Could not connect: " . mysql_error());
-@mysql_select_db($_CONFIG['mysql_database']) or E_print("Unable to select database ".$_CONFIG['mysql_database']);
-@mysql_query("SET NAMES 'utf8'");
 }
 
 
@@ -67,17 +74,17 @@ if($_CONFIG['select_lang']!="")
 
     $mosConfig_lang = $_CONFIG['select_lang'];
 
-if (file_exists( "language/".$mosConfig_lang.".php" )) {
+if (file_exists( __DIR__ ."/language/".$mosConfig_lang.".php" )) {
 
-    include_once( "language/".$mosConfig_lang.".php" );
+    include_once( __DIR__ ."/language/".$mosConfig_lang.".php" );
 
-    @include_once( "language/english.php" );
+    @include_once( __DIR__ ."/language/english.php" );
 
 }
 
 else{
 
-	include_once( "language/english.php" );
+	include_once( __DIR__ ."language/english.php" );
 
 }
 

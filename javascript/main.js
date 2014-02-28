@@ -45,16 +45,16 @@ function checkAll( n, fldName ) {
 
 function checkJAll(n, toggle, cb){
 
-	if( $( "#"+toggle).is(":checked") )
+	if( jQuery( "#"+toggle).is(":checked") )
 		var checkall = true;
 	else
 		var checkal = false;
 
 	for (var i=0; i < n; i++) {
 			if(!checkall)
-				$( "#"+cb+i ).removeAttr("checked").button("refresh");
+				jQuery( "#"+cb+i ).removeAttr("checked").button("refresh");
 			else
-				$( "#"+cb+i ).attr("checked", true).button("refresh");
+				jQuery( "#"+cb+i ).attr("checked", true).button("refresh");
 
 	}
 }

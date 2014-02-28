@@ -145,11 +145,11 @@
                   $databases_incl_list .= $database . ",";
               }
             foreach($_REQUEST as $key=>$value)
-				update_option( "xcloner_".$key, $value, '', 'yes' );
+				update_site_option( "xcloner_".$key, $value, '', 'yes' );
 				
 			//Additional radio options
-			update_option ("xcloner_mem", $_REQUEST["mem"], '', 'yes');
-            update_option ("xcloner_sql_mem", $_REQUEST["sql_mem"], '', 'yes');	
+			update_site_option ("xcloner_mem", $_REQUEST["mem"], '', 'yes');
+            update_site_option ("xcloner_sql_mem", $_REQUEST["sql_mem"], '', 'yes');	
               
           #if ($fp = @fopen($config_file, 'w')) 
           if(1){
@@ -1362,14 +1362,14 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
               foreach ($databases_incl as $database_name)
                   if ($database_name != '') {
                       $excltables = "";
-                      mysql_query("USE  $database_name");
+                      $_CONFIG['mysqli']->query("USE  $database_name");
 
                       $sql_file[] = doBackup($tables, 'sql', 'local', 'both', $_SERVER['HTTP_USER_AGENT'], $_CONFIG['backups_dir'], $databaseResult_incl, $database_name, $excltables, $database_name);
 
                       $databaseResult .= "<br /> <b>$database_name:</b> " . $databaseResult_incl;
                   }
 
-              mysql_query("USE  " . $_CONFIG['mysql_database']);
+              $_CONFIG['mysqli']->query("USE  " . $_CONFIG['mysql_database']);
           }
       } else {
           #$databaseResult = LM_DATABASE_EXCLUDED;
@@ -1941,8 +1941,8 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
       if ($tables[0] == "all") {
           array_pop($tables);
-          $query = mysql_query("SHOW tables");
-          while ($row = mysql_fetch_array($query)) {
+          $query = $_CONFIG['mysqli']->query("SHOW tables");
+          while ($row = $query->fetch_array()) {
               $tables_list[] = $row[0];
           }
 
@@ -1994,19 +1994,19 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
       }
 
       /*Added some default values for quotes and auto_increment problems*/
-      mysql_query("SET SQL_QUOTE_SHOW_CREATE=1;");
-      mysql_query("SET sql_mode = 0;");
+      $_CONFIG['mysqli']->query("SET SQL_QUOTE_SHOW_CREATE=1;");
+      $_CONFIG['mysqli']->query("SET sql_mode = 0;");
 
       if ($_REQUEST['dbbackup_comp']) {
-          mysql_query("SET sql_mode=" . $_REQUEST['dbbackup_comp'] . ";");
+          $_CONFIG['mysqli']->query("SET sql_mode=" . $_REQUEST['dbbackup_comp'] . ";");
       }
 
 
       /* Store the "Create Tables" SQL in variable $CreateTable[$tblval] */
       if ($toBackUp != "data") {
           foreach ($tables as $tblval) {
-              $query = mysql_query("SHOW CREATE table `$tblval`");
-              $row = mysql_fetch_array($query);
+              $query = $_CONFIG['mysqli']->query("SHOW CREATE table `$tblval`");
+              $row = $query->fetch_array();
               $CreateTable[$tblval] = $row[1];
           }
       }
@@ -2014,8 +2014,8 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
       /* Store all the FIELD TYPES being backed-up (text fields need to be delimited) in variable $FieldType*/
       if ($toBackUp != "structure") {
           foreach ($tables as $tblval) {
-              $query = mysql_query("SHOW FIELDS FROM `$tblval`");
-              while ($row = mysql_fetch_row($query)) {
+              $query = $_CONFIG['mysqli']->query("SHOW FIELDS FROM `$tblval`");
+              while ($row = $query->fetch_row()) {
                   $fields[] = $row[0];
               }
               foreach ($fields as $field) {
@@ -2068,13 +2068,13 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
           if ($toBackUp != "structure") {
               $OutBuffer .= "#\n# Dumping data for table `$tblval`\n#\n";
-              $query = @mysql_query("SELECT *  FROM `$tblval`");
+              $query = @$_CONFIG['mysqli']->query("SELECT *  FROM `$tblval`");
 
-              while ($row = @mysql_fetch_array($query, MYSQL_ASSOC)) {
+              while ($row = @$query->fetch_array(MYSQL_ASSOC)) {
                   $InsertDump = "INSERT INTO `$tblval` VALUES (";
                   $arr = $row;
                   foreach ($arr as $key => $value) {
-                      $value = mysql_real_escape_string($value);
+                      $value = $_CONFIG['mysqli']->real_escape_string($value);
                       #$value = str_replace("\n", '\r\n', $value);
                       #$value = str_replace("\r", '', $value);
                       //if (@preg_match ("/\b" . $FieldType[$tblval][$key] . "\b/i", "DATE TIME DATETIME CHAR VARCHAR TEXT TINYTEXT MEDIUMTEXT LONGTEXT BLOB TINYBLOB MEDIUMBLOB LONGBLOB ENUM SET"))
@@ -2143,8 +2143,11 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
 	function getVersion()
 	{
-	  $query = mysql_query("SELECT version()");
-	  $row = mysql_fetch_array($query);
-	  return $row[0];
+		global $_CONFIG;
+		
+		$query = $_CONFIG['mysqli']->query("SELECT version()");
+		$row = $query->fetch_array();
+		
+		return $row[0];
 	}
 ?>

@@ -78,6 +78,8 @@ add_action( 'wp_ajax_json_return', 'json_return' );
 
 function json_return(){
 
+	$_REQUEST['nohtml'] = 1;
+	
 	include "admin.cloner.php";
 
 	die();
@@ -88,6 +90,8 @@ add_action( 'wp_ajax_files_xml', 'files_xml' );
 
 function files_xml(){
 
+	$_REQUEST['nohtml'] = 1;
+	
 	set_include_path(__DIR__."/browser/");
 	include __DIR__."/browser/files_xml.php";
 

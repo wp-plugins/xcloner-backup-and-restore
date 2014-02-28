@@ -1209,8 +1209,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		     </td>
 		     <td>
 		      <div id="radiog3">
-			      <label for="radiog31">Yes</label> <input id="radiog31" type=radio size=50 value=1 name='enable_db_backup' <?php if($_CONFIG[enable_db_backup]==1) echo 'checked';?>>
-			      <label for="radiog32">No</label> <input id="radiog32" type=radio size=50 value=0 name='enable_db_backup' <?php if($_CONFIG[enable_db_backup]==0) echo 'checked';?>>
+			      <label for="radiog31">Yes</label> <input id="radiog31" type=radio size=50 value=1 name='enable_db_backup' <?php if($_CONFIG[enable_db_backup]==1 or $_CONFIG['disable_mysql']) echo 'checked';?>>
+			      <label for="radiog32">No</label> <input id="radiog32" type=radio size=50 value=0 name='enable_db_backup' <?php if($_CONFIG[enable_db_backup]==0 and !$_CONFIG['disable_mysql']) echo 'checked';?>>
 			      <br /><?php echo LM_CRON_DB_BACKUP_SUB?>
 		      </div>
 
@@ -1917,7 +1917,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		    </tr>
 
 		    <?php
-		    if((abs($_CONFIG[system_mdatabases])==0) && ($_CONFIG[enable_db_backup]==1)){
+		    if((abs($_CONFIG['system_mdatabases'])==0) && ($_CONFIG['enable_db_backup']==1) ){
 		    ?>
 		    <tr><td valign='top'>
 		    <?php echo LM_DATABASE_INCLUDE_DATABASES?>
@@ -1927,8 +1927,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 
 		    $curent_dbs = explode(",", $_CONFIG['databases_incl_list']);
 
-		    $query = @mysql_query("SHOW databases");
-		    while($row = @mysql_fetch_array($query)){
+		    $query = @$_CONFIG['mysqli']->query("SHOW databases");
+		    while($row = @$query->fetch_array()){
 
 			   $table = $row[0];
 
@@ -2356,11 +2356,6 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 
 	<div id="radio_dbbackup">
     <table class="adminform">
-    <!--<tr>
-     <th colspan=2>
-       <b><?php #echo LM_DATABASE_ARCHIVE; ?></b>
-     </th>
-    </tr>-->
     <tr>
         <td>
 			<label for="radio_dbbackup1"><?php echo LM_CONFIRM_DATABASE; ?></label>
@@ -2386,8 +2381,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 	<select name='excltables[]' MULTIPLE SIZE=15>
     <?php
 
-    $query = mysql_query("SHOW tables");
-    while($row = mysql_fetch_array($query)){
+    $query = $_CONFIG['mysqli']->query("SHOW tables");
+    while($row = $query->fetch_array()){
 
 		 echo "<option value='".$row[0]."'>$row[0]</option>";
 
@@ -2407,9 +2402,9 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     <select name='databases_incl[]' MULTIPLE SIZE=5>
     <?php
 
-    $query = mysql_query("SHOW databases");
+    $query = $_CONFIG['mysqli']->query("SHOW databases");
 
-	while($row = mysql_fetch_array($query)){
+	while($row = $query->fetch_array()){
 
 		if($_CONFIG['mysql_database'] != $row[0])
 			echo "<option value='".$row[0]."'>$row[0]</option>";
