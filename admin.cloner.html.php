@@ -306,7 +306,7 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 
 							jQuery("#recurseStatus").text(json.tfiles);
 
-							var recurseUrl = "admin-ajax.php?action=json_return&task=recurse_files&mode="+json.mode+"&nohtml=1";
+							var recurseUrl = "admin-ajax.php?action=json_return&task=recurse_files&mode="+json.mode+"&nohtml=1&files="+json.tfiles;
 							xclonerRecurseJSON(recurseUrl);
 
 							}
@@ -1060,7 +1060,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     $k = 0;
     for ($i=0; $i <= (count( $files )-1); $i++) {
       $date = date ("D jS M Y H:i:s (\G\M\T O)", filemtime($path.'/'.$files[$i]));
-      $url = "plugins.php?page=xcloner_show&option=com_cloner&task=download&file=".'/'.urlencode($files[$i]);
+      $url = "admin-ajax.php?action=json_return&page=xcloner_show&option=com_cloner&task=download&file=".'/'.urlencode($files[$i]);
       ?>
       <tr class="<?php echo "row$k"; ?>">
 

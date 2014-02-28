@@ -18,9 +18,8 @@ header("Content-Type: text/xml; charset=utf-8");
 
 error_reporting(2);
 
-include(__DIR__ ."/../cloner.config.php");
-include(__DIR__ ."/../common.php");
-
+include(realpath(dirname(__FILE__))."/../cloner.config.php");
+include(realpath(dirname(__FILE__)) ."/../common.php");
 
 if((strlen($_REQUEST['dir']) < strlen($_CONFIG['backup_path']))&&($_REQUEST[dir] != ''))
 {
