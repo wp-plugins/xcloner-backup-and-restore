@@ -47,6 +47,17 @@ $_CONFIG['excludeFilesSize'] = "-1";
 $_CONFIG['splitBackupSize'] = "2048"; //MB
 $_CONFIG['select_lang'] = "english";
 
+$_CONFIG["cron_amazon_active"]="";
+$_CONFIG["cron_amazon_awsAccessKey"]="";
+$_CONFIG["cron_amazon_awsSecretKey"]="";
+$_CONFIG["cron_amazon_bucket"]="";
+$_CONFIG["cron_amazon_dirname"]="";
+$_CONFIG["cron_amazon_ssl"]="";
+$_CONFIG["cron_dropbox_active"]="";
+$_CONFIG["cron_dropbox_Key"]="";
+$_CONFIG["cron_dropbox_Secret"]="";
+$_CONFIG["cron_dropbox_dirname"]="";
+
 ### Defaults
 $script_dir = str_replace("\\","/",dirname(__FILE__));
 
