@@ -13,7 +13,8 @@
 $topErrorLine1 = "To run this script you need to create a custom config file inside XCloner Config, and call the script using php cli command like this:";
 $topErrorLine2 = "php ".__FILE__." mycustomconfig.php";
 
-if( php_sapi_name() != 'cli' ){
+//if( php_sapi_name() != 'cli' ){
+if(!defined('STDIN') ) {
 	echo  "<h2>".$topErrorLine1."</h2>\n";
 	echo "<strong>".$topErrorLine2."</strong>\n";
 	exit;
