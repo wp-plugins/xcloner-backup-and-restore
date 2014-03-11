@@ -216,9 +216,10 @@ define("LM_MSG_BACK_14","<font color='red'>There was a problem in generating the
 define("LM_CRON_TOP","Cron Command Setup");
 define("LM_CRON_SUB","<b>Using the cron function you can setup an automated backup generator for your website!</b>
 <br />To set it up, you need to add in your cron scheduler control panel the following command:");
-define("LM_CRON_HELP","Notes:
- - if your php location is diferent than /usr/bin/php, please use that one, format /$"."php_path/php
- - custom_cron_config.php is the name of the custom cron config you used for saving the cronjob
+define("LM_CRON_HELP","Notes:<br />
+ - if your php location is diferent than /usr/bin/php, please use that one, format /$"."php_path/php <br />
+ - cron setup only supports CLI mode for security reasons, if you would like to use the cron in some other format, please adjust the cloner.cron.php file<br />
+ - custom_cron_config.php is the name of the custom cron config you used for saving the cronjob<br /><br />
 
 For more info on how to setup a cron for
  - Cpanel <a href='http://www.cpanel.net/docs/cpanel/' target='_blank'>click here</a>
