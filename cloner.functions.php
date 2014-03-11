@@ -49,7 +49,7 @@
    */
   function E_print($message)
   {
-      print "<center><font color='red' size='4'>$message</font></center>";
+      print "<div id='message' class='error'>$message</div>";
   }
 
 /*
