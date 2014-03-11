@@ -51,6 +51,11 @@ $lang_dir =  __XCLONERDIR__."/language";
 $task = $_REQUEST['task'];
 ####################################
 
+if(!class_exists("mysqli")){
+		printf("mysqli php module is not supported, mysql backup will be disabled. Please reinstall or upgrade php to support the mysqli extension.");
+		$_CONFIG['enable_db_backup'] = 0;
+	}
+	
 if($_CONFIG['enable_db_backup'] and !$_REQUEST['nohtml']){
 
 	### Connecting to the mysql server
