@@ -790,11 +790,7 @@ function Cron(){
 		<br /><br />
 
 		For <b>Running Multiple Crons</b>, you need to first create a custom configuration file in the XCloner Configuration -> Cron tab
-		and then replace "cloner.cron.php" with "cloner.cron.php?config=myconfig.php", only use 'links' or 'lynx' options to run the cronjob
-		<br /><br />
-
-		If you would like to use the <b>php SSH command</b> for running Multiple Crons, you will need to replace
-		the  "cloner.cron.php" with <b>"cloner.cron.php myconfig.php"</b> in the command line.
+		and then replace "cloner.cron.php" with "cloner.cron.php myconfig.php"
 		<br /><br />
 
 		<?php echo LM_CRON_HELP?>
