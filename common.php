@@ -52,7 +52,7 @@ $task = $_REQUEST['task'];
 ####################################
 
 if(!class_exists("mysqli")){
-		printf("mysqli php module is not supported, mysql backup will be disabled. Please reinstall or upgrade php to support the mysqli extension.");
+		E_print("mysqli php module is not supported, mysql backup will be disabled. Please reinstall or upgrade php to support the mysqli extension.");
 		$_CONFIG['enable_db_backup'] = 0;
 	}
 	
@@ -62,7 +62,7 @@ if($_CONFIG['enable_db_backup'] and !$_REQUEST['nohtml']){
 	$_CONFIG['mysqli'] = new mysqli($_CONFIG['mysql_host'], $_CONFIG['mysql_user'], $_CONFIG['mysql_pass'], $_CONFIG['mysql_database']) ;
 	
 	if (mysqli_connect_errno()) {
-			printf("Connect failed: %s\n", mysqli_connect_error());
+			E_print("Connect failed: %s\n", mysqli_connect_error());
 			//exit();
 			$_CONFIG['disable_mysql'] = 1;
 			$_CONFIG['enable_db_backup'] = 0;
