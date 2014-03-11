@@ -785,10 +785,7 @@ function Cron(){
 		<br /><br />
 
 		<ul>
-			<li><input type="text" value="/usr/bin/php  <?php echo dirname(__FILE__);?>/cloner.cron.php" size="150" /></li>
-			<li><strong>curl http://website/path_to_xcloner_folder/cloner.cron.php</strong></li>
-			<li><strong>wget -q http://website/path_to_xcloner_folder/cloner.cron.php</strong></li>
-			<li><strong>lynx -sourcehttp://website/path_to_xcloner_folder/cloner.cron.php</strong></li>
+			<li><input type="text" value="/usr/bin/php  <?php echo dirname(__FILE__);?>/cloner.cron.php custom_cron_config.php" size="150" /></li>
 		</ul>
 		<br /><br />
 
