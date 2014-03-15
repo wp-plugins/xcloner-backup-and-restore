@@ -23,6 +23,8 @@
 /** ensure this file is being included by a parent file */
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 
+(@__XCLONERDIR__ == '__XCLONERDIR__') && define('__XCLONERDIR__', realpath(dirname(__FILE__)));
+
 if ((!extension_loaded('zlib')) &&(function_exists('ob_start'))) {
                 ob_end_clean();
                 ob_start('ob_gzhandler');
