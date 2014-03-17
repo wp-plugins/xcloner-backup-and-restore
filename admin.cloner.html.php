@@ -148,7 +148,12 @@ document.write(d);
 
 //-->
 </script></div> </td></tr></table>
-
+<br />
+<table width='100%' cellpadding='5' height='100%' class='menu_table'><tr><td>
+<a href="http://www.thinkovi.com/services/website-migration/" target="_blank">
+	<img src="<?php echo plugins_url('images/thinkovi.png', __FILE__) ?>" border="0" />
+</a>
+</td></tr></table>
 
 </td><td valign='top' align='left' style="padding-left: 20px;">
 
