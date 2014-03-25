@@ -1930,6 +1930,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		    $curent_dbs = explode(",", $_CONFIG['databases_incl_list']);
 
 		    $query = @$_CONFIG['mysqli']->query("SHOW databases");
+		    
+		    if($query)
 		    while($row = @$query->fetch_array()){
 
 			   $table = $row[0];
@@ -2408,6 +2410,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 
     $query = $_CONFIG['mysqli']->query("SHOW databases");
 
+	if($query)
 	while($row = $query->fetch_array()){
 
 		if($_CONFIG['mysql_database'] != $row[0])
