@@ -892,7 +892,7 @@
       }
   }
 
-  function action($option)
+  function xclonerAction($option)
   {
       global $_CONFIG;
 

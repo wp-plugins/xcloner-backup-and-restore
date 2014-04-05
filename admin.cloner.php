@@ -83,7 +83,7 @@ switch ($task) {
 	  clone_rename($option);
 	  break;
 	case 'action':
-	  action($option);
+	  xclonerAction($option);
 	  break;
 	
 	
