@@ -231,7 +231,8 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 					//reset state here;
 						jQuery("#error").show();
 						jQuery("#errorText").append(status+" -- "+error);
-						jQuery("#errorText").append("<br /><br />JSON url: "+globalUrl);
+						jQuery("#errorText").append("<br /><br /><strong>JSON url:</strong> "+globalUrl);
+						jQuery("#errorText").append("<br /><br /><strong>Response body:</strong> "+request.responseText);
 					}});
 
 					function getSize(bytes, conv){
