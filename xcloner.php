@@ -119,6 +119,7 @@ function starter_plugin_admin_scripts ($hook) {
 	wp_enqueue_style ('jquery-start-ui-1.8.9.custom.css', plugins_url()."/xcloner-backup-and-restore/css/start/jquery-ui-1.8.9.custom.css", "", "3.1.0");
 	
 }
-if($_REQUEST["page"] == "xcloner_show")
+#if($_REQUEST["page"] == "xcloner_show")
+if(!empty($_REQUEST["page"]) && $_REQUEST["page"] == "xcloner_show")
 	add_action('admin_enqueue_scripts', 'starter_plugin_admin_scripts');
 
