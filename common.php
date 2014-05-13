@@ -64,7 +64,7 @@ if($_CONFIG['enable_db_backup'] and !$_REQUEST['nohtml']){
 	$_CONFIG['mysqli'] = new mysqli($_CONFIG['mysql_host'], $_CONFIG['mysql_user'], $_CONFIG['mysql_pass'], $_CONFIG['mysql_database']) ;
 	
 	if (mysqli_connect_errno()) {
-			E_print("Connect failed: %s\n", mysqli_connect_error());
+			E_print("Connect failed: ". mysqli_connect_error());
 			//exit();
 			$_CONFIG['disable_mysql'] = 1;
 			$_CONFIG['enable_db_backup'] = 0;
