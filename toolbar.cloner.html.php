@@ -99,7 +99,7 @@ class TOOLBAR_cloner {
   }
   function _DEFAULT() {
 
-    XCloner_button('logout','Logout');
+    #XCloner_button('logout','Logout');
     XCloner_button('cancel','Cancel');
 
   }
