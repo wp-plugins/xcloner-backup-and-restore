@@ -88,7 +88,7 @@ document.write('<style type="text/css">.tabber{display:none;}<\/style>');
 		<table><tr><td>
 		<img src="<?php echo plugins_url('images/backup.png', __FILE__) ?>" align="middle">&nbsp;
 		</td><td>
-		<a href="index.php"><h2><?php echo LM_COM_TITLE.$_SERVER['HTTP_HOST']; ?></h2>
+		<a href="plugins.php?page=xcloner_show"><h2><?php echo LM_COM_TITLE.$_SERVER['HTTP_HOST']; ?></h2>
 		<h1>Backup and Restore</h1>
 		</a>
 		</td></tr>
