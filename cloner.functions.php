@@ -149,12 +149,18 @@
               foreach ($_REQUEST['databases_incl'] as $database) {
                   $databases_incl_list .= $database . ",";
               }
-            foreach($_REQUEST as $key=>$value)
+            #foreach($_REQUEST as $key=>$value)
+			#	update_site_option( "xcloner_".$key, $value, '', 'yes' );
+			
+			foreach($_REQUEST as $key=>$value)
 				update_site_option( "xcloner_".$key, $value, '', 'yes' );
+				    
+			foreach($_CONFIG as $key=>$value)
+				update_site_option( "xcloner_".$key, $_REQUEST[$key], '', 'yes' );
 				
 			//Additional radio options
-			update_site_option ("xcloner_mem", $_REQUEST["mem"], '', 'yes');
-            update_site_option ("xcloner_sql_mem", $_REQUEST["sql_mem"], '', 'yes');	
+			#update_site_option ("xcloner_mem", $_REQUEST["mem"], '', 'yes');
+            #update_site_option ("xcloner_sql_mem", $_REQUEST["sql_mem"], '', 'yes');	
               
           #if ($fp = @fopen($config_file, 'w')) 
           if(1){

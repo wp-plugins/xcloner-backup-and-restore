@@ -91,7 +91,7 @@ if (file_exists( __XCLONERDIR__ ."/language/".$mosConfig_lang.".php" )) {
 
 else{
 
-	include_once( __XCLONERDIR__ ."language/english.php" );
+	include_once( __XCLONERDIR__ ."/language/english.php" );
 
 }
 
