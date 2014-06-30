@@ -2176,7 +2176,7 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 	{
 		global $_CONFIG;
 
-		mkdir($_CONFIG["token_dir"]);
+		@mkdir($_CONFIG["token_dir"]);
 
 		if(!file_put_contents($_CONFIG["token_dir"]."/$name.token", serialize($token)))
 			die('<br />Could not store token! <b>Make sure that the directory '.$_CONFIG["token_dir"].'/tokens` exists and is writable!</b>');
