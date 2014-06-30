@@ -1129,6 +1129,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		jQuery( "#cron_sql_drop" ).button();
 		jQuery( "#cron_amazon_active" ).button();
 		jQuery( "#cron_dropbox_active" ).button();
+		jQuery( "#cron_dropbox_authorize" ).button();
 		jQuery( "#cron_amazon_ssl" ).button();
 		jQuery( "#cron_ftp_delb" ).button();
 		jQuery( "#checkmysqldump" ).button();
@@ -1848,9 +1849,15 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 			</td>
 		     	<td>
 		     	<label for="cron_dropbox_active"><?php echo LM_DROPBOX_ACTIVATE?></label>
-				<input id="cron_dropbox_active" type=checkbox name='cron_dropbox_active' <?php if($_CONFIG[cron_dropbox_active]==1) echo "checked";?> value='1'>
-				
-				
+				<input id="cron_dropbox_active" type=checkbox name='cron_dropbox_active' <?php if($_CONFIG['cron_dropbox_active']==1) echo "checked";?> value='1'>
+				<?php
+				$access_token = load_token("access");
+				if(empty($access_token) and $_CONFIG["cron_dropbox_active"]){
+					?>
+					<a target="_blank" href="?page=xcloner_show&task=dropbox_authorize"><?php echo LM_DROPBOX_AUTHORIZE?></a>
+					<?php
+				}
+				?>
 			</td>
 			</tr>
 

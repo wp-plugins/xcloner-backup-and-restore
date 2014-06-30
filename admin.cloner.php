@@ -87,6 +87,10 @@ switch ($task) {
 	  break;
 	
 	
+	case 'dropbox_authorize':
+		authorize_dropbox();
+		break;
+	
 	case 'cancel_lang':
 	  mosRedirect('plugins.php?page=xcloner_show&option=' . $option . "&task=lang");
 	  break;

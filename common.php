@@ -110,4 +110,6 @@ $_CONFIG['temp_dir'] 		= $_CONFIG['backups_dir'];
 
 date_default_timezone_set('America/Los_Angeles'); 
 
+$_CONFIG["token_dir"] = dirname(__FILE__)."/tokens/";
+
 ?>
