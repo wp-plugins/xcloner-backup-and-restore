@@ -10,7 +10,7 @@ XCloner is a full backup and restore plugin for Wordpress, it will backup and re
 
 == Description ==
 
-<b>Over 300,000+ downloads and counting</b>
+<strong>Over 300,000+ downloads and counting</strong>
 
 www.XCloner.com
 
