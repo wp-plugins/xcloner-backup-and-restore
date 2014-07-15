@@ -10,6 +10,8 @@ XCloner is a full backup and restore plugin for Wordpress, it will backup and re
 
 == Description ==
 
+<b>Over 300,000+ downloads and counting</b>
+
 www.XCloner.com
 
 XCloner is a Backup and Restore component designed for PHP/Mysql websites, it can work as a native plugin for WordPress and Joomla!.
