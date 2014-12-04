@@ -78,6 +78,10 @@ add_action( 'wp_ajax_json_return', 'json_return' );
 
 function json_return(){
 
+    if ( !is_super_admin() ) {
+        die("Only admin is allowed here!");
+    }
+
 	$_REQUEST['nohtml'] = 1;
 	
 	include "admin.cloner.php";

@@ -150,7 +150,8 @@ switch ($task) {
 	  confirmBackup($option);
 	  break;
 	case 'download':
-	  downloadBackup($_REQUEST[file]);
+      $file = pathinfo($_REQUEST['file']);
+	  downloadBackup($file['filename']);
 	  break;
 	case 'cron':
 	  $html->Cron();
