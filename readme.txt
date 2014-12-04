@@ -70,6 +70,9 @@ If the inside Clone option fails for some reason, you need to:
 
 == Changelog ==
 
+= 3.1.2 =
+* vulnerability fix
+
 = 3.1.1 = 
 * added CSRF protection
 
