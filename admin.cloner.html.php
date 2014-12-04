@@ -88,7 +88,7 @@ document.write('<style type="text/css">.tabber{display:none;}<\/style>');
 		<table><tr><td>
 		<img src="<?php echo plugins_url('images/backup.png', __FILE__) ?>" align="middle">&nbsp;
 		</td><td>
-		<a href="index.php"><h2><?php echo LM_COM_TITLE.$_SERVER['HTTP_HOST']; ?></h2>
+		<a href="plugins.php?page=xcloner_show"><h2><?php echo LM_COM_TITLE.$_SERVER['HTTP_HOST']; ?></h2>
 		<h1>Backup and Restore</h1>
 		</a>
 		</td></tr>
@@ -148,7 +148,12 @@ document.write(d);
 
 //-->
 </script></div> </td></tr></table>
-
+<br />
+<table width='100%' cellpadding='5' height='100%' class='menu_table'><tr><td>
+<a href="http://www.thinkovi.com/services/website-migration/" target="_blank">
+	<img src="<?php echo plugins_url('images/thinkovi.png', __FILE__) ?>" border="0" />
+</a>
+</td></tr></table>
 
 </td><td valign='top' align='left' style="padding-left: 20px;">
 
@@ -226,7 +231,8 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 					//reset state here;
 						jQuery("#error").show();
 						jQuery("#errorText").append(status+" -- "+error);
-						jQuery("#errorText").append("<br /><br />JSON url: "+globalUrl);
+						jQuery("#errorText").append("<br /><br /><strong>JSON url:</strong> "+globalUrl);
+						jQuery("#errorText").append("<br /><br /><strong>Response body:</strong> "+request.responseText);
 					}});
 
 					function getSize(bytes, conv){
@@ -1123,6 +1129,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		jQuery( "#cron_sql_drop" ).button();
 		jQuery( "#cron_amazon_active" ).button();
 		jQuery( "#cron_dropbox_active" ).button();
+		jQuery( "#cron_dropbox_authorize" ).button();
 		jQuery( "#cron_amazon_ssl" ).button();
 		jQuery( "#cron_ftp_delb" ).button();
 		jQuery( "#checkmysqldump" ).button();
@@ -1842,9 +1849,15 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 			</td>
 		     	<td>
 		     	<label for="cron_dropbox_active"><?php echo LM_DROPBOX_ACTIVATE?></label>
-				<input id="cron_dropbox_active" type=checkbox name='cron_dropbox_active' <?php if($_CONFIG[cron_dropbox_active]==1) echo "checked";?> value='1'>
-				
-				
+				<input id="cron_dropbox_active" type=checkbox name='cron_dropbox_active' <?php if($_CONFIG['cron_dropbox_active']==1) echo "checked";?> value='1'>
+				<?php
+				$access_token = load_token("access");
+				if(empty($access_token) and $_CONFIG["cron_dropbox_active"]){
+					?>
+					<a target="_blank" href="?page=xcloner_show&task=dropbox_authorize"><?php echo LM_DROPBOX_AUTHORIZE?></a>
+					<?php
+				}
+				?>
 			</td>
 			</tr>
 
@@ -1925,6 +1938,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		    $curent_dbs = explode(",", $_CONFIG['databases_incl_list']);
 
 		    $query = @$_CONFIG['mysqli']->query("SHOW databases");
+		    
+		    if($query)
 		    while($row = @$query->fetch_array()){
 
 			   $table = $row[0];
@@ -2403,6 +2418,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 
     $query = $_CONFIG['mysqli']->query("SHOW databases");
 
+	if($query)
 	while($row = $query->fetch_array()){
 
 		if($_CONFIG['mysql_database'] != $row[0])

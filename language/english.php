@@ -36,6 +36,7 @@ define("LM_AMAZON_S3_SSL","Enable SSL transfer");
 //Dropbox
 define("LM_DROPBOX", "DropBox Storage");
 define("LM_DROPBOX_ACTIVATE", "Activate");
+define("LM_DROPBOX_AUTHORIZE", "Click to authorize application");
 define("LM_DROPBOX_AWSACCESSKEY", "Application Key:");
 define("LM_DROPBOX_AWSSECRETKEY", "Application Secret:");
 define("LM_DROPBOX_DIRNAME", "Upload Directory:");

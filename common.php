@@ -23,6 +23,8 @@
 /** ensure this file is being included by a parent file */
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 
+(@__XCLONERDIR__ == '__XCLONERDIR__') && define('__XCLONERDIR__', realpath(dirname(__FILE__)));
+
 if ((!extension_loaded('zlib')) &&(function_exists('ob_start'))) {
                 ob_end_clean();
                 ob_start('ob_gzhandler');
@@ -62,7 +64,7 @@ if($_CONFIG['enable_db_backup'] and !$_REQUEST['nohtml']){
 	$_CONFIG['mysqli'] = new mysqli($_CONFIG['mysql_host'], $_CONFIG['mysql_user'], $_CONFIG['mysql_pass'], $_CONFIG['mysql_database']) ;
 	
 	if (mysqli_connect_errno()) {
-			E_print("Connect failed: %s\n", mysqli_connect_error());
+			E_print("Connect failed: ". mysqli_connect_error());
 			//exit();
 			$_CONFIG['disable_mysql'] = 1;
 			$_CONFIG['enable_db_backup'] = 0;
@@ -89,7 +91,7 @@ if (file_exists( __XCLONERDIR__ ."/language/".$mosConfig_lang.".php" )) {
 
 else{
 
-	include_once( __XCLONERDIR__ ."language/english.php" );
+	include_once( __XCLONERDIR__ ."/language/english.php" );
 
 }
 
@@ -107,5 +109,7 @@ $_CONFIG['backup_store_path'] 	= $_CONFIG['clonerPath'];
 $_CONFIG['temp_dir'] 		= $_CONFIG['backups_dir'];
 
 date_default_timezone_set('America/Los_Angeles'); 
+
+$_CONFIG["token_dir"] = dirname(__FILE__)."/tokens/";
 
 ?>

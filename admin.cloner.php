@@ -83,9 +83,13 @@ switch ($task) {
 	  clone_rename($option);
 	  break;
 	case 'action':
-	  action($option);
+	  xclonerAction($option);
 	  break;
 	
+	
+	case 'dropbox_authorize':
+		authorize_dropbox();
+		break;
 	
 	case 'cancel_lang':
 	  mosRedirect('plugins.php?page=xcloner_show&option=' . $option . "&task=lang");
@@ -146,7 +150,8 @@ switch ($task) {
 	  confirmBackup($option);
 	  break;
 	case 'download':
-	  downloadBackup($_REQUEST[file]);
+      $file = pathinfo($_REQUEST['file']);
+	  downloadBackup($file['filename']);
 	  break;
 	case 'cron':
 	  $html->Cron();

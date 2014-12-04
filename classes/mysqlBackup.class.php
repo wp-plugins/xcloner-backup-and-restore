@@ -156,7 +156,7 @@ class DB{
 		self::error($query, 1);
 
 		if (!$result) {
-			self::error('Invalid query: ' . mysqli_error());
+			self::error('Invalid query: ' . mysqli_error(self::$link));
 			return false;
 		}
 		else{

@@ -149,12 +149,18 @@
               foreach ($_REQUEST['databases_incl'] as $database) {
                   $databases_incl_list .= $database . ",";
               }
-            foreach($_REQUEST as $key=>$value)
+            #foreach($_REQUEST as $key=>$value)
+			#	update_site_option( "xcloner_".$key, $value, '', 'yes' );
+			
+			foreach($_REQUEST as $key=>$value)
 				update_site_option( "xcloner_".$key, $value, '', 'yes' );
+				    
+			foreach($_CONFIG as $key=>$value)
+				update_site_option( "xcloner_".$key, $_REQUEST[$key], '', 'yes' );
 				
 			//Additional radio options
-			update_site_option ("xcloner_mem", $_REQUEST["mem"], '', 'yes');
-            update_site_option ("xcloner_sql_mem", $_REQUEST["sql_mem"], '', 'yes');	
+			#update_site_option ("xcloner_mem", $_REQUEST["mem"], '', 'yes');
+            #update_site_option ("xcloner_sql_mem", $_REQUEST["sql_mem"], '', 'yes');	
               
           #if ($fp = @fopen($config_file, 'w')) 
           if(1){
@@ -892,7 +898,7 @@
       }
   }
 
-  function action($option)
+  function xclonerAction($option)
   {
       global $_CONFIG;
 
@@ -2171,4 +2177,91 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 		
 		return $row[0];
 	}
-?>
+
+	function store_token($token, $name)
+	{
+		global $_CONFIG;
+
+		@mkdir($_CONFIG["token_dir"]);
+
+		if(!file_put_contents($_CONFIG["token_dir"]."/$name.token", serialize($token)))
+			die('<br />Could not store token! <b>Make sure that the directory '.$_CONFIG["token_dir"].'/tokens` exists and is writable!</b>');
+	}
+	
+	function load_token($name)
+	{
+		global $_CONFIG;
+		
+		if(!file_exists($_CONFIG["token_dir"]."/$name.token")) return null;
+		return @unserialize(@file_get_contents($_CONFIG["token_dir"]."/$name.token"));
+	}
+	
+	function delete_token($name)
+	{
+		global $_CONFIG;
+		
+		@unlink($_CONFIG["token_dir"]."/$name.token");
+	}
+	function authorize_dropbox(){
+		global $_CONFIG;
+		
+		include_once("classes/DropboxClient.php");
+
+		$access_token = load_token("access");
+
+		if($_CONFIG["cron_dropbox_active"]){
+			
+			$dropbox = new DropboxClient(array(
+				'app_key' => $_CONFIG['cron_dropbox_Key'], 
+				'app_secret' => $_CONFIG['cron_dropbox_Secret'],
+				'app_full_access' => false,
+			),'en');
+			
+			if(!empty($access_token)) {
+				$dropbox->SetAccessToken($access_token);
+			}	
+			
+			if($dropbox->IsAuthorized())	{
+				echo "<center><h2>Dropbox Connection Authorized!</h2></center>";
+				return;
+			}
+				
+		}else{
+			return;
+			}
+		
+		if($_CONFIG["cron_dropbox_active"] and !empty($_GET['auth_callback'])) // are we coming from dropbox's auth page?
+		{
+			// then load our previosly created request token
+			$request_token = load_token($_GET['oauth_token']);
+			if(empty($request_token)) die('Request token not found!');
+			
+			// get & store access token, the request token is not needed anymore
+			$access_token = $dropbox->GetAccessToken($request_token);	
+			store_token($access_token, "access");
+			delete_token($_GET['oauth_token']);
+			echo "<center><h2>Dropbox Connection Authorized!</h2></center>";
+			return;
+		}
+		
+		if(empty($access_token) and $_CONFIG["cron_dropbox_active"]) {
+			//$dropbox->SetAccessToken($access_token);
+			//print_r($access_token);
+			
+			
+
+			$return_url = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']."&auth_callback=1";
+			$auth_url = $dropbox->BuildAuthorizeUrl($return_url);
+			$request_token = $dropbox->GetRequestToken();
+			store_token($request_token, $request_token['t']);
+
+			?>
+			<script>
+				window.location="<?php echo $auth_url?>"
+			</script>
+			<?php
+			exit;
+		}
+			
+	}
+ 
