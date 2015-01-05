@@ -151,7 +151,7 @@ switch ($task) {
 	  break;
 	case 'download':
       $file = pathinfo($_REQUEST['file']);
-	  downloadBackup($file['filename']);
+	  downloadBackup($file['basename']);
 	  break;
 	case 'cron':
 	  $html->Cron();
