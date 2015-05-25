@@ -120,7 +120,7 @@ function starter_plugin_admin_scripts ($hook) {
 	wp_enqueue_style('dtree.css', plugins_url()."/xcloner-backup-and-restore/css/dtree.css", "", "3.1.0");
 	wp_enqueue_style ('main.css', plugins_url()."/xcloner-backup-and-restore/css/main.css", "", "3.1.0");
 	
-	wp_enqueue_style ('jquery-start-ui-1.8.9.custom.css', plugins_url()."/xcloner-backup-and-restore/css/start/jquery-ui-1.8.9.custom.css", "", "3.1.0");
+	wp_enqueue_style ('jquery-ui-1.11.4.custom.css', plugins_url()."/xcloner-backup-and-restore/css/start/jquery-ui-1.11.4.custom.css", "", "3.1.2");
 	
 }
 #if($_REQUEST["page"] == "xcloner_show")
