@@ -1112,6 +1112,8 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
       global $databases_incl, $back_path, $sql_file, $perm_file, $htaccess;
 
       $log = "";
+      
+      $_REQUEST['excl_manual'] = htmlspecialchars($_REQUEST['excl_manual']);
 
       $backup_file = $_CONFIG['backup_store_path']."/".$backup_filename;
 
