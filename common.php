@@ -112,6 +112,5 @@ date_default_timezone_set('America/Los_Angeles');
 
 $_CONFIG["token_dir"] = dirname(__FILE__)."/tokens/";
 
-$_CONFIFG["tarpath"] .= " -k ";
-
-?>
+if(!strstr($_CONFIG["tarpath"], " -k "))
+    $_CONFIG["tarpath"] .= " -k ";
