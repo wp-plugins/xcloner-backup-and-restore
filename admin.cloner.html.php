@@ -1337,7 +1337,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		      <?php echo LM_CONFIG_MYSQLP?>
 		     </td>
 		     <td>
-		      <input type=text size=50 name='mysql_pass' value='<?php echo $_CONFIG[mysql_pass]?>'>
+		      <input type=password size=50 name='mysql_pass' value='<?php echo $_CONFIG[mysql_pass]?>'>
 		      <br /><?php echo LM_CONFIG_MYSQLP_SUB?>
 		     </td>
 		    </tr>
