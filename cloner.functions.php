@@ -1113,7 +1113,7 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
       $log = "";
       
-      $_REQUEST['excl_manual'] = htmlspecialchars($_REQUEST['excl_manual']);
+      #$_REQUEST['excl_manual'] = htmlspecialchars($_REQUEST['excl_manual']);
 
       $backup_file = $_CONFIG['backup_store_path']."/".$backup_filename;
 
@@ -1130,16 +1130,22 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
       $endf = $startf + $_CONFIG['backup_refresh_number'];
 
       $excluded_cmd = "";
+      
+      $excl_manual = $_CONFIG['exfile_tar'];
+      
+      if($_CONFIG['backup_refresh'])
+        $excl_manual .= "_manual";
 
-      if ($fp = @fopen($_REQUEST['excl_manual'], "r")) {
-          while (!feof($fp))
-              $excluded_cmd .= fread($fp, 1024);
+      if ($fp = @fopen($excl_manual, "r")) {
+          while (!feof($fp)){
+                $excluded_cmd .= fread($fp, 1024);
+          }
 
           fclose($fp);
       }
 
 
-      $url = "plugins.php?page=xcloner_show&option=com_cloner&task=refresh&json=$json&startf=$endf&lines=$lines&backup=$backup_filename&excl_manual=" . $_REQUEST['excl_manual'];
+      $url = "plugins.php?page=xcloner_show&option=com_cloner&task=refresh&json=$json&startf=$endf&lines=$lines&backup=$backup_filename";
 
       if ($endf >= $lines)
           $endf = $lines;
@@ -1630,16 +1636,18 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
               $i = 0;
               while ($i < sizeof($excluded)) {
                   $file = $excluded[$i];
-                  $file = str_replace($_CONFIG['backup_path'], "", $file);
-                  $file = "##" . $file;
-                  $file = str_replace("##//", "", $file);
-                  $file = str_replace("##/", "", $file);
-                  $file = str_replace("##", "", $file);
+                  if(file_exists($file)){
+                      $file = str_replace($_CONFIG['backup_path'], "", $file);
+                      $file = "##" . $file;
+                      $file = str_replace("##//", "", $file);
+                      $file = str_replace("##/", "", $file);
+                      $file = str_replace("##", "", $file);
 
-                  $excl_cmd .= " --exclude=./" . $file . " ";
+                      $excl_cmd .= " --exclude=./" . $file . " ";
 
-                  $excl_files = "./" . $file . "\r\n";
-                  fwrite($fp, $excl_files);
+                      $excl_files = "./" . $file . "\r\n";
+                      fwrite($fp, $excl_files);
+                  }
                   $i++;
               }
 
