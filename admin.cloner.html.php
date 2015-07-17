@@ -1756,7 +1756,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		      <?php echo LM_CRON_FTP_PASS?>
 		     </td>
 		     <td>
-		      <input type=text size=50 name='cron_ftp_pass' value='<?php echo $_CONFIG[cron_ftp_pass]?>'>
+		      <input type=password size=50 name='cron_ftp_pass' value='<?php echo $_CONFIG[cron_ftp_pass]?>'>
 		     </td>
 		    </tr>
 		    <tr>
