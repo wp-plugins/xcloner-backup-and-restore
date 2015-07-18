@@ -13,7 +13,8 @@
 $topErrorLine1 = "To run this script you need to create a custom config file inside XCloner Config, and call the script using php cli command like this:";
 $topErrorLine2 = "php ".__FILE__." mycustomconfig.php";
 
-if( php_sapi_name() != 'cli' ){
+//if( php_sapi_name() != 'cli' ){
+if(!isset($argv[1]) ) {
 	echo  "<h2>".$topErrorLine1."</h2>\n";
 	echo "<strong>".$topErrorLine2."</strong>\n";
 	exit;
@@ -361,9 +362,8 @@ logxx("DROPBOX: Starting communication with the DropBox server...");
 $access_token = load_token("access");
 if(!empty($access_token)) {
 	$dropbox->SetAccessToken($access_token);
-	//print_r($access_token);
 }
-elseif(!empty($_GET['auth_callback'])) // are we coming from dropbox's auth page?
+else/*if(!empty($_GET['auth_callback'])) // are we coming from dropbox's auth page?
 {
 	// then load our previosly created request token
 	$request_token = load_token($_GET['oauth_token']);
@@ -384,7 +384,11 @@ if(!$dropbox->IsAuthorized())
 	$request_token = $dropbox->GetRequestToken();
 	store_token($request_token, $request_token['t']);
 	die("Authentication required. <a href='$auth_url'>Click here.</a>");
-}
+}*/
+{
+	logxx("Please authorize dropbox app from inside the XCloner Settings panel-> Cron Tab, by clicking the 'Click to authorize application' link.");
+	die;
+	}
 
 
 
@@ -535,22 +539,4 @@ $ok = mail($email_to, $email_subject, $email_message, $headers);
 
 return $ok;
 
-}
-?> 
-<?php
-function store_token($token, $name)
-{
-	if(!file_put_contents("tokens/$name.token", serialize($token)))
-		die('<br />Could not store token! <b>Make sure that the directory `tokens` exists and is writable!</b>');
-}
-
-function load_token($name)
-{
-	if(!file_exists("tokens/$name.token")) return null;
-	return @unserialize(@file_get_contents("tokens/$name.token"));
-}
-
-function delete_token($name)
-{
-	@unlink("tokens/$name.token");
 }

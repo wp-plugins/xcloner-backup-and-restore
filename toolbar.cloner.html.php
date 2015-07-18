@@ -14,7 +14,7 @@
 /** ensure this file is being included by a parent file */
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 
-function button($action, $text='', $js=''){
+function XCloner_button($action, $text='', $js=''){
 	if($action == "cancel")
 		$icon = "ui-icon-cancel";
 	elseif($action == "generate")
@@ -47,60 +47,60 @@ function button($action, $text='', $js=''){
 class TOOLBAR_cloner {
 
   function _LOGIN() {
-    button('dologin','Login',false);
-    button('cancel','Cancel',false);
+    XCloner_button('dologin','Login',false);
+    XCloner_button('cancel','Cancel',false);
   }
   function _GENERATE() {
-    button('clone','Clone',false);
-    button('move','Move',false);
-    button('view','Back',false);
+    XCloner_button('clone','Clone',false);
+    XCloner_button('move','Move',false);
+    XCloner_button('view','Back',false);
   }
   function _CONFIRM() {
-    button('generate','Continue',false);
-    button('cancel','Cancel',false);
+    XCloner_button('generate','Continue',false);
+    XCloner_button('cancel','Cancel',false);
   }
   function _CLONE() {
-    button('continue','Continue',false);
-    button('view','Cancel',false);
+    XCloner_button('continue','Continue',false);
+    XCloner_button('view','Cancel',false);
   }
   function _CONFIG() {
-    button('config', 'Save');
-    button('cancel', 'Cancel');
+    XCloner_button('config', 'Save');
+    XCloner_button('cancel', 'Cancel');
   }
 
   function _LANG_EDIT() {
-    button('save_lang_apply','Apply');
-    button('save_lang', 'Save');
-    button('cancel_lang', 'Cancel');
+    XCloner_button('save_lang_apply','Apply');
+    XCloner_button('save_lang', 'Save');
+    XCloner_button('cancel_lang', 'Cancel');
   }
 
   function _LANG_ADD() {
-    button('add_lang_new', 'New');
-    button('cancel_lang', 'Cancel');
+    XCloner_button('add_lang_new', 'New');
+    XCloner_button('cancel_lang', 'Cancel');
   }
 
   function _LANG() {
-    button('add_lang','New');
-	button('edit_lang', 'Edit');
-    button('del_lang', 'Delete');
-    button('cancel','Cancel');
+    XCloner_button('add_lang','New');
+	XCloner_button('edit_lang', 'Edit');
+    XCloner_button('del_lang', 'Delete');
+    XCloner_button('cancel','Cancel');
   }
 
   function _RENAME() {
-    button('rename_save', 'Save');
-    button('rename_cancel', 'Cancel');
+    XCloner_button('rename_save', 'Save');
+    XCloner_button('rename_cancel', 'Cancel');
   }
   function _VIEW() {
-    button('clone','Clone',true);
-    button('move','Move',true);
-    button('rename','Rename',true);
-    button('remove','Delete');
-    button('cancel','Cancel');
+    XCloner_button('clone','Clone',true);
+    XCloner_button('move','Move',true);
+    XCloner_button('rename','Rename',true);
+    XCloner_button('remove','Delete');
+    XCloner_button('cancel','Cancel');
   }
   function _DEFAULT() {
 
-    button('logout','Logout');
-    button('cancel','Cancel');
+    #XCloner_button('logout','Logout');
+    XCloner_button('cancel','Cancel');
 
   }
 }

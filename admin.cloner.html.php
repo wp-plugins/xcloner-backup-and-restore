@@ -88,7 +88,7 @@ document.write('<style type="text/css">.tabber{display:none;}<\/style>');
 		<table><tr><td>
 		<img src="<?php echo plugins_url('images/backup.png', __FILE__) ?>" align="middle">&nbsp;
 		</td><td>
-		<a href="index.php"><h2><?php echo LM_COM_TITLE.$_SERVER['HTTP_HOST']; ?></h2>
+		<a href="plugins.php?page=xcloner_show"><h2><?php echo LM_COM_TITLE.$_SERVER['HTTP_HOST']; ?></h2>
 		<h1>Backup and Restore</h1>
 		</a>
 		</td></tr>
@@ -148,7 +148,12 @@ document.write(d);
 
 //-->
 </script></div> </td></tr></table>
-
+<br />
+<table width='100%' cellpadding='5' height='100%' class='menu_table'><tr><td>
+<a href="http://www.thinkovi.com/services/website-migration/" target="_blank">
+	<img src="<?php echo plugins_url('images/thinkovi.png', __FILE__) ?>" border="0" />
+</a>
+</td></tr></table>
 
 </td><td valign='top' align='left' style="padding-left: 20px;">
 
@@ -226,7 +231,8 @@ function goRefreshHtml($filename, $perm_lines, $excl_manual){
 					//reset state here;
 						jQuery("#error").show();
 						jQuery("#errorText").append(status+" -- "+error);
-						jQuery("#errorText").append("<br /><br />JSON url: "+globalUrl);
+						jQuery("#errorText").append("<br /><br /><strong>JSON url:</strong> "+globalUrl);
+						jQuery("#errorText").append("<br /><br /><strong>Response body:</strong> "+request.responseText);
 					}});
 
 					function getSize(bytes, conv){
@@ -785,19 +791,12 @@ function Cron(){
 		<br /><br />
 
 		<ul>
-			<li><input type="text" value="/usr/bin/php  <?php echo dirname(__FILE__);?>/cloner.cron.php" size="150" /></li>
-			<li><strong>curl http://website/path_to_xcloner_folder/cloner.cron.php</strong></li>
-			<li><strong>wget -q http://website/path_to_xcloner_folder/cloner.cron.php</strong></li>
-			<li><strong>lynx -sourcehttp://website/path_to_xcloner_folder/cloner.cron.php</strong></li>
+			<li><input type="text" value="/usr/bin/php  <?php echo dirname(__FILE__);?>/cloner.cron.php custom_cron_config.php" size="150" /></li>
 		</ul>
 		<br /><br />
 
 		For <b>Running Multiple Crons</b>, you need to first create a custom configuration file in the XCloner Configuration -> Cron tab
-		and then replace "cloner.cron.php" with "cloner.cron.php?config=myconfig.php", only use 'links' or 'lynx' options to run the cronjob
-		<br /><br />
-
-		If you would like to use the <b>php SSH command</b> for running Multiple Crons, you will need to replace
-		the  "cloner.cron.php" with <b>"cloner.cron.php myconfig.php"</b> in the command line.
+		and then replace "cloner.cron.php" with "cloner.cron.php myconfig.php"
 		<br /><br />
 
 		<?php echo LM_CRON_HELP?>
@@ -856,6 +855,8 @@ function Translator_Add($option){
     <input type="hidden" name="task" value="add_lang_new" />
     <input type="hidden" name="boxchecked" value="0" />
     <input type="hidden" name="hidemainmenu" value="0" />
+    <?php wp_nonce_field('add_lang','csrf'); ?>
+    
     </form>
 <?php
 }
@@ -929,6 +930,7 @@ function Translator_Edit($option, $data, $def_data, $file, $lang){
     <input type="hidden" name="task" value="lang" />
     <input type="hidden" name="boxchecked" value="0" />
     <input type="hidden" name="hidemainmenu" value="0" />
+    <?php wp_nonce_field('save_lang','csrf'); ?>
     </form>
 
 <?php
@@ -983,6 +985,7 @@ function Translator($option, $lang_arr){
     <input type="hidden" name="task" value="lang" />
     <input type="hidden" name="boxchecked" value="0" />
     <input type="hidden" name="hidemainmenu" value="0" />
+    
     </form>
 <?php
 }
@@ -1126,6 +1129,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		jQuery( "#cron_sql_drop" ).button();
 		jQuery( "#cron_amazon_active" ).button();
 		jQuery( "#cron_dropbox_active" ).button();
+		jQuery( "#cron_dropbox_authorize" ).button();
 		jQuery( "#cron_amazon_ssl" ).button();
 		jQuery( "#cron_ftp_delb" ).button();
 		jQuery( "#checkmysqldump" ).button();
@@ -1209,8 +1213,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		     </td>
 		     <td>
 		      <div id="radiog3">
-			      <label for="radiog31">Yes</label> <input id="radiog31" type=radio size=50 value=1 name='enable_db_backup' <?php if($_CONFIG[enable_db_backup]==1) echo 'checked';?>>
-			      <label for="radiog32">No</label> <input id="radiog32" type=radio size=50 value=0 name='enable_db_backup' <?php if($_CONFIG[enable_db_backup]==0) echo 'checked';?>>
+			      <label for="radiog31">Yes</label> <input id="radiog31" type=radio size=50 value=1 name='enable_db_backup' <?php if($_CONFIG[enable_db_backup]==1 or $_CONFIG['disable_mysql']) echo 'checked';?>>
+			      <label for="radiog32">No</label> <input id="radiog32" type=radio size=50 value=0 name='enable_db_backup' <?php if($_CONFIG[enable_db_backup]==0 and !$_CONFIG['disable_mysql']) echo 'checked';?>>
 			      <br /><?php echo LM_CRON_DB_BACKUP_SUB?>
 		      </div>
 
@@ -1333,7 +1337,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		      <?php echo LM_CONFIG_MYSQLP?>
 		     </td>
 		     <td>
-		      <input type=text size=50 name='mysql_pass' value='<?php echo $_CONFIG[mysql_pass]?>'>
+		      <input type=password size=50 name='mysql_pass' value='<?php echo $_CONFIG[mysql_pass]?>'>
 		      <br /><?php echo LM_CONFIG_MYSQLP_SUB?>
 		     </td>
 		    </tr>
@@ -1752,7 +1756,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		      <?php echo LM_CRON_FTP_PASS?>
 		     </td>
 		     <td>
-		      <input type=text size=50 name='cron_ftp_pass' value='<?php echo $_CONFIG[cron_ftp_pass]?>'>
+		      <input type=password size=50 name='cron_ftp_pass' value='<?php echo $_CONFIG[cron_ftp_pass]?>'>
 		     </td>
 		    </tr>
 		    <tr>
@@ -1845,9 +1849,15 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 			</td>
 		     	<td>
 		     	<label for="cron_dropbox_active"><?php echo LM_DROPBOX_ACTIVATE?></label>
-				<input id="cron_dropbox_active" type=checkbox name='cron_dropbox_active' <?php if($_CONFIG[cron_dropbox_active]==1) echo "checked";?> value='1'>
-				
-				
+				<input id="cron_dropbox_active" type=checkbox name='cron_dropbox_active' <?php if($_CONFIG['cron_dropbox_active']==1) echo "checked";?> value='1'>
+				<?php
+				$access_token = load_token("access");
+				if(empty($access_token) and $_CONFIG["cron_dropbox_active"]){
+					?>
+					<a target="_blank" href="?page=xcloner_show&task=dropbox_authorize"><?php echo LM_DROPBOX_AUTHORIZE?></a>
+					<?php
+				}
+				?>
 			</td>
 			</tr>
 
@@ -1917,7 +1927,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 		    </tr>
 
 		    <?php
-		    if((abs($_CONFIG[system_mdatabases])==0) && ($_CONFIG[enable_db_backup]==1)){
+		    if((abs($_CONFIG['system_mdatabases'])==0) && ($_CONFIG['enable_db_backup']==1) ){
 		    ?>
 		    <tr><td valign='top'>
 		    <?php echo LM_DATABASE_INCLUDE_DATABASES?>
@@ -1927,8 +1937,10 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 
 		    $curent_dbs = explode(",", $_CONFIG['databases_incl_list']);
 
-		    $query = @mysql_query("SHOW databases");
-		    while($row = @mysql_fetch_array($query)){
+		    $query = @$_CONFIG['mysqli']->query("SHOW databases");
+		    
+		    if($query)
+		    while($row = @$query->fetch_array()){
 
 			   $table = $row[0];
 
@@ -2205,6 +2217,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      <input type="hidden" name="option" value="com_cloner" />
      <input type="hidden" name="task" value="config" />
      <input type="hidden" name='action' value='save'>
+     <?php wp_nonce_field('save','csrf'); ?>
      </form>
 
   <?php
@@ -2313,6 +2326,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
      ?>
      <input type="hidden" name="action" value="connect" />
      <input type="hidden" name="hidemainmenu" value="0" />
+     <?php wp_nonce_field('transfer','csrf'); ?>
      </form>
      <?php
       }
@@ -2356,11 +2370,6 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 
 	<div id="radio_dbbackup">
     <table class="adminform">
-    <!--<tr>
-     <th colspan=2>
-       <b><?php #echo LM_DATABASE_ARCHIVE; ?></b>
-     </th>
-    </tr>-->
     <tr>
         <td>
 			<label for="radio_dbbackup1"><?php echo LM_CONFIRM_DATABASE; ?></label>
@@ -2386,8 +2395,8 @@ function showBackups( &$files, &$sizes, $path, $option ) {
 	<select name='excltables[]' MULTIPLE SIZE=15>
     <?php
 
-    $query = mysql_query("SHOW tables");
-    while($row = mysql_fetch_array($query)){
+    $query = $_CONFIG['mysqli']->query("SHOW tables");
+    while($row = $query->fetch_array()){
 
 		 echo "<option value='".$row[0]."'>$row[0]</option>";
 
@@ -2407,9 +2416,10 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     <select name='databases_incl[]' MULTIPLE SIZE=5>
     <?php
 
-    $query = mysql_query("SHOW databases");
+    $query = $_CONFIG['mysqli']->query("SHOW databases");
 
-	while($row = mysql_fetch_array($query)){
+	if($query)
+	while($row = $query->fetch_array()){
 
 		if($_CONFIG['mysql_database'] != $row[0])
 			echo "<option value='".$row[0]."'>$row[0]</option>";
@@ -2491,6 +2501,7 @@ function showBackups( &$files, &$sizes, $path, $option ) {
     <input type="hidden" name="task" value="" />
     <input type="hidden" name="boxchecked" value="0" />
     <input type="hidden" name="hidemainmenu" value="0" />
+    <?php wp_nonce_field('generate','csrf'); ?>
     </form>
     <br/>&nbsp;
     <?php

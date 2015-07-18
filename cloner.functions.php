@@ -49,7 +49,7 @@
    */
   function E_print($message)
   {
-      print "<center><font color='red' size='4'>$message</font></center>";
+      print "<div id='message' class='error'>$message</div>";
   }
 
 /*
@@ -136,6 +136,11 @@
 
       if (@$_REQUEST['action'] == 'save') {
 		  
+		  if ( empty($_POST) || !wp_verify_nonce($_POST['csrf'],'save') ){
+			print 'Sorry, your nonce did not verify.';
+			exit;
+		  }
+		  
 		  $msg = LM_MSG_BACK_1;
 		  
           $databases_incl_list = "";
@@ -144,12 +149,18 @@
               foreach ($_REQUEST['databases_incl'] as $database) {
                   $databases_incl_list .= $database . ",";
               }
-            foreach($_REQUEST as $key=>$value)
-				update_option( "xcloner_".$key, $value, '', 'yes' );
+            #foreach($_REQUEST as $key=>$value)
+			#	update_site_option( "xcloner_".$key, $value, '', 'yes' );
+			
+			foreach($_REQUEST as $key=>$value)
+				update_site_option( "xcloner_".$key, $value, '', 'yes' );
+				    
+			foreach($_CONFIG as $key=>$value)
+				update_site_option( "xcloner_".$key, $_REQUEST[$key], '', 'yes' );
 				
 			//Additional radio options
-			update_option ("xcloner_mem", $_REQUEST["mem"], '', 'yes');
-            update_option ("xcloner_sql_mem", $_REQUEST["sql_mem"], '', 'yes');	
+			#update_site_option ("xcloner_mem", $_REQUEST["mem"], '', 'yes');
+            #update_site_option ("xcloner_sql_mem", $_REQUEST["sql_mem"], '', 'yes');	
               
           #if ($fp = @fopen($config_file, 'w')) 
           if(1){
@@ -338,6 +349,12 @@
       global $_CONFIG, $lang_array, $lang_dir;
 
       if ($task == 'add_lang_new') {
+		  
+		  if ( empty($_POST) || !wp_verify_nonce($_POST['csrf'],'add_lang') ){
+			print 'Sorry, your nonce did not verify.';
+			exit;
+		  }
+		  
           $lfile = $lang_dir . "/" . strtolower($_REQUEST['lname']) . ".php";
 
           if (file_exists($lfile)) {
@@ -366,6 +383,11 @@
 
       if (($task == 'save_lang') || ($task == 'save_lang_apply')) {
           $lfile = $lang_dir . "/" . $_REQUEST['language'] . ".php";
+          
+          if ( empty($_POST) || !wp_verify_nonce($_POST['csrf'],'save_lang') ){
+			print 'Sorry, your nonce did not verify.';
+			exit;
+		  }
 
           if ($_REQUEST['language'] == 'english') {
               if ($fp = @fopen($lfile, 'w')) {
@@ -678,6 +700,11 @@
       }
 
       if ($_REQUEST['action'] == "connect") {
+		  
+		  if ( empty($_POST) || !wp_verify_nonce($_POST['csrf'],'transfer') ){
+			print 'Sorry, your nonce did not verify.';
+			exit;
+		  }
           $ret = start_connect($_REQUEST[files]);
       }
       if (!$ret){
@@ -694,10 +721,10 @@
       if (($_REQUEST[task] == 'move') || ($_REQUEST[task2] == 'move')) {
       } else {
 
-          $source_file[0] = __DIR__ ."/restore/XCloner.php";
+          $source_file[0] = __XCLONERDIR__ ."/restore/XCloner.php";
           $destination_file[0] = $_REQUEST[ftp_dir] . "/XCloner.php";
 
-          $source_file[1] = __DIR__ ."/restore/TAR.php";
+          $source_file[1] = __XCLONERDIR__ ."/restore/TAR.php";
           $destination_file[1] = $_REQUEST[ftp_dir] . "/TAR.php";
       }
 
@@ -871,7 +898,7 @@
       }
   }
 
-  function action($option)
+  function xclonerAction($option)
   {
       global $_CONFIG;
 
@@ -1085,6 +1112,8 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
       global $databases_incl, $back_path, $sql_file, $perm_file, $htaccess;
 
       $log = "";
+      
+      #$_REQUEST['excl_manual'] = htmlspecialchars($_REQUEST['excl_manual']);
 
       $backup_file = $_CONFIG['backup_store_path']."/".$backup_filename;
 
@@ -1101,16 +1130,22 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
       $endf = $startf + $_CONFIG['backup_refresh_number'];
 
       $excluded_cmd = "";
+      
+      $excl_manual = $_CONFIG['exfile_tar'];
+      
+      if($_CONFIG['backup_refresh'])
+        $excl_manual .= "_manual";
 
-      if ($fp = @fopen($_REQUEST['excl_manual'], "r")) {
-          while (!feof($fp))
-              $excluded_cmd .= fread($fp, 1024);
+      if ($fp = @fopen($excl_manual, "r")) {
+          while (!feof($fp)){
+                $excluded_cmd .= fread($fp, 1024);
+          }
 
           fclose($fp);
       }
 
 
-      $url = "plugins.php?page=xcloner_show&option=com_cloner&task=refresh&json=$json&startf=$endf&lines=$lines&backup=$backup_filename&excl_manual=" . $_REQUEST['excl_manual'];
+      $url = "plugins.php?page=xcloner_show&option=com_cloner&task=refresh&json=$json&startf=$endf&lines=$lines&backup=$backup_filename";
 
       if ($endf >= $lines)
           $endf = $lines;
@@ -1362,14 +1397,14 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
               foreach ($databases_incl as $database_name)
                   if ($database_name != '') {
                       $excltables = "";
-                      mysql_query("USE  $database_name");
+                      $_CONFIG['mysqli']->query("USE  $database_name");
 
                       $sql_file[] = doBackup($tables, 'sql', 'local', 'both', $_SERVER['HTTP_USER_AGENT'], $_CONFIG['backups_dir'], $databaseResult_incl, $database_name, $excltables, $database_name);
 
                       $databaseResult .= "<br /> <b>$database_name:</b> " . $databaseResult_incl;
                   }
 
-              mysql_query("USE  " . $_CONFIG['mysql_database']);
+              $_CONFIG['mysqli']->query("USE  " . $_CONFIG['mysql_database']);
           }
       } else {
           #$databaseResult = LM_DATABASE_EXCLUDED;
@@ -1601,16 +1636,18 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
               $i = 0;
               while ($i < sizeof($excluded)) {
                   $file = $excluded[$i];
-                  $file = str_replace($_CONFIG['backup_path'], "", $file);
-                  $file = "##" . $file;
-                  $file = str_replace("##//", "", $file);
-                  $file = str_replace("##/", "", $file);
-                  $file = str_replace("##", "", $file);
+                  if(file_exists($file)){
+                      $file = str_replace($_CONFIG['backup_path'], "", $file);
+                      $file = "##" . $file;
+                      $file = str_replace("##//", "", $file);
+                      $file = str_replace("##/", "", $file);
+                      $file = str_replace("##", "", $file);
 
-                  $excl_cmd .= " --exclude=./" . $file . " ";
+                      $excl_cmd .= " --exclude=./" . $file . " ";
 
-                  $excl_files = "./" . $file . "\r\n";
-                  fwrite($fp, $excl_files);
+                      $excl_files = "./" . $file . "\r\n";
+                      fwrite($fp, $excl_files);
+                  }
                   $i++;
               }
 
@@ -1941,8 +1978,8 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
       if ($tables[0] == "all") {
           array_pop($tables);
-          $query = mysql_query("SHOW tables");
-          while ($row = mysql_fetch_array($query)) {
+          $query = $_CONFIG['mysqli']->query("SHOW tables");
+          while ($row = $query->fetch_array()) {
               $tables_list[] = $row[0];
           }
 
@@ -1994,19 +2031,19 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
       }
 
       /*Added some default values for quotes and auto_increment problems*/
-      mysql_query("SET SQL_QUOTE_SHOW_CREATE=1;");
-      mysql_query("SET sql_mode = 0;");
+      $_CONFIG['mysqli']->query("SET SQL_QUOTE_SHOW_CREATE=1;");
+      $_CONFIG['mysqli']->query("SET sql_mode = 0;");
 
       if ($_REQUEST['dbbackup_comp']) {
-          mysql_query("SET sql_mode=" . $_REQUEST['dbbackup_comp'] . ";");
+          $_CONFIG['mysqli']->query("SET sql_mode=" . $_REQUEST['dbbackup_comp'] . ";");
       }
 
 
       /* Store the "Create Tables" SQL in variable $CreateTable[$tblval] */
       if ($toBackUp != "data") {
           foreach ($tables as $tblval) {
-              $query = mysql_query("SHOW CREATE table `$tblval`");
-              $row = mysql_fetch_array($query);
+              $query = $_CONFIG['mysqli']->query("SHOW CREATE table `$tblval`");
+              $row = $query->fetch_array();
               $CreateTable[$tblval] = $row[1];
           }
       }
@@ -2014,8 +2051,8 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
       /* Store all the FIELD TYPES being backed-up (text fields need to be delimited) in variable $FieldType*/
       if ($toBackUp != "structure") {
           foreach ($tables as $tblval) {
-              $query = mysql_query("SHOW FIELDS FROM `$tblval`");
-              while ($row = mysql_fetch_row($query)) {
+              $query = $_CONFIG['mysqli']->query("SHOW FIELDS FROM `$tblval`");
+              while ($row = $query->fetch_row()) {
                   $fields[] = $row[0];
               }
               foreach ($fields as $field) {
@@ -2068,13 +2105,13 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
           if ($toBackUp != "structure") {
               $OutBuffer .= "#\n# Dumping data for table `$tblval`\n#\n";
-              $query = @mysql_query("SELECT *  FROM `$tblval`");
+              $query = @$_CONFIG['mysqli']->query("SELECT *  FROM `$tblval`");
 
-              while ($row = @mysql_fetch_array($query, MYSQL_ASSOC)) {
+              while ($row = @$query->fetch_array(MYSQL_ASSOC)) {
                   $InsertDump = "INSERT INTO `$tblval` VALUES (";
                   $arr = $row;
                   foreach ($arr as $key => $value) {
-                      $value = mysql_real_escape_string($value);
+                      $value = $_CONFIG['mysqli']->real_escape_string($value);
                       #$value = str_replace("\n", '\r\n', $value);
                       #$value = str_replace("\r", '', $value);
                       //if (@preg_match ("/\b" . $FieldType[$tblval][$key] . "\b/i", "DATE TIME DATETIME CHAR VARCHAR TEXT TINYTEXT MEDIUMTEXT LONGTEXT BLOB TINYBLOB MEDIUMBLOB LONGBLOB ENUM SET"))
@@ -2143,8 +2180,98 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 
 	function getVersion()
 	{
-	  $query = mysql_query("SELECT version()");
-	  $row = mysql_fetch_array($query);
-	  return $row[0];
+		global $_CONFIG;
+		
+		$query = $_CONFIG['mysqli']->query("SELECT version()");
+		$row = $query->fetch_array();
+		
+		return $row[0];
 	}
-?>
+
+	function store_token($token, $name)
+	{
+		global $_CONFIG;
+
+		@mkdir($_CONFIG["token_dir"]);
+
+		if(!file_put_contents($_CONFIG["token_dir"]."/$name.token", serialize($token)))
+			die('<br />Could not store token! <b>Make sure that the directory '.$_CONFIG["token_dir"].'/tokens` exists and is writable!</b>');
+	}
+	
+	function load_token($name)
+	{
+		global $_CONFIG;
+		
+		if(!file_exists($_CONFIG["token_dir"]."/$name.token")) return null;
+		return @unserialize(@file_get_contents($_CONFIG["token_dir"]."/$name.token"));
+	}
+	
+	function delete_token($name)
+	{
+		global $_CONFIG;
+		
+		@unlink($_CONFIG["token_dir"]."/$name.token");
+	}
+	function authorize_dropbox(){
+		global $_CONFIG;
+		
+		include_once("classes/DropboxClient.php");
+
+		$access_token = load_token("access");
+
+		if($_CONFIG["cron_dropbox_active"]){
+			
+			$dropbox = new DropboxClient(array(
+				'app_key' => $_CONFIG['cron_dropbox_Key'], 
+				'app_secret' => $_CONFIG['cron_dropbox_Secret'],
+				'app_full_access' => false,
+			),'en');
+			
+			if(!empty($access_token)) {
+				$dropbox->SetAccessToken($access_token);
+			}	
+			
+			if($dropbox->IsAuthorized())	{
+				echo "<center><h2>Dropbox Connection Authorized!</h2></center>";
+				return;
+			}
+				
+		}else{
+			return;
+			}
+		
+		if($_CONFIG["cron_dropbox_active"] and !empty($_GET['auth_callback'])) // are we coming from dropbox's auth page?
+		{
+			// then load our previosly created request token
+			$request_token = load_token($_GET['oauth_token']);
+			if(empty($request_token)) die('Request token not found!');
+			
+			// get & store access token, the request token is not needed anymore
+			$access_token = $dropbox->GetAccessToken($request_token);	
+			store_token($access_token, "access");
+			delete_token($_GET['oauth_token']);
+			echo "<center><h2>Dropbox Connection Authorized!</h2></center>";
+			return;
+		}
+		
+		if(empty($access_token) and $_CONFIG["cron_dropbox_active"]) {
+			//$dropbox->SetAccessToken($access_token);
+			//print_r($access_token);
+			
+			
+
+			$return_url = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']."&auth_callback=1";
+			$auth_url = $dropbox->BuildAuthorizeUrl($return_url);
+			$request_token = $dropbox->GetRequestToken();
+			store_token($request_token, $request_token['t']);
+
+			?>
+			<script>
+				window.location="<?php echo $auth_url?>"
+			</script>
+			<?php
+			exit;
+		}
+			
+	}
+ 

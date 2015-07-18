@@ -27,7 +27,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 @error_reporting(E_ALL ^ E_NOTICE);
 
 //load configuration
-$config_file = __DIR__."/cloner.config.php";
+$config_file = __XCLONERDIR__."/cloner.config.php";
 
 require_once($config_file);
 
@@ -83,9 +83,13 @@ switch ($task) {
 	  clone_rename($option);
 	  break;
 	case 'action':
-	  action($option);
+	  xclonerAction($option);
 	  break;
 	
+	
+	case 'dropbox_authorize':
+		authorize_dropbox();
+		break;
 	
 	case 'cancel_lang':
 	  mosRedirect('plugins.php?page=xcloner_show&option=' . $option . "&task=lang");
@@ -126,6 +130,11 @@ switch ($task) {
 	  break;
 	
 	case 'generate':
+		if ( empty($_POST) || !wp_verify_nonce($_POST['csrf'],'generate') ){
+			print 'Sorry, your nonce did not verify.';
+			exit;
+		  }
+		  
 		if($_CONFIG['refresh_mode']){
 			$_REQUEST['mode'] = "start";
 			if($_CONFIG['enable_db_backup'])
@@ -141,7 +150,8 @@ switch ($task) {
 	  confirmBackup($option);
 	  break;
 	case 'download':
-	  downloadBackup($_REQUEST[file]);
+      $file = pathinfo($_REQUEST['file']);
+	  downloadBackup($file['basename']);
 	  break;
 	case 'cron':
 	  $html->Cron();

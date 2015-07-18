@@ -45,6 +45,18 @@ $_CONFIG['system_mdatabases']="0";
 $_CONFIG['recordsPerSession']= "10000";
 $_CONFIG['excludeFilesSize'] = "-1";
 $_CONFIG['splitBackupSize'] = "2048"; //MB
+$_CONFIG['select_lang'] = "english";
+
+$_CONFIG["cron_amazon_active"]="";
+$_CONFIG["cron_amazon_awsAccessKey"]="";
+$_CONFIG["cron_amazon_awsSecretKey"]="";
+$_CONFIG["cron_amazon_bucket"]="";
+$_CONFIG["cron_amazon_dirname"]="";
+$_CONFIG["cron_amazon_ssl"]="";
+$_CONFIG["cron_dropbox_active"]="";
+$_CONFIG["cron_dropbox_Key"]="";
+$_CONFIG["cron_dropbox_Secret"]="";
+$_CONFIG["cron_dropbox_dirname"]="";
 
 ### Defaults
 $script_dir = str_replace("\\","/",dirname(__FILE__));
@@ -76,7 +88,7 @@ $_CONFIG['clonerPath'] = str_replace("\\","/", $_CONFIG['clonerPath']);
 $_CONFIG['mosConfig_live_site']=$_SERVER['HTTP_HOST'];
 
 foreach($_CONFIG as $key=>$value){
-	$newVal = get_option("xcloner_".$key);
+	$newVal = get_site_option("xcloner_".$key);
 	if($newVal !== FALSE)
 		$_CONFIG[$key] = $newVal;
 }

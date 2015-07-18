@@ -105,16 +105,10 @@ class DB{
 	 */
 	public function connect(){
 
-		self::$link = mysqli_connect(self::$dbHostname, self::$dbUsername, self::$dbPassword);
-		if (!self::$link) {
-		    self::error('Could not connect: ' . mysqli_error());
-		}
-
-		if(self::$dbDatabase != ""){
-			self::$db_selected = mysqli_select_db(self::$link, self::$dbDatabase);
-			if (!self::$db_selected) {
-				self::error ('Can\'t use foo : ' . mysqli_error());
-			}
+		self::$link = new mysqli(self::$dbHostname, self::$dbUsername, self::$dbPassword, self::$dbDatabase);
+		if (mysqli_connect_errno()) {
+			printf("Connect failed: %s\n", mysqli_connect_error());
+			exit();
 		}
 
 	}
@@ -162,7 +156,7 @@ class DB{
 		self::error($query, 1);
 
 		if (!$result) {
-			self::error('Invalid query: ' . mysqli_error());
+			self::error('Invalid query: ' . mysqli_error(self::$link));
 			return false;
 		}
 		else{

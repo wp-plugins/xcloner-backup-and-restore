@@ -39,7 +39,7 @@ $g_pcltar_lib_dir = "./";
 
 require "TAR.php";
 
-$_CONFIG['my_version'] 		= "3.0.1";
+$_CONFIG['my_version'] 		= "3.1.0";
 $_CONFIG['script_name'] 	= "XCloner.php";
 $_CONFIG['sql_usefile'] 	= "";
 $_CONFIG['filesLimit'] 		= 100;
@@ -202,17 +202,19 @@ function step2($file=""){
 		$DBpassword = $_REQUEST['mysql_pass'];
 		$DBname  	= $_REQUEST['mysql_db'];
 
-		$db = @mysql_connect($DBhostname, $DBuserName, $DBpassword) or die("<br />The database details provided are incorrect and/or empty. Unable to connect to mysql server");
-		@mysql_query("CREATE database $DBname;");
-		if (!@mysql_select_db($DBname)) {
-			die("<br /><span class='error'>Could not connect to $DBname database! Please make sure the database exists and that you assigned the mysql user to it...</span>");
+		$_CONFIG['mysqli'] = new mysqli($DBhostname, $DBuserName, $DBpassword, $DBname);
+		/* check connection */
+		if ($_CONFIG['mysqli']->connect_errno) {
+			printf("Connect failed: %s\n", $_CONFIG['mysqli']->connect_error);
+			exit();
 		}
-		mysql_query("SET sql_mode='';");
-		mysql_query("SET foreign_key_checks = 0;");
+		
+		$_CONFIG['mysqli']->query("SET sql_mode='';");
+		$_CONFIG['mysqli']->query("SET foreign_key_checks = 0;");
 		if($_REQUEST['charset_of_file']!="")
-			mysql_query("SET NAMES ".$_REQUEST['charset_of_file']."");
+			$_CONFIG['mysqli']->query("SET NAMES ".$_REQUEST['charset_of_file']."");
 		else
-			mysql_query("SET NAMES utf8;");
+			$_CONFIG['mysqli']->query("SET NAMES utf8;");
     }
 
 if($_REQUEST['do_database'] != 1){
@@ -911,7 +913,7 @@ function getPHPINFO(){
 
 function populate_db_manual( $db, $sqlfile='administrator/backups/database-sql.sql'){
 
-	global $qstr;
+	global $qstr, $_CONFIG;
 
 	$extra_que = $qstr[0];
 
@@ -985,7 +987,7 @@ if(trim($line) != ''){
 
 	 }
 
-	if(!mysql_query($line_tmp)){
+	if(!$_CONFIG['mysqli']->query($line_tmp)){
 
        if($_REQUEST['correct_query'] != 1)
 
@@ -997,7 +999,7 @@ if(trim($line) != ''){
 
 	   <input type='hidden' name='correct_query' value = '1'>
 
-	   <input type='hidden' name='start_pos' value='".$start_pos."'>
+	   <input type='hidden' name='start_pos' value='".($start_pos-strlen($line))."'>
 
 	   <input type='hidden' name='start_posf' value='".$fpos."'>
 
@@ -1005,7 +1007,7 @@ if(trim($line) != ''){
 
 	   <center>";
 
-	   echo sprintf("<b>###MYSQL error</b>\n<br /><font color='red'>".mysql_error()."</font><br />\n<b>###On Query:</b><br />\n<br /><textarea cols=70 rows=15 name='error_msg'>%s</textarea><br />", $query);
+	   echo sprintf("<b>###MYSQL error</b>\n<br /><font color='red'>".$_CONFIG['mysqli']->error."</font><br />\n<b>###On Query:</b><br />\n<br /><textarea cols=70 rows=15 name='error_msg'>%s</textarea><br />", $query);
 
 	   echo "<b>Search and replace in query:</b><br /><textarea cols=70 rows=5 name='strrep'>".stripslashes($_REQUEST[strrep])."</textarea><br />
 
@@ -1101,7 +1103,7 @@ function populate_db( $db, $sqlfile='administrator/backups/database-sql.sql') {
 
 		if(!empty($pieces[$i]) && $pieces[$i] != "#") {
 
-			if (!mysql_query($pieces[$i], $db)) {
+			if (!$_CONFIG['mysqli']->query($pieces[$i], $db)) {
 
                  $errors[] = "\n\n##Mysql Query: \n########\n".
 
@@ -1109,7 +1111,7 @@ function populate_db( $db, $sqlfile='administrator/backups/database-sql.sql') {
 
 							 "\n########\n##Error message: ".
 
-							 mysql_error();
+							 $_CONFIG['mysqli']->error;
 
 
 
@@ -1131,7 +1133,7 @@ function rurl($fpos = 0, $chunk = 0){
 	$get_query = "&";
 
 	foreach($_REQUEST as $key=>$value){
-		if(($key != 'fpos')&&($key != 'chunk')&&($key != 'strrep_c')&&($key != 'strrep'))
+		if(($key != 'fpos')&&($key != 'chunk')&&($key != 'strrep_c')&&($key != 'strrep') && ($key != "error_msg") && ($key != "correct_query") )
 			$get_query .= $key."=".$value."&";
 		}
 	$url = $_SERVER['PHP_SELF']."?fpos=".$fpos."&chunk=".$chunk.$get_query;

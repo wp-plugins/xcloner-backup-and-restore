@@ -3,7 +3,7 @@
 Plugin Name:  XCloner
 Plugin URI: http://www.xcloner.com
 Description: XCloner is a tool that will help you manage your website backups, generate/restore/move so your website will be always secured! With XCloner you will be able to clone your site to any other location with just a few clicks. Don't forget to create the 'administrator/backups' directory in your Wordpress root and make it fully writeable. <a href="plugins.php?page=xcloner_show">Open XCloner</a> | <a href="http://www.xcloner.com/support/premium-support/">Get Premium Support</a> | <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=info%40xcloner%2ecom&lc=US&item_name=XCloner%20Support&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest">Donate</a>
-Version: 3.1.0
+Version: 3.1.3
 Author: Liuta Ovidiu
 Author URI: http://www.xcloner.com
 Plugin URI: http://www.xcloner.com
@@ -11,7 +11,7 @@ Plugin URI: http://www.xcloner.com
 
 define("_VALID_MOS", 1);
 
-(@__DIR__ == '__DIR__') && define('__DIR__', realpath(dirname(__FILE__)));
+(@__XCLONERDIR__ == '__XCLONERDIR__') && define('__XCLONERDIR__', realpath(dirname(__FILE__)));
 
 global $xcloner_db_version;
 $xcloner_db_version = "1.0";
@@ -78,6 +78,12 @@ add_action( 'wp_ajax_json_return', 'json_return' );
 
 function json_return(){
 
+    if ( !is_super_admin() ) {
+        die("Only admin is allowed here!");
+    }
+
+	$_REQUEST['nohtml'] = 1;
+	
 	include "admin.cloner.php";
 
 	die();
@@ -88,8 +94,10 @@ add_action( 'wp_ajax_files_xml', 'files_xml' );
 
 function files_xml(){
 
-	set_include_path(__DIR__."/browser/");
-	include __DIR__."/browser/files_xml.php";
+	$_REQUEST['nohtml'] = 1;
+	
+	set_include_path(__XCLONERDIR__."/browser/");
+	include __XCLONERDIR__."/browser/files_xml.php";
 
 	die();
 
@@ -112,9 +120,10 @@ function starter_plugin_admin_scripts ($hook) {
 	wp_enqueue_style('dtree.css', plugins_url()."/xcloner-backup-and-restore/css/dtree.css", "", "3.1.0");
 	wp_enqueue_style ('main.css', plugins_url()."/xcloner-backup-and-restore/css/main.css", "", "3.1.0");
 	
-	wp_enqueue_style ('jquery-start-ui-1.8.9.custom.css', plugins_url()."/xcloner-backup-and-restore/css/start/jquery-ui-1.8.9.custom.css", "", "3.1.0");
+	wp_enqueue_style ('jquery-ui-1.11.4.custom.css', plugins_url()."/xcloner-backup-and-restore/css/start/jquery-ui-1.11.4.custom.css", "", "3.1.2");
 	
 }
-if($_REQUEST["page"] == "xcloner_show")
+#if($_REQUEST["page"] == "xcloner_show")
+if(!empty($_REQUEST["page"]) && $_REQUEST["page"] == "xcloner_show")
 	add_action('admin_enqueue_scripts', 'starter_plugin_admin_scripts');
 
